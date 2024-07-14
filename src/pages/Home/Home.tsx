@@ -19,60 +19,69 @@ import 'swiper/css/pagination';
 import { Link } from 'react-router-dom';
  
  
-type card= {id: number, title: string, img: string}
+type card= {id: number, title: string, img: string, link: string}
 type dataType =  card []
 
 const data: dataType = [
     {
         id: 1,
         title: 'الكمياء',
-        img: chemistry
+        img: chemistry,
+        link: '/material/chmistry'
     },
     {
         id: 2,
         title: 'الفزياء',
-        img: phiscs
+        img: phiscs,
+        link: '/material/phiscs'
     },
     {
         id: 5,
         title: 'الرياضايت',
-        img: math
+        img: math,
+        link: '/material/math'
     },
     {
         id: 5,
-        title: 'الرياضايت',
-        img: math
+        title: 'الاحصاء',
+        img: math,
+        link: '/material/propability'
     },
     {
         id: 5,
-        title: 'الرياضايت',
-        img: math
+        title: 'العلوم',
+        img: math,
+        link: '/material/science'
     },
     {
         id: 5,
-        title: 'الرياضايت',
-        img: math
+        title: 'الانجليزي',
+        img: math,
+        link: '/material/english'
     },
     {
         id: 5,
-        title: 'الرياضايت',
-        img: math
+        title: 'عربي',
+        img: math,
+        link: '/material/arabic'
     },
     {
         id: 6,
-        title: 'الرياضايت',
-        img: math
+        title: 'فرنساوي',
+        img: math,
+        link: '/material/french'
     },
     {
         id: 3,
-        title: 'الرياض ايت',
-        img: math
+        title: 'الالماني',
+        img: math,
+        link: '/material/germany'
     },
 ]
 
 const CreateMaterial = ( {data}: {data: card} ) => {
     return<>
-        <Link to='/' >
+        <Link to={data.link} >
                     <div className="material">
                         <div className="img"> <img src={data.img} alt="" /> </div>
                         <h3> {data.title} </h3>
