@@ -1,0 +1,228 @@
+@import "../../App.scss";
+
+.main-section {
+  position: relative;
+  height: 600px;
+  width: 100%;
+  background-color: var(--primary-color);
+
+  .wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-image: url("../../assets/wave-1.png");
+    background-size: contain;
+
+    @include screen(lg) {
+      height: 75px;
+    }
+
+    @include screen(md) {
+      height: 50px;
+    }
+
+    @include screen(sm) {
+      display: none;
+    }
+
+    &.wave-1 {
+      animation: animate 10s linear infinite;
+      z-index: 1000;
+      opacity: 1;
+      animation-delay: 0s;
+      bottom: 0;
+    }
+
+    &.wave-2 {
+      animation: animate2 15s linear infinite;
+      z-index: 999;
+      opacity: 0.5;
+      animation-delay: -5s;
+      bottom: 10px;
+    }
+
+    &.wave-3 {
+      animation: animate 30s linear infinite;
+      z-index: 998;
+      opacity: 0.2;
+      animation-delay: -2s;
+      bottom: 15px;
+    }
+
+    &.wave-4 {
+      animation: animate2 5s linear infinite;
+      z-index: 997;
+      opacity: 0.7;
+      animation-delay: -2s;
+      bottom: 20px;
+    }
+  }
+}
+
+.all-materials {
+  margin: 100px 0;
+
+  .material {
+    width: 200px;
+    height: 200px;
+    background-color: var(--card-material);
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: var(--card-material-hover);
+    }
+
+    .img {
+      width: 50px;
+      height: 50px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+
+    h3 {
+      color: #999;
+      margin-top: 50px;
+      cursor: pointer;
+    }
+  }
+
+  .main-swiper-slider {
+    margin: 50px 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include screen(xl) {
+      margin: 50px;
+    }
+
+    @include screen(lg) {
+      margin: 50px 10px;
+    }
+  }
+}
+
+.all-teachers {
+  .teachers {
+    margin: 50px 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    @include screen(xl) {
+      margin: 50px;
+    }
+
+    @include screen(md) {
+      margin: 50px 20px;
+    }
+
+    @include screen(sm) {
+      justify-content: center;
+    }
+
+    .teacher-card {
+      width: 240px;
+      height: 200px;
+      background-color: var(--card-material);
+      border-radius: 5px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      grid-area: 50px;
+      padding-top: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+      border-bottom: 2px solid var(--primary-color);
+      gap: 20px;
+
+      &:hover {
+        background-color: var(--card-material-hover);
+      }
+
+      .img {
+        width: 50px;
+        height: 50px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+      }
+
+      h2 {
+        color: #999;
+        font-size: 23px;
+        font-weight: 500;
+      }
+
+      p {
+        font-weight: bold;
+        color: var(--primary-color);
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+.swiper{
+    padding: 0 10px !important;
+}
+
+.swiper-slide {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.swiper-pagination-bullet {
+  transition: 0.3s !important;
+}
+.swiper-pagination-bullet-active {
+  width: 50px !important;
+  border-radius: 10px !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  display: none !important; /* Navigation button color */
+}
+
+.swiper-pagination {
+  position: relative !important;
+  margin-top: 30px !important;
+}
+
+@keyframes animate {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 1000px;
+  }
+}
+@keyframes animate2 {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: -1000px;
+  }
+}

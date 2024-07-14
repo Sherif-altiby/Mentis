@@ -1,0 +1,62 @@
+@import '../../App.scss';
+
+.main-header{
+    width: 100%;
+    position: relative;
+    text-align: center;
+    color: #333;
+
+    h1{
+        font-weight: 500;
+
+        @include screen(md){
+            font-size: 20px;
+        }
+
+        @include screen(sm){
+            font-size: 15px;
+        }
+    }
+
+    &::before{
+        position: absolute;
+        content: '';
+        border-bottom: 1px solid #ccc;
+        border-top: 1px solid #ccc;
+        height: 10px;
+        background-color: #f8f8f8;
+        left: 10%;
+        width: 30%;
+        top: 50%;
+        transform: translateY(-50%);
+
+        @include screen(lg){
+            left: 3%;
+        }
+
+        @include screen(sm){
+            height: 5px;
+        }
+    }
+
+    &::after{
+        position: absolute;
+        content: '';
+        border-bottom: 1px solid #ccc;
+        border-top: 1px solid #ccc;
+        height: 10px;
+        background-color: #f8f8f8;
+         width: 30%;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 10%;
+
+        @include screen(lg){
+            right: 3%;
+        }
+
+        @include screen(sm){
+            height: 5px;
+        }
+    }
+}

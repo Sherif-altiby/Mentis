@@ -1,0 +1,46 @@
+@import '../../App.scss';
+
+nav {
+    .nav{
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 100px;
+        background-color: #fff;
+
+        @include screen(lg){
+            padding: 0 50px;
+        }
+
+        @include screen(md){
+            padding: 0 10px;
+        }
+        
+        .signin{
+
+           a{
+              background-color: var(--primary-color);
+              color: #fff;
+              padding: 10px 30px;
+              cursor: pointer;
+              border-radius: 5px;
+              transition: 0.3s;
+              font-weight: bold;
+
+              @include screen(lg){
+                 font-weight: normal;
+              }
+
+              @include screen(md){
+                font-size: 15px;
+                padding: 5px 15px;
+              }
+
+              &:hover{
+                background-color: var(--primary-color-alt);
+               }
+           }
+        }
+    }
+}

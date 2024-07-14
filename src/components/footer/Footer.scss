@@ -1,0 +1,40 @@
+@import '../../App.scss';
+
+footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px 100px;
+    color: #fff;
+    background-color: var(--primary-color);
+    width: 100%;
+
+    @include screen(lg){
+        padding: 50px;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    @include screen(sm){
+        padding: 50px 10px;
+    }
+
+    .links{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+
+        @include screen(sm){
+            gap: 10px;
+        }
+         
+        a{
+            color: #fff;
+              
+            @include screen(sm){
+                font-size: 14px;;
+            }
+        }
+    }
+}
