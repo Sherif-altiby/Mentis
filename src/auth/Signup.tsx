@@ -39,7 +39,7 @@ const Signup = () => {
             </div>
             <div className="btns">
                 <div className="btn"> تسجيل </div>
-                <Link to='/login'> لديك جساب بالفعل ؟</Link>
+                <Link to='/login'> لديك حساب بالفعل ؟</Link>
             </div>
         </form>
     </div>

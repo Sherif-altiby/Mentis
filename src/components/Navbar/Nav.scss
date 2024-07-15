@@ -29,6 +29,7 @@ nav{
               border-radius: 5px;
               transition: 0.3s;
               font-weight: bold;
+              display: block;
 
               @include screen(lg){
                  font-weight: normal;
@@ -41,6 +42,7 @@ nav{
 
               &:hover{
                 background-color: var(--primary-color-alt);
+                transform: scale(0.9);
                }
            }
         }
@@ -52,8 +54,7 @@ nav{
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                // background-color: red;
-  
+   
                 @include screen(sm){
                     width: 100px;
                     

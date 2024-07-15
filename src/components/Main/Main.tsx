@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import MainHeader from "../mainheader/MainHeader";
 import math from "../../assets/math.png";
 import phiscs from "../../assets/phiscs.jpg";
+import { useTypewriter, Cursor } from "react-simple-typewriter";
 import chemistry from "../../assets/chemistry.jpg";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper/modules";
+import introImg from '../../assets/intro-img.png'
+import { motion } from "framer-motion";
 
  
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -108,10 +111,36 @@ const CreateTeacher = () => {
   );
 };
 const Main = () => {
+ 
+  const [text] = useTypewriter({
+    words: ["منصة منتس التعليمية ", "حيث الريادة و التفوق و الدرجات النهائية"],
+    loop: true,
+    typeSpeed: 120,
+    deleteSpeed: 50
+  });
+
   return (
     <div>
       <div className="main-section">
-      <Circles />
+        <Circles />
+
+        <div className="intro-section">
+           <motion.div className="img"
+            animate={{ bottom: [-50, 80, -50] }}
+            transition={{duration: 5, repeat: Infinity}}
+           > <img src={introImg} alt="" /> </motion.div>
+
+           <div className="text">
+             <h2> <span> <Cursor /> </span> <span> { text } </span> </h2>
+             <p> منصة تعليمية مبتكرة تهدف إلى توفير تجربة تعليمية متكاملة وشاملة للمستخدمين من جميع الأعمار والخلفيات. تعتمد "منتس" على أحدث التقنيات التعليمية لخلق بيئة تعلم تفاعلية وجذابة، حيث يمكن للمتعلمين الوصول إلى مجموعة متنوعة من الموارد والدورات التدريبية المصممة بعناية لتلبية احتياجاتهم التعليمية. </p>
+             <div className="btns">
+                <div className="btn"> <a href='#all-mentis-materials' > المواد الدراسية </a> </div>
+                <div className="btn"> <a href='#all-mentis-teachers' >  المدرسين </a> </div>
+                <div className="btn"> <Link to='/signup' >  انضم الي منتس </Link> </div>
+             </div>
+           </div>
+        </div>
+
         <div className="wave wave-1"></div>
         <div className="wave wave-2"></div>
         <div className="wave wave-3"></div>
@@ -119,7 +148,7 @@ const Main = () => {
 
       </div>
 
-      <div className="all-materials">
+      <div className="all-materials" id='all-mentis-materials' >
         <MainHeader title="المواد الدراسية" />
 
         <div className="main-swiper-slider">
@@ -152,7 +181,7 @@ const Main = () => {
         </div>
       </div>
 
-      <div className="all-teachers">
+      <div className="all-teachers" id="all-mentis-teachers" >
         <MainHeader title="المدرسين" />
         <div className="teachers">
           <CreateTeacher />

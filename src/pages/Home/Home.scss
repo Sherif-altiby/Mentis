@@ -6,6 +6,149 @@
   width: 100%;
   background-color: var(--primary-color);
 
+  .intro-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+
+    @include screen(lg) {
+      padding: 0 20px;
+    }
+
+    .img {
+      width: 500px;
+      height: 400px;
+      position: relative;
+
+      @include screen(lg) {
+        width: 350px;
+      }
+
+      @include screen(md) {
+        display: none;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .text {
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      flex: 1;
+
+      @include screen(xl) {
+        align-items: end;
+      }
+
+      @include screen(md) {
+        align-items: center;
+      }
+
+      h2 {
+        color: #fff;
+        font-size: 40px;
+        font-weight: 500;
+        margin-bottom: 30px;
+
+        @include screen(xl) {
+          font-size: 25px;
+        }
+
+        @include screen(sm){
+          font-size: 20px;
+        }
+
+        @include screen(xsm){
+          font-size: 17px;
+        }
+      }
+
+      p {
+        color: #ebebeb;
+        width: 90%;
+        text-align: right;
+        font-size: 18px;
+
+        @include screen(xl) {
+          font-size: 14px;
+        }
+
+        @include screen(md){
+          font-size: 18px;
+          text-align: center;
+        }
+
+        @include screen(sm){
+          font-size: 14px;
+        }
+      }
+
+      .btns {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 50px;
+
+        @include screen(xl) {
+          gap: 10px;
+          justify-content: end ;
+          width: 100%;
+        }
+
+        @include screen(md) {
+          justify-content: center;
+        }
+
+        @include screen(sm){
+          flex-direction: column;
+        }
+
+        .btn {
+          padding: 10px 25px;
+          background-color: #fff;
+          cursor: pointer;
+          border-radius: 5px;
+          transition: 0.3s;
+
+          @include screen(xl) {
+            padding: 5px 15px;
+          }
+
+          @include screen(sm){
+            width: 100%;
+          }
+
+          &:hover {
+            transform: scale(0.9);
+            background-color: var(--border-color);
+          }
+
+          a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            color: var(--primary-color);
+            font-weight: 600;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+
   .wave {
     position: absolute;
     bottom: 0;
@@ -23,9 +166,9 @@
       height: 50px;
     }
 
-     @include screen(sm){
+    @include screen(sm) {
       height: 32px;
-     }
+    }
 
     &.wave-1 {
       animation: animate 10s linear infinite;
@@ -58,7 +201,7 @@
       animation-delay: -2s;
       bottom: 20px;
 
-      @include screen(sm){
+      @include screen(sm) {
         opacity: 0;
       }
     }
@@ -136,7 +279,7 @@
       margin: 50px 20px;
     }
 
-    @include screen(xsm){
+    @include screen(xsm) {
       justify-content: center;
     }
 
@@ -156,11 +299,11 @@
       position: relative;
       gap: 20px;
 
-      @include screen(sm){
-        width: 160px
+      @include screen(sm) {
+        width: 160px;
       }
 
-      @include screen(xsm){
+      @include screen(xsm) {
         width: 200px;
       }
 
@@ -178,8 +321,8 @@
       &:hover {
         background-color: var(--card-material-hover);
 
-        &::before{
-            width: 100%;
+        &::before {
+          width: 100%;
         }
       }
 
@@ -199,7 +342,7 @@
         font-size: 23px;
         font-weight: 500;
 
-        @include screen(sm){
+        @include screen(sm) {
           font-size: 12px;
         }
       }
@@ -233,7 +376,7 @@
 
 .swiper-button-next,
 .swiper-button-prev {
-  display: none !important; 
+  display: none !important;
 }
 
 .swiper-pagination {
