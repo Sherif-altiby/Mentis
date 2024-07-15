@@ -37,7 +37,11 @@ html {
 
 // Media Query
 @mixin screen($breakpoint) {
-  @if $breakpoint == sm {
+  @if $breakpoint == xsm {
+    @media (max-width: 375px) {
+      @content;
+    }
+  } @else if $breakpoint == sm {
     @media (max-width: 576px) {
       @content;
     }

@@ -7,7 +7,7 @@ const Nav = () => {
          <div className="nav">
              <div className="signin">
                  <div className="btn">
-                    <Link to='/sinup' > تسجيل الدخول </Link>
+                    <Link to='/signup' > تسجيل الدخول </Link>
                  </div>
              </div>
              <div className="logo">
