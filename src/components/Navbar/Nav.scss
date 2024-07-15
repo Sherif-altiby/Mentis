@@ -44,5 +44,27 @@ nav{
                }
            }
         }
+
+        .logo{
+            .img{
+                width: 150px;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                // background-color: red;
+  
+                @include screen(sm){
+                    width: 100px;
+                    
+                }
+
+
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
     }
 }

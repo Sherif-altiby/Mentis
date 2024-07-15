@@ -5,12 +5,6 @@ const Circles = () => {
   return (
     <div>
       <div className="wrpper">
-        {/* <motion.div
-          className="circle"
-          initial={{bottom: -100}}
-          animate={{ bottom: 600 }}
-          transition={{ duration: 5, repeat: Infinity, repeatType: "loop" }}
-        ></motion.div> */}
         <motion.div
           className="circle"
           initial={{bottom: -100}}

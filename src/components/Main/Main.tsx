@@ -3,14 +3,9 @@ import MainHeader from "../mainheader/MainHeader";
 import math from "../../assets/math.png";
 import phiscs from "../../assets/phiscs.jpg";
 import chemistry from "../../assets/chemistry.jpg";
-import {
-  Navigation,
-  Pagination,
-  Scrollbar,
-  A11y,
-  Autoplay,
-} from "swiper/modules";
+import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper/modules";
 
+ 
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
@@ -19,9 +14,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import Circles from "../animation/Circles";
+import { card, dataType } from "../../types/index.types";
 
-type card = { id: number; title: string; img: string; link: string };
-type dataType = card[];
+
 
 const data: dataType = [
   {
@@ -86,8 +81,8 @@ const CreateMaterial = ({ data }: { data: card }) => {
       <Link to={data.link}>
         <div className="material">
           <div className="img">
-            {" "}
-            <img src={data.img} alt="" />{" "}
+             
+            <img src={data.img} alt="" /> 
           </div>
           <h3> {data.title} </h3>
         </div>
@@ -102,8 +97,8 @@ const CreateTeacher = () => {
       <Link to="/">
         <div className="teacher-card">
           <div className="img">
-            {" "}
-            <img src={phiscs} alt="" />{" "}
+             
+            <img src={phiscs} alt="" /> 
           </div>
           <h2> أ/ محمد عبد النور </h2>
           <p> كمياء </p>
@@ -117,11 +112,11 @@ const Main = () => {
     <div>
       <div className="main-section">
       <Circles />
-      
         <div className="wave wave-1"></div>
         <div className="wave wave-2"></div>
         <div className="wave wave-3"></div>
         <div className="wave wave-4"></div>
+
       </div>
 
       <div className="all-materials">
