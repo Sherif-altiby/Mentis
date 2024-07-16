@@ -66,11 +66,11 @@
           font-size: 25px;
         }
 
-        @include screen(sm){
+        @include screen(sm) {
           font-size: 20px;
         }
 
-        @include screen(xsm){
+        @include screen(xsm) {
           font-size: 17px;
         }
       }
@@ -85,12 +85,12 @@
           font-size: 14px;
         }
 
-        @include screen(md){
+        @include screen(md) {
           font-size: 18px;
           text-align: center;
         }
 
-        @include screen(sm){
+        @include screen(sm) {
           font-size: 14px;
         }
       }
@@ -104,7 +104,7 @@
 
         @include screen(xl) {
           gap: 10px;
-          justify-content: end ;
+          justify-content: end;
           width: 100%;
         }
 
@@ -112,7 +112,7 @@
           justify-content: center;
         }
 
-        @include screen(sm){
+        @include screen(sm) {
           flex-direction: column;
         }
 
@@ -127,7 +127,7 @@
             padding: 5px 15px;
           }
 
-          @include screen(sm){
+          @include screen(sm) {
             width: 100%;
           }
 
@@ -223,6 +223,7 @@
     padding-top: 20px;
     cursor: pointer;
     transition: 0.3s;
+    
 
     &:hover {
       background-color: var(--card-material-hover);
@@ -267,7 +268,7 @@
     margin: 50px 150px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap;
     gap: 20px;
 
@@ -283,76 +284,7 @@
       justify-content: center;
     }
 
-    .teacher-card {
-      width: 240px;
-      height: 200px;
-      background-color: var(--card-material);
-      border-radius: 5px;
-      border: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      grid-area: 50px;
-      padding-top: 20px;
-      cursor: pointer;
-      transition: 0.3s;
-      position: relative;
-      gap: 20px;
-
-      @include screen(sm) {
-        width: 160px;
-      }
-
-      @include screen(xsm) {
-        width: 200px;
-      }
-
-      &::before {
-        position: absolute;
-        content: "";
-        width: 0;
-        height: 3px;
-        bottom: 0;
-        right: 0;
-        background-color: var(--primary-color);
-        transition: 0.3s;
-      }
-
-      &:hover {
-        background-color: var(--card-material-hover);
-
-        &::before {
-          width: 100%;
-        }
-      }
-
-      .img {
-        width: 50px;
-        height: 50px;
-
-        img {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-        }
-      }
-
-      h2 {
-        color: #999;
-        font-size: 23px;
-        font-weight: 500;
-
-        @include screen(sm) {
-          font-size: 12px;
-        }
-      }
-
-      p {
-        font-weight: bold;
-        color: var(--primary-color);
-        font-size: 18px;
-      }
-    }
+   
   }
 }
 

@@ -5,7 +5,7 @@ import phiscs from "../../assets/phiscs.jpg";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
 import chemistry from "../../assets/chemistry.jpg";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper/modules";
-import introImg from '../../assets/intro-img.png'
+import introImg from '../../assets/intro-img-2.png'
 import { motion } from "framer-motion";
 
  
@@ -18,6 +18,7 @@ import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import Circles from "../animation/Circles";
 import { card, dataType } from "../../types/index.types";
+import CreateTeacherCard from "../createTeacherCard/CreateTeacherCard";
 
 
 
@@ -94,28 +95,13 @@ const CreateMaterial = ({ data }: { data: card }) => {
   );
 };
 
-const CreateTeacher = () => {
-  return (
-    <>
-      <Link to="/">
-        <div className="teacher-card">
-          <div className="img">
-             
-            <img src={phiscs} alt="" /> 
-          </div>
-          <h2> أ/ محمد عبد النور </h2>
-          <p> كمياء </p>
-        </div>
-      </Link>
-    </>
-  );
-};
+ 
 const Main = () => {
  
   const [text] = useTypewriter({
     words: ["منصة منتس التعليمية ", "حيث الريادة و التفوق و الدرجات النهائية"],
     loop: true,
-    typeSpeed: 120,
+    typeSpeed: 20,
     deleteSpeed: 50
   });
 
@@ -184,11 +170,13 @@ const Main = () => {
       <div className="all-teachers" id="all-mentis-teachers" >
         <MainHeader title="المدرسين" />
         <div className="teachers">
-          <CreateTeacher />
-          <CreateTeacher />
-          <CreateTeacher />
-          <CreateTeacher />
-          <CreateTeacher />
+          <CreateTeacherCard />
+          <CreateTeacherCard />
+          <CreateTeacherCard />
+          <CreateTeacherCard />
+          <CreateTeacherCard />
+          <CreateTeacherCard />
+          <CreateTeacherCard />
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@
 import Main from './components/Main/Main';
 import Home from './pages/Home/Home';
 import ForgotPassword from './auth/ForgotPassword';
+import Teacher from './pages/teacher/Teacher';
  
  const App = () => {
    return (
@@ -15,6 +16,7 @@ import ForgotPassword from './auth/ForgotPassword';
                <Route path='/' element={<Home />}>
                          <Route index element={<Main />} />
                          <Route path='material/:materialId' element={<Material />} />
+                         <Route path='teacher/:teacherId' element={<Teacher />} />
                 </Route>
                <Route path='/signup' element={<Signup />} />
                <Route path='/login' element={<Login />} />
