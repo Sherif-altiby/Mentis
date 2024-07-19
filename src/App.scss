@@ -23,6 +23,23 @@ body {
   font-family: "Cairo", sans-serif;
 }
 
+body::-webkit-scrollbar {
+  width: 5px; /* Adjust width as needed */
+}
+
+body::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Color of the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color); /* Color of the thumb */
+  border-radius: 6px; /* Rounded corners of the thumb */
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color-alt); /* Darker color when hovering */
+}
+
 ul li {
   list-style: none;
 }

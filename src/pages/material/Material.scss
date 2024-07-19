@@ -1,0 +1,25 @@
+@import '../../App.scss';
+
+.material-page{
+    min-height: calc(100vh - 80px);
+    padding: 50px 0;
+
+    .material-teachers{
+        width: 100%;
+        display: flex;
+        padding: 50px 150px;
+        justify-content: end;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+
+        @include screen(lg){
+            padding: 50px;
+         }
+
+         
+        @include screen(sm){
+            padding: 50px 20px;
+         }
+    }
+}
