@@ -2,6 +2,20 @@ import './auth.scss';
 import { Link } from "react-router-dom"
 
  
+// your api for connection to back-end  http://127.0.0.1:8000/api/
+/*
+     signup example  
+          {
+          "name": "John Doe",
+          "email": "johndoe@example.com",
+          "password": "password",
+          "password_confirmation": "password",
+          "phone_number": "1234567890",
+          "role": "student"
+      }
+ 
+
+*/
 const Login = () => {
   return (
     <div  className='signup' >
