@@ -37,7 +37,7 @@ const Signup = () => {
 
     if(nameValidate && userNameValidate && passwordValidate && userEmailValidate && userNumberValidate && parentNumberValidate){
       console.log("Reisteration is successfully")
-   }else{
+      } else{
        console.log("Reisteration is not successfully")
     }
 
