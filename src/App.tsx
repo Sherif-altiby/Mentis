@@ -9,20 +9,22 @@ import ForgotPassword from './auth/ForgotPassword';
 import Teacher from './pages/teacher/Teacher';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute ';
 import NotFound from './pages/notfound/NotFound';
+import StudentProfile from './pages/studentdashboard/StudentDashboard';
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />}>
-          <Route index element={<Main />} />
-          <Route path="material/:materialId" element={<ProtectedRoute element={Material} />} />
-          <Route path="teacher/:teacherId" element={<ProtectedRoute element={Teacher} />} />
+            <Route index element={<Main />} />
+            <Route path="material/:materialId" element={<ProtectedRoute element={Material} />} />
+            <Route path="teacher/:teacherId" element={<ProtectedRoute element={Teacher} />} />
         </Route>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path='*' element={<NotFound />} />
+        <Route path='/user/user-profile' element={<StudentProfile />} />
       </Routes>
     </Router>
   );
