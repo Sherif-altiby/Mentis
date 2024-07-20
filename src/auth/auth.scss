@@ -15,6 +15,7 @@
     padding: 20px;
     border-radius: 10px;
     background-color: #fff;
+    z-index: 9999;
 
     @include screen(lg) {
       width: 90%;
@@ -81,6 +82,10 @@
         padding: 10px;
         transition: 0.3;
         font-weight: normal;
+
+        &.error{
+          border-color: var(--danger-color);
+        }
 
         &:focus {
           border-color: var(--primary-color);

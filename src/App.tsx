@@ -8,6 +8,7 @@ import Home from './pages/Home/Home';
 import ForgotPassword from './auth/ForgotPassword';
 import Teacher from './pages/teacher/Teacher';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute ';
+import NotFound from './pages/notfound/NotFound';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
   );
