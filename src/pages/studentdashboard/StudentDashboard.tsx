@@ -2,6 +2,7 @@ import './studentdashboard.scss'
 import Footer from "../../components/footer/Footer"
 import Nav from "../../components/Navbar/Nav"
 import Menu from "../../components/userdashboardmenu/Menu"
+import Dashboard from '../../components/userDashboardComponents/Dashboard/Dashboard'
 
 const StudentProfile = () => {
   return (
@@ -10,19 +11,7 @@ const StudentProfile = () => {
          <div className="profile-content" >
             <div className="content">
                  <div className="dashborad-content">
-                      <h1>Content</h1> 
-                 <h1>Content</h1> 
-                 <h1>Content</h1> 
-                 <h1>Content</h1> 
-                 <h1>Content</h1> 
-                 <h1>Content</h1> 
-                 <h1>Content</h1> 
-                 <h1>Content</h1> 
-                 <h1>Content</h1> 
-                 <h1>Content</h1> 
-                 <h1>Content</h1> 
-                 <h1>Content</h1> 
-
+                     <Dashboard />
                  </div>
                  <Footer />
              </div>
