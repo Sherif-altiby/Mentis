@@ -9,7 +9,7 @@
     <h1>Login</h1>
 
     <!-- Form to POST to /login route -->
-    <form method="GET" action="/api/login">
+    <form method="POST" action="/api/login">
         @csrf <!-- CSRF token field -->
 
         <!-- Username or Email field -->

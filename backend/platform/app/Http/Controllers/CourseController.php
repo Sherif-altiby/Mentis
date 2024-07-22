@@ -9,6 +9,12 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CourseController extends Controller
 {
+
+
+    public function __construct()
+    {
+        // $this->middleware('auth:sanctum');
+    }
     /**
      * Get all courses.
      *
@@ -77,13 +83,30 @@ class CourseController extends Controller
      * @param \App\Models\Course $course
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Course $course)
+    public function show(Course $id)
     {
-        return response()->json([
-            'status' => 'success',
-            'data' => $course
-        ], 200);
+        // // Add this line to debug
+        // dd($id);
+
+         $course = Course::find($id);
+
+        // // Add this line to debug
+        // dd($course);
+        // Check if $course is correctly retrieved
+        if (!$course) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Course not found'
+            ], 404);
+        }
+
+    // Return the course in a JSON response
+    return response()->json([
+        'status' => 'success',
+        'data' => $course
+    ], 200);
     }
+
 
     /**
      * Update an existing course.

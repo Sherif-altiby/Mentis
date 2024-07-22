@@ -70,6 +70,8 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
+        'auth:sanctum' => \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\AddCacheHeaders::class,
@@ -80,5 +82,8 @@ class Kernel extends HttpKernel
         'throttle' => ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'user.admin' => \App\Http\Middleware\UserAdmin::class,
+        'ensureAuthenticated' => \App\Http\Middleware\EnsureAuthenticated::class,
+
+        
     ];
 }

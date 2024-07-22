@@ -8,7 +8,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('/login', function () {
+Route::post('/login', function () {
     return view('login');
 });
 
