@@ -1,8 +1,7 @@
 import './studentdashboard.scss'
-import Footer from "../../components/footer/Footer"
 import Nav from "../../components/Navbar/Nav"
 import Menu from "../../components/userdashboardmenu/Menu"
-import Dashboard from '../../components/userDashboardComponents/Dashboard/Dashboard'
+import { Outlet } from 'react-router-dom'
 
 const StudentProfile = () => {
   return (
@@ -11,9 +10,8 @@ const StudentProfile = () => {
          <div className="profile-content" >
             <div className="content">
                  <div className="dashborad-content">
-                     <Dashboard />
+                     <Outlet />
                  </div>
-                 <Footer />
              </div>
             <Menu />
          </div>
