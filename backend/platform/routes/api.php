@@ -14,4 +14,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/courses', [CourseController::class, 'store']);
     Route::put('/courses/{id}', [CourseController::class, 'update']);
     Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
+    Route::get('/user-from-token/{token}', [AuthController::class, 'getUserFromToken']);
+
 });
