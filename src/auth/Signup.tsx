@@ -2,16 +2,22 @@ import { Link } from "react-router-dom";
 import "./auth.scss";
 import { useState } from "react";
 import Circles from "../components/animation/Circles";
+import { register } from "../utils/api";
+import { useNavigate } from 'react-router-dom';
+
 
 const Signup = () => {
+ 
+  const navigate = useNavigate()
+
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userNumber, setUserNumber] = useState(0);
-  const [parentNumber, setParentNumber] = useState(0);
+  const [userNumber, setUserNumber] = useState('');
+  const [parentNumber, setParentNumber] = useState('');
 
   const [nameValidate, setNameValidate] = useState(true);
   const [userNameValidate, setUserNameValidate] = useState(true);
@@ -20,7 +26,7 @@ const Signup = () => {
   const [userNumberValidate, setUserNumberValidate] = useState(true);
   const [parentNumberValidate, setParentNumberValidate] = useState(true);
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     const isValidEmail = emailRegex.test(userEmail);
 
     if (name.trim().length == 0) { setNameValidate(false); }
@@ -36,7 +42,14 @@ const Signup = () => {
     if (String(parentNumber).length  < 9) { setParentNumberValidate(false);}
 
     if(nameValidate && userNameValidate && passwordValidate && userEmailValidate && userNumberValidate && parentNumberValidate){
-      console.log("Reisteration is successfully")
+       
+        const data = await register({name: userName, email: userEmail, password, phone_number: userNumber, role: "student"});
+
+        if(data){
+          localStorage.setItem('mentisID', data.token);
+          navigate('/')
+        }
+
       } else{
        console.log("Reisteration is not successfully")
     }
@@ -92,7 +105,7 @@ const Signup = () => {
           <div className="input">
             <label htmlFor="wats-number"> رقم الواتس اب </label>
             <input
-              onChange={(e) => {setUserNumber(Number(e.target.value)); setUserNumberValidate(true)}}
+              onChange={(e) => {setUserNumber(e.target.value); setUserNumberValidate(true)}}
               type="number"
               id="wats-number"
               className={userNumberValidate ? "" : "error"}
@@ -101,7 +114,7 @@ const Signup = () => {
           <div className="input">
             <label htmlFor="parent-wats"> رقم الواتس اب ولي الامر </label>
             <input
-              onChange={(e) => {setParentNumber(Number(e.target.value)); setParentNumberValidate(true)}}
+              onChange={(e) => {setParentNumber(e.target.value); setParentNumberValidate(true)}}
               type="number"
               id="parent-wats"
               className={parentNumberValidate ? "" : "error"}
@@ -110,8 +123,7 @@ const Signup = () => {
         </div>
         <div className="btns">
           <div className="btn" onClick={handleSignup}>
-            {" "}
-            تسجيل{" "}
+            تسجيل 
           </div>
           <Link to="/login"> لديك حساب بالفعل ؟</Link>
         </div>

@@ -6,7 +6,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element: Component }) => {
   const isAuthenticated = () => {
-     return localStorage.getItem('authToken') !== null;
+     return localStorage.getItem('mentisID') !== null;
   };
 
   return isAuthenticated() ? <Component /> : <Navigate to="/signup" />;

@@ -29,13 +29,13 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path='*' element={<NotFound />} />
-        <Route path='/user/user-profile' element={<StudentProfile />} >
-               <Route index element={<Dashboard />} />
-               <Route path='dashboard' element={<Dashboard />} />
-               <Route path='lectures' element={<Lecture />} />
-               <Route path='quizes' element={<Quizes />} />
-               <Route path='books' element={<Books />} />
-               <Route path='setting' element={<Setting />} />
+        <Route path='/user/user-profile' element={<ProtectedRoute element={StudentProfile} />} >
+               <Route index element={<ProtectedRoute element={Dashboard} />} />
+               <Route path='dashboard' element={<ProtectedRoute element={Dashboard} />} />
+               <Route path='lectures' element={<ProtectedRoute element={Lecture} />} />
+               <Route path='quizes' element={<ProtectedRoute element={Quizes} />} />
+               <Route path='books' element={<ProtectedRoute element={Books} />} />
+               <Route path='setting' element={<ProtectedRoute element={Setting} />} />
         </Route>
       </Routes>
     </Router>
