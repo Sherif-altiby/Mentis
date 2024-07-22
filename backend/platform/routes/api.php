@@ -8,6 +8,7 @@ use App\Http\Controllers\CourseController;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/courses', [CourseController::class, 'index']);
     Route::get('/courses/{id}', [CourseController::class, 'show']);
@@ -15,5 +16,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/courses/{id}', [CourseController::class, 'update']);
     Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
     Route::get('/user-from-token/{token}', [AuthController::class, 'getUserFromToken']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 
 });

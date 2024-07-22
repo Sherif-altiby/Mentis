@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Laravel\Sanctum\PersonalAccessToken;
+use Illuminate\Support\Facades\Auth;  // Add this line
 
 class AuthController extends Controller
 {
@@ -77,11 +78,29 @@ class AuthController extends Controller
         if (!auth()->attempt($request->only('email', 'password'))) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
+        $user = auth()->user();
+
+        // Revoke existing tokens
+        $user->tokens()->delete();
 
         // Generate an API token for the authenticated user
         $token = auth()->user()->createToken('API Token')->plainTextToken;
-
+     
         return response()->json(['token' => $token], 200);
+    }
+    public function logout(Request $request)
+    {
+        // Ensure the user is authenticated
+        if (!Auth::check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        // Get the current user's tokens
+        $user = Auth::user();
+        $user->tokens()->delete();
+
+        // Return a response indicating the user has been logged out
+        return response()->json(['message' => 'Logged out successfully!'], 200);
     }
 
     public function getUserFromToken($token)
