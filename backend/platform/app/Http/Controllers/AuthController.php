@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Auth;  // Add this line
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -15,13 +16,12 @@ class AuthController extends Controller
     {
         // Validate the request
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'phone_number' => 'required|string|max:20',
-            'role' => 'required|in:student,teacher,parent,admin',
+            'student_name' => 'required|string|max:255',
+            'parent_name' => 'required|string|max:255',
+            'student_phone' => 'required|string|max:20',
+            'parent_phone' => 'required|string|max:20',
         ]);
-
+    
         // Return validation errors if any
         if ($validator->fails()) {
             return response()->json([
@@ -30,27 +30,62 @@ class AuthController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-
+    
         try {
-            // Create a new user
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'phone_number' => $request->phone_number,
-                'role' => $request->role,
+            // Generate unique 6-digit IDs
+            $student_id = $this->generateUniqueId();
+            $parent_id = $this->generateUniqueId();
+    
+            // Generate passwords
+            $student_password = $this->generatePassword();
+            $parent_password = $this->generatePassword();
+    
+            // Create email addresses
+            $student_email = $student_id . '@gmail.com';
+            $parent_email = $parent_id . '@gmail.com';
+    
+            // Create a new student user
+            $student = User::create([
+                'name' => $request->student_name,
+                'email' => $student_email,
+                'password' => Hash::make($student_password),
+                'phone_number' => $request->student_phone,
+                'role' => 'student',
+                'id' => $student_id,
             ]);
-
-            // Generate an API token for the newly created user
-            $token = $user->createToken('API Token')->plainTextToken;
-
+    
+            // Create a new parent user
+            $parent = User::create([
+                'name' => $request->parent_name,
+                'email' => $parent_email,
+                'password' => Hash::make($parent_password),
+                'phone_number' => $request->parent_phone,
+                'role' => 'parent',
+                'id' => $parent_id,
+            ]);
+    
+            // Create the relationship in the parent_student table
+            DB::table('parent_student')->insert([
+                'parent_id' => $parent->id,
+                'student_id' => $student->id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+    
+            // Generate an API token for the newly created student
+            $token = $student->createToken('API Token')->plainTextToken;
+    
             // Return response with message, status, and token
             return response()->json([
                 'status' => 'success',
                 'message' => 'User registered successfully!',
+                'student_id' => $student_id,
+                'student_password' => $student_password,
+                'parent_id' => $parent_id,
+                'parent_password' => $parent_password,
                 'token' => $token
             ], 201);
-
+    
         } catch (\Exception $e) {
             // Handle any exceptions
             return response()->json([
@@ -60,6 +95,28 @@ class AuthController extends Controller
             ], 500);
         }
     }
+    
+    private function generateUniqueId()
+    {
+        do {
+            $id = random_int(100000, 999999);
+        } while (User::where('id', $id)->exists());
+    
+        return $id;
+    }
+    
+    private function generatePassword($length = 8)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $password = '';
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $characters[random_int(0, $charactersLength - 1)];
+        }
+        return $password;
+    }
+    
+        
 
     public function login(Request $request)
     {
