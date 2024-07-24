@@ -73,7 +73,7 @@ class AuthController extends Controller
             ]);
     
             // Generate an API token for the newly created student
-            $token = $student->createToken('API Token')->plainTextToken;
+            $token = $student->createToken($request->student_name)->plainTextToken;
     
             // Return response with message, status, and token
             return response()->json([
