@@ -173,6 +173,9 @@ class AuthController extends Controller
                 'user_id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'phone_number'=>$user->phone_number,
+                'role'=>$user->role,
+                
                 // Add other user fields you need
             ]);
         }
