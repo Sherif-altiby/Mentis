@@ -182,4 +182,34 @@ class AuthController extends Controller
 
         return response()->json(['error' => 'Token not found'], 404);
     }
+    public function resetPassword(Request $request)
+    {
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'new_password' => 'required|min:8',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Find the user by email
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found.'], 404);
+        }
+
+        // Check if the user has the admin role
+        if ($user->role !== 'admin') {
+            return response()->json(['error' => 'Only admins can reset passwords.'], 403);
+        }
+
+        // Hash and update the new password
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json(['message' => 'Password reset successfully.'], 200);
+    }
 }

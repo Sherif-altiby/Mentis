@@ -17,5 +17,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
     Route::get('/user-from-token/{token}', [AuthController::class, 'getUserFromToken']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 });
