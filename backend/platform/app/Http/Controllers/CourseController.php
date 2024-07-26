@@ -20,25 +20,32 @@ class CourseController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
-    {
-        $courses = Course::all()->map(function ($course) {
-            return [
-                'id' => $course->id,
-                'teacher_id' => $course->teacher_id,
-                'title' => $course->title,
-                'description' => $course->description,
-                'price' => $course->price,
-                'image' => $course->image ? base64_encode($course->image) : null,
-                'created_at' => $course->created_at,
-                'updated_at' => $course->updated_at,
-            ];
-        });
+{
+    $courses = Course::with('teacher')->get()->map(function ($course) {
+        return [
+            'id' => $course->id,
+            'teacher_id' => $course->teacher_id,
+            'teacher' => $course->teacher ? [
+                'id' => $course->teacher->id,
+                'name' => $course->teacher->name,
+                'email' => $course->teacher->email,
+                // Add other teacher attributes as needed
+            ] : null,
+            'title' => $course->title,
+            'description' => $course->description,
+            'price' => $course->price,
+            'image' => $course->image ? base64_encode($course->image) : null,
+            'created_at' => $course->created_at,
+            'updated_at' => $course->updated_at,
+        ];
+    });
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $courses
-        ], 200);
-    }
+    return response()->json([
+        'status' => 'success',
+        'data' => $courses
+    ], 200);
+}
+
 
     /**
      * Store a new course.
