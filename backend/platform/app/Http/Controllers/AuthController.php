@@ -13,88 +13,105 @@ use Illuminate\Support\Facades\DB;
 class AuthController extends Controller
 {
     public function register(Request $request)
-    {
-        // Validate the request
-        $validator = Validator::make($request->all(), [
-            'student_name' => 'required|string|max:255',
-            'parent_name' => 'required|string|max:255',
-            'student_phone' => 'required|string|max:20',
-            'parent_phone' => 'required|string|max:20',
-        ]);
-    
-        // Return validation errors if any
-        if ($validator->fails()) {
+{
+    // Define validation rules for different user types
+    $rules = [
+        'role' => 'required|string|in:student,parent,teacher,admin',
+        'name' => 'required|string|max:255',
+        'phone' => 'required|string|max:20',
+    ];
+
+    // Add additional rules based on user role
+    if ($request->role == 'student') {
+        $rules['parent_name'] = 'required|string|max:255';
+        $rules['parent_phone'] = 'required|string|max:20';
+    }
+
+    // Validate the request
+    $validator = Validator::make($request->all(), $rules);
+
+    // Return validation errors if any
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Validation failed',
+            'errors' => $validator->errors()
+        ], 422);
+    }
+
+    try {
+        // Generate unique IDs and passwords
+        $user_id = $this->generateUniqueId();
+        $password = $this->generatePassword();
+
+        // Create a unique email address
+        $email = $user_id . '@gmail.com';
+
+        // Check if a user with this ID or phone number already exists
+        $existingUser = User::where('id', $user_id)->orWhere('phone_number', $request->phone)->first();
+        if ($existingUser) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 422);
+                'message' => 'User with this ID or phone number already exists'
+            ], 409);
         }
-    
-        try {
-            // Generate unique 6-digit IDs
-            $student_id = $this->generateUniqueId();
-            $parent_id = $this->generateUniqueId();
-    
-            // Generate passwords
-            $student_password = $this->generatePassword();
-            $parent_password = $this->generatePassword();
-    
-            // Create email addresses
-            $student_email = $student_id . '@gmail.com';
-            $parent_email = $parent_id . '@gmail.com';
-    
-            // Create a new student user
-            $student = User::create([
-                'name' => $request->student_name,
-                'email' => $student_email,
-                'password' => Hash::make($student_password),
-                'phone_number' => $request->student_phone,
-                'role' => 'student',
-                'id' => $student_id,
-            ]);
-    
+
+        // Create a new user
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $email,
+            'password' => Hash::make($password),
+            'phone_number' => $request->phone,
+            'role' => $request->role,
+            'id' => $user_id,
+        ]);
+
+        // If the user is a student, create the parent user and relationship
+        if ($request->role == 'student') {
             // Create a new parent user
+            $parent_id = $this->generateUniqueId();
+            $parent_email = $parent_id . '@gmail.com';
+
             $parent = User::create([
                 'name' => $request->parent_name,
                 'email' => $parent_email,
-                'password' => Hash::make($parent_password),
+                'password' => Hash::make($this->generatePassword()),
                 'phone_number' => $request->parent_phone,
                 'role' => 'parent',
                 'id' => $parent_id,
             ]);
-    
+
             // Create the relationship in the parent_student table
             DB::table('parent_student')->insert([
                 'parent_id' => $parent->id,
-                'student_id' => $student->id,
+                'student_id' => $user->id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-    
-            // Generate an API token for the newly created student
-            $token = $student->createToken($request->student_name)->plainTextToken;
-    
-            // Return response with message, status, and token
-            return response()->json([
-                'status' => 'success',
-                'message' => 'User registered successfully!',
-                'student_id' => $student_id,
-                'student_password' => $student_password,
-                'parent_id' => $parent_id,
-                'parent_password' => $parent_password,
-                'token' => $token
-            ], 201);
-    
-        } catch (\Exception $e) {
-            // Handle any exceptions
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Registration failed',
-                'error' => $e->getMessage()
-            ], 500);
         }
+
+        // Generate an API token for the newly created user
+        $token = $user->createToken($request->name)->plainTextToken;
+
+        // Return response with message, status, and token
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User registered successfully!',
+            'user_id' => $user_id,
+            'user_password' => $password,
+            'token' => $token
+        ], 201);
+
+    } catch (\Exception $e) {
+        // Handle any exceptions
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Registration failed',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
+
     
     private function generateUniqueId()
     {
