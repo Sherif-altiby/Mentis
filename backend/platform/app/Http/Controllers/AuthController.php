@@ -13,169 +13,173 @@ use Illuminate\Support\Facades\DB;
 class AuthController extends Controller
 {
     public function register(Request $request)
-{
-    // Define base validation rules
-    $rules = [
-        'role' => 'required|string|in:student,parent,teacher,admin',
-        'name' => 'required|string|max:255',
-        'phone' => 'required|string|max:20|unique:users,phone_number',
-    ];
+    {
+        // Get the current user's token from the request headers
+        $token = $request->bearerToken();
+        if ($request->role != 'student' && !$token) {
+            return response()->json(['error' => 'Token not provided'], 401);
+        }
 
-    // Add additional rules based on user role
-    if ($request->role == 'student') {
-        $rules['parent_name'] = 'required|string|max:255';
-        $rules['parent_phone'] = 'required|string|max:20|unique:users,phone_number';
-    } elseif ($request->role == 'teacher') {
-        $rules['subject'] = 'required|string|max:255';
-    } elseif ($request->role == 'admin') {
-        $rules['admin_code'] = 'required|string|max:10';
-    }
+        // Get the user associated with the token, if token is provided
+        if ($token) {
+            $personalAccessToken = PersonalAccessToken::findToken($token);
+            if (!$personalAccessToken) {
+                return response()->json(['error' => 'Token not found'], 404);
+            }
 
-    // Validate the request
-    $validator = Validator::make($request->all(), $rules);
+            $currentUser = $personalAccessToken->tokenable;
 
-    // Return validation errors with specific role-related messages
-    if ($validator->fails()) {
-        $messages = $validator->errors();
-        
-        // Specific messages based on role
-        if ($request->role == 'student') {
-            if ($messages->has('parent_name')) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Parent name is required for student registration',
-                    'errors' => $messages
-                ], 422);
-            }
-            if ($messages->has('parent_phone')) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Parent phone number is required and must be unique',
-                    'errors' => $messages
-                ], 422);
-            }
-        } elseif ($request->role == 'teacher') {
-            if ($messages->has('subject')) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Subject is required for teacher registration',
-                    'errors' => $messages
-                ], 422);
-            }
-        } elseif ($request->role == 'admin') {
-            if ($messages->has('admin_code')) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Admin code is required for admin registration',
-                    'errors' => $messages
-                ], 422);
+            // Check if the current user is an admin if a teacher is being registered
+            if ($request->role == 'teacher' && $currentUser->role != 'admin') {
+                return response()->json(['error' => 'Only admins can register a teacher'], 403);
             }
         }
 
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Validation failed',
-            'errors' => $messages
-        ], 422);
-    }
-
-    try {
-        // Generate unique IDs and passwords
-        $user_id = $this->generateUniqueId();
-        $password = $this->generatePassword();
-
-        // Create a unique email address
-        $email = $user_id . '@gmail.com';
-
-        // Check if a user with this ID or phone number already exists
-        $existingUser = User::where('id', $user_id)->orWhere('phone_number', $request->phone)->first();
-        if ($existingUser) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'User with this ID or phone number already exists'
-            ], 409);
-        }
-
-        // Create a new user
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $email,
-            'password' => Hash::make($password),
-            'phone_number' => $request->phone,
-            'role' => $request->role,
-            'id' => $user_id,
-        ]);
-
-        $response = [
-            'status' => 'success',
-            'message' => 'User registered successfully!',
-            'user_id' => $user_id,
-            'user_password' => $password,
-            'token' => $user->createToken($request->name)->plainTextToken
+        // Define base validation rules
+        $rules = [
+            'role' => 'required|string|in:student,parent,teacher,admin',
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20|unique:users,phone_number',
         ];
 
-        // If the user is a student, create the parent user and relationship
+        // Add additional rules based on user role
         if ($request->role == 'student') {
-            // Generate a unique ID and password for the parent
-            $parent_id = $this->generateUniqueId();
-            $parent_password = $this->generatePassword();
-            $parent_email = $parent_id . '@gmail.com';
+            $rules['parent_name'] = 'required|string|max:255';
+            $rules['parent_phone'] = 'required|string|max:20|unique:users,phone_number';
+        } 
 
-            // Check if a parent with this ID or phone number already exists
-            $existingParent = User::where('id', $parent_id)->orWhere('phone_number', $request->parent_phone)->first();
-            if ($existingParent) {
+        // Validate the request
+        $validator = Validator::make($request->all(), $rules);
+
+        // Return validation errors with specific role-related messages
+        if ($validator->fails()) {
+            $messages = $validator->errors();
+            
+            // Specific messages based on role
+            if ($request->role == 'student') {
+                if ($messages->has('parent_name')) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Parent name is required for student registration',
+                        'errors' => $messages
+                    ], 422);
+                }
+                if ($messages->has('parent_phone')) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Parent phone number is required and must be unique',
+                        'errors' => $messages
+                    ], 422);
+                }
+            } 
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $messages
+            ], 422);
+        }
+
+        try {
+            // Generate unique IDs and passwords
+            $user_id = $this->generateUniqueId();
+            $password = $this->generatePassword();
+
+            // Create a unique email address
+            $email = $user_id . '@gmail.com';
+
+            // Check if a user with this ID or phone number already exists
+            $existingUser = User::where('id', $user_id)->orWhere('phone_number', $request->phone)->first();
+            if ($existingUser) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Parent with this ID or phone number already exists'
+                    'message' => 'User with this ID or phone number already exists'
                 ], 409);
             }
 
-            // Create a new parent user
-            $parent = User::create([
-                'name' => $request->parent_name,
-                'email' => $parent_email,
-                'password' => Hash::make($parent_password),
-                'phone_number' => $request->parent_phone,
-                'role' => 'parent',
-                'id' => $parent_id,
+            // Create a new user
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $email,
+                'password' => Hash::make($password),
+                'phone_number' => $request->phone,
+                'role' => $request->role,
+                'id' => $user_id,
             ]);
 
-            // Create the relationship in the parent_student table
-            DB::table('parent_student')->insert([
-                'parent_id' => $parent->id,
-                'student_id' => $user->id,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            $response = [
+                'status' => 'success',
+                'message' => 'User registered successfully!',
+                'user_id' => $user_id,
+                'user_password' => $password
+            ];
 
-            // Add parent information to the response
-            $response['parent_id'] = $parent_id;
-            $response['parent_password'] = $parent_password;
+            // If the user is a student, create the parent user and relationship
+            if ($request->role == 'student') {
+                // Generate a unique ID and password for the parent
+                $parent_id = $this->generateUniqueId();
+                $parent_password = $this->generatePassword();
+                $parent_email = $parent_id . '@gmail.com';
+
+                // Check if a parent with this ID or phone number already exists
+                $existingParent = User::where('id', $parent_id)->orWhere('phone_number', $request->parent_phone)->first();
+                if ($existingParent) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Parent with this ID or phone number already exists'
+                    ], 409);
+                }
+
+                // Create a new parent user
+                $parent = User::create([
+                    'name' => $request->parent_name,
+                    'email' => $parent_email,
+                    'password' => Hash::make($parent_password),
+                    'phone_number' => $request->parent_phone,
+                    'role' => 'parent',
+                    'id' => $parent_id,
+                ]);
+
+                // Create the relationship in the parent_student table
+                DB::table('parent_student')->insert([
+                    'parent_id' => $parent->id,
+                    'student_id' => $user->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                // Add parent information to the response
+                $response['parent_id'] = $parent_id;
+                $response['parent_password'] = $parent_password;
+            }
+
+            // Only include a token in the response if the role is not student
+            if ($request->role != 'student') {
+                $response['token'] = $user->createToken($request->name)->plainTextToken;
+            }
+
+            // Return response with message, status, and token if applicable
+            return response()->json($response, 201);
+
+        } catch (\Exception $e) {
+            // Handle any exceptions
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Registration failed',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        // Return response with message, status, and token
-        return response()->json($response, 201);
-
-    } catch (\Exception $e) {
-        // Handle any exceptions
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Registration failed',
-            'error' => $e->getMessage()
-        ], 500);
     }
-}
 
-    
     private function generateUniqueId()
     {
         do {
             $id = random_int(100000, 999999);
         } while (User::where('id', $id)->exists());
-    
+
         return $id;
     }
-    
+
     private function generatePassword($length = 8)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -186,7 +190,6 @@ class AuthController extends Controller
         }
         return $password;
     }
-    
         
 
     public function login(Request $request)
