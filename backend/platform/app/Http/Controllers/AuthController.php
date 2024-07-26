@@ -14,28 +14,68 @@ class AuthController extends Controller
 {
     public function register(Request $request)
 {
-    // Define validation rules for different user types
+    // Define base validation rules
     $rules = [
         'role' => 'required|string|in:student,parent,teacher,admin',
         'name' => 'required|string|max:255',
-        'phone' => 'required|string|max:20',
+        'phone' => 'required|string|max:20|unique:users,phone_number',
     ];
 
     // Add additional rules based on user role
     if ($request->role == 'student') {
         $rules['parent_name'] = 'required|string|max:255';
-        $rules['parent_phone'] = 'required|string|max:20';
+        $rules['parent_phone'] = 'required|string|max:20|unique:users,phone_number';
+    } elseif ($request->role == 'teacher') {
+        $rules['subject'] = 'required|string|max:255';
+    } elseif ($request->role == 'admin') {
+        $rules['admin_code'] = 'required|string|max:10';
     }
 
     // Validate the request
     $validator = Validator::make($request->all(), $rules);
 
-    // Return validation errors if any
+    // Return validation errors with specific role-related messages
     if ($validator->fails()) {
+        $messages = $validator->errors();
+        
+        // Specific messages based on role
+        if ($request->role == 'student') {
+            if ($messages->has('parent_name')) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Parent name is required for student registration',
+                    'errors' => $messages
+                ], 422);
+            }
+            if ($messages->has('parent_phone')) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Parent phone number is required and must be unique',
+                    'errors' => $messages
+                ], 422);
+            }
+        } elseif ($request->role == 'teacher') {
+            if ($messages->has('subject')) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Subject is required for teacher registration',
+                    'errors' => $messages
+                ], 422);
+            }
+        } elseif ($request->role == 'admin') {
+            if ($messages->has('admin_code')) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Admin code is required for admin registration',
+                    'errors' => $messages
+                ], 422);
+            }
+        }
+
         return response()->json([
             'status' => 'error',
             'message' => 'Validation failed',
-            'errors' => $validator->errors()
+            'errors' => $messages
         ], 422);
     }
 
@@ -66,16 +106,35 @@ class AuthController extends Controller
             'id' => $user_id,
         ]);
 
+        $response = [
+            'status' => 'success',
+            'message' => 'User registered successfully!',
+            'user_id' => $user_id,
+            'user_password' => $password,
+            'token' => $user->createToken($request->name)->plainTextToken
+        ];
+
         // If the user is a student, create the parent user and relationship
         if ($request->role == 'student') {
-            // Create a new parent user
+            // Generate a unique ID and password for the parent
             $parent_id = $this->generateUniqueId();
+            $parent_password = $this->generatePassword();
             $parent_email = $parent_id . '@gmail.com';
 
+            // Check if a parent with this ID or phone number already exists
+            $existingParent = User::where('id', $parent_id)->orWhere('phone_number', $request->parent_phone)->first();
+            if ($existingParent) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Parent with this ID or phone number already exists'
+                ], 409);
+            }
+
+            // Create a new parent user
             $parent = User::create([
                 'name' => $request->parent_name,
                 'email' => $parent_email,
-                'password' => Hash::make($this->generatePassword()),
+                'password' => Hash::make($parent_password),
                 'phone_number' => $request->parent_phone,
                 'role' => 'parent',
                 'id' => $parent_id,
@@ -88,19 +147,14 @@ class AuthController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+
+            // Add parent information to the response
+            $response['parent_id'] = $parent_id;
+            $response['parent_password'] = $parent_password;
         }
 
-        // Generate an API token for the newly created user
-        $token = $user->createToken($request->name)->plainTextToken;
-
         // Return response with message, status, and token
-        return response()->json([
-            'status' => 'success',
-            'message' => 'User registered successfully!',
-            'user_id' => $user_id,
-            'user_password' => $password,
-            'token' => $token
-        ], 201);
+        return response()->json($response, 201);
 
     } catch (\Exception $e) {
         // Handle any exceptions
