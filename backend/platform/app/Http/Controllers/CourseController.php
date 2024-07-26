@@ -9,12 +9,11 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CourseController extends Controller
 {
-
-
     public function __construct()
     {
         // $this->middleware('auth:sanctum');
     }
+
     /**
      * Get all courses.
      *
@@ -22,7 +21,19 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Course::all();
+        $courses = Course::all()->map(function ($course) {
+            return [
+                'id' => $course->id,
+                'teacher_id' => $course->teacher_id,
+                'title' => $course->title,
+                'description' => $course->description,
+                'price' => $course->price,
+                'image' => $course->image ? base64_encode($course->image) : null,
+                'created_at' => $course->created_at,
+                'updated_at' => $course->updated_at,
+            ];
+        });
+
         return response()->json([
             'status' => 'success',
             'data' => $courses
@@ -37,16 +48,15 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the request
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric',
-            'teacher_id' => 'required|exists:users,id'
+            'teacher_id' => 'required|exists:users,id',
+            'image' => 'nullable|string', // base64 encoded image
         ]);
 
         try {
-            // Check if a course with the same title and teacher already exists
             $existingCourse = Course::where('title', $validated['title'])
                 ->where('teacher_id', $validated['teacher_id'])
                 ->first();
@@ -55,13 +65,17 @@ class CourseController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'message' => 'A course with this title and teacher already exists.'
-                ], 409); // Conflict status code
+                ], 409);
             }
 
-            // Create the course
-            $course = Course::create($validated);
+            $course = new Course($validated);
 
-            // Return the created course with a 201 status code
+            if ($request->filled('image')) {
+                $course->image = base64_decode($request->image);
+            }
+
+            $course->save();
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Course created successfully.',
@@ -69,44 +83,49 @@ class CourseController extends Controller
             ], 201);
 
         } catch (\Exception $e) {
-            // Handle unexpected exceptions
             return response()->json([
                 'status' => 'error',
                 'message' => 'An error occurred while creating the course: ' . $e->getMessage()
-            ], 500); // Internal server error status code
+            ], 500);
         }
     }
 
     /**
      * Show a specific course.
      *
-     * @param \App\Models\Course $course
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Course $id)
+    public function show($id)
     {
-        // // Add this line to debug
-        // dd($id);
+        try {
+            $course = Course::findOrFail($id);
 
-         $course = Course::find($id);
-
-        // // Add this line to debug
-        // dd($course);
-        // Check if $course is correctly retrieved
-        if (!$course) {
+            return response()->json([
+                'status' => 'success',
+                'data' => [
+                    'id' => $course->id,
+                    'teacher_id' => $course->teacher_id,
+                    'title' => $course->title,
+                    'description' => $course->description,
+                    'price' => $course->price,
+                    'image' => $course->image ? base64_encode($course->image) : null,
+                    'created_at' => $course->created_at,
+                    'updated_at' => $course->updated_at,
+                ]
+            ], 200);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Course not found'
             ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred while fetching the course: ' . $e->getMessage()
+            ], 500);
         }
-
-    // Return the course in a JSON response
-    return response()->json([
-        'status' => 'success',
-        'data' => $course
-    ], 200);
     }
-
 
     /**
      * Update an existing course.
@@ -117,16 +136,15 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        // Validate the request
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric',
-            'teacher_id' => 'required|exists:users,id'
+            'teacher_id' => 'required|exists:users,id',
+            'image' => 'nullable|string', // base64 encoded image
         ]);
 
         try {
-            // Check if a course with the same title and teacher already exists
             $existingCourse = Course::where('title', $validated['title'])
                 ->where('teacher_id', $validated['teacher_id'])
                 ->where('id', '!=', $course->id)
@@ -136,13 +154,15 @@ class CourseController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'message' => 'A course with this title and teacher already exists.'
-                ], 409); // Conflict status code
+                ], 409);
             }
 
-            // Update the course
+            if ($request->filled('image')) {
+                $validated['image'] = base64_decode($request->image);
+            }
+
             $course->update($validated);
 
-            // Return the updated course
             return response()->json([
                 'status' => 'success',
                 'message' => 'Course updated successfully.',
@@ -150,11 +170,10 @@ class CourseController extends Controller
             ], 200);
 
         } catch (\Exception $e) {
-            // Handle unexpected exceptions
             return response()->json([
                 'status' => 'error',
                 'message' => 'An error occurred while updating the course: ' . $e->getMessage()
-            ], 500); // Internal server error status code
+            ], 500);
         }
     }
 
@@ -167,16 +186,13 @@ class CourseController extends Controller
     public function destroy(Course $course)
     {
         try {
-            // Delete the course
             $course->delete();
 
-            // Return a 204 status code with a success message
             return response()->json([
                 'status' => 'success',
                 'message' => 'Course deleted successfully.'
             ], 204);
         } catch (\Exception $e) {
-            // Handle exceptions and return an error response
             return response()->json([
                 'status' => 'error',
                 'message' => 'An error occurred while deleting the course: ' . $e->getMessage()

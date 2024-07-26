@@ -10,11 +10,15 @@ Route::post('login', [AuthController::class, 'login']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
+        
     Route::get('/courses', [CourseController::class, 'index']);
-    Route::get('/courses/{id}', [CourseController::class, 'show']);
     Route::post('/courses', [CourseController::class, 'store']);
-    Route::put('/courses/{id}', [CourseController::class, 'update']);
-    Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
+    Route::get('/courses/{id}', [CourseController::class, 'show']);
+    Route::put('/courses/{course}', [CourseController::class, 'update']);
+    Route::delete('/courses/{course}', [CourseController::class, 'destroy']);
+
+    
+
     Route::get('/user-from-token/{token}', [AuthController::class, 'getUserFromToken']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);

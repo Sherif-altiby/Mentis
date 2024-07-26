@@ -16,6 +16,7 @@ class CreateCoursesTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->decimal('price', 8, 2);
+            $table->binary('image')->nullable(); // Add this line to store the image as binary data
             $table->timestamps();
         });
     }
