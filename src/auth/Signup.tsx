@@ -4,130 +4,121 @@ import { useState } from "react";
 import Circles from "../components/animation/Circles";
 import { register } from "../utils/api";
 import { useNavigate } from 'react-router-dom';
+import { useAppContext } from "../context/ContextProvider";
+import Loading from "../pages/loading/Loading";
 
+const Signup: React.FC = () => {
+  const navigate = useNavigate();
+  const { setToken, loading, setLoading } = useAppContext();
 
-const Signup = () => {
- 
-  const navigate = useNavigate()
-
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-  const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [parentName, setParentName] = useState("");
   const [userNumber, setUserNumber] = useState('');
   const [parentNumber, setParentNumber] = useState('');
 
-  const [nameValidate, setNameValidate] = useState(true);
   const [userNameValidate, setUserNameValidate] = useState(true);
-  const [userEmailValidate, setUserEmailValidate] = useState(true);
-  const [passwordValidate, setPasswordValidate] = useState(true);
+  const [parentNameValidate, setParentNameValidate] = useState(true);
   const [userNumberValidate, setUserNumberValidate] = useState(true);
   const [parentNumberValidate, setParentNumberValidate] = useState(true);
 
+  const [error, setError] = useState(false);
+
   const handleSignup = async () => {
-    const isValidEmail = emailRegex.test(userEmail);
+    setUserNameValidate(userName.length > 0);
+    setParentNameValidate(parentName.length > 0);
+    setUserNumberValidate(userNumber.length >= 9);
+    setParentNumberValidate(parentNumber.length >= 9);
 
-    if (name.trim().length == 0) { setNameValidate(false); }
+    if (userNameValidate && parentNameValidate && userNumberValidate && parentNumberValidate) {
+      setLoading(true);
 
-    if (userName.trim().length == 0) { setUserNameValidate(false); }
+      try {
+        const data = await register({
+          userName,
+          userPhone: userNumber,
+          parentName,
+          parentPhone: parentNumber,
+          role: "student"
+        });
 
-    if (!isValidEmail) { setUserEmailValidate(false);  }
-
-    if (password.trim().length == 0) { setPasswordValidate(false);  }
-
-    if (String(userNumber).length < 9) { setUserNumberValidate(false); }
-
-    if (String(parentNumber).length  < 9) { setParentNumberValidate(false);}
-
-    if(nameValidate && userNameValidate && passwordValidate && userEmailValidate && userNumberValidate && parentNumberValidate){
-       
-        const data = await register({name: userName, email: userEmail, password, phone_number: userNumber, role: "student"});
-
-        if(data){
-          localStorage.setItem('mentisID', data.token);
-          navigate('/')
+        if (data.status === "success") {
+          setToken(data.token);
+          setLoading(false);
+          navigate('/');
+        } else {
+          setLoading(false);
+          setError(true);
         }
-
-      } else{
-       console.log("Reisteration is not successfully")
+      } catch (error) {
+        setLoading(false);
+        setError(true);
+        console.error('Signup error:', error);
+      }
     }
-
   };
 
   return (
     <div className="signup">
       <Circles />
-      <form action="">
-        <h1> تسجيل حساب جديد </h1>
-        <div className="input-container">
-          <div className="input">
-            <label htmlFor="full-name"> الاسم بالكامل رباعي </label>
-            <input
-              onChange={(e) => {setName(e.target.value); setNameValidate(true)}}
-              type="text"
-              id="full-name"
-              className={nameValidate ? "" : "error"}
-            />
+      {loading ? (
+        <Loading />
+      ) : (
+        <form>
+          <h3 className="error">{error ? "Something is wrong" : null}</h3>
+          <h1>تسجيل حساب جديد</h1>
+          <div className="input-container">
+            <div className="input">
+              <label htmlFor="full-name">إسم الطالب</label>
+              <input
+                onChange={(e) => { setUserName(e.target.value); setUserNameValidate(true); }}
+                type="text"
+                id="full-name"
+                value={userName}
+                className={userNameValidate ? "" : "error"}
+              />
+            </div>
+            <div className="input">
+              <label htmlFor="user-name">اسم ولي الأمر</label>
+              <input
+                onChange={(e) => { setParentName(e.target.value); setParentNameValidate(true); }}
+                type="text"
+                id="user-name"
+                value={parentName}
+                className={parentNameValidate ? "" : "error"}
+              />
+            </div>
           </div>
-          <div className="input">
-            <label htmlFor="user-name"> اسم المستخدم </label>
-            <input
-              onChange={(e) => {setUserName(e.target.value); setUserNameValidate(true)}}
-              type="text"
-              id="user-name"
-              className={userNameValidate ? "" : "error"}
-            />
+
+          <div className="input-container">
+            <div className="input">
+              <label htmlFor="wats-number">رقم الواتس اب</label>
+              <input
+                onChange={(e) => { setUserNumber(e.target.value); setUserNumberValidate(true); }}
+                type="number"
+                id="wats-number"
+                value={userNumber}
+                className={userNumberValidate ? "" : "error"}
+              />
+            </div>
+            <div className="input">
+              <label htmlFor="parent-wats">رقم الواتس اب ولي الامر</label>
+              <input
+                onChange={(e) => { setParentNumber(e.target.value); setParentNumberValidate(true); }}
+                type="number"
+                id="parent-wats"
+                value={parentNumber}
+                className={parentNumberValidate ? "" : "error"}
+              />
+            </div>
           </div>
-        </div>
-        <div className="input-container">
-          <div className="input">
-            <label htmlFor="emil-name"> البريد الالكتروني </label>
-            <input
-              onChange={(e) => {setUserEmail(e.target.value); setUserEmailValidate(true)}}
-              type="text"
-              id="emil-name"
-              className={userEmailValidate ? "" : "error"}
-            />
+          <div className="btns">
+            <div className="btn" onClick={handleSignup}>
+              تسجيل
+            </div>
+            <Link to="/login">لديك حساب بالفعل؟</Link>
           </div>
-          <div className="input">
-            <label htmlFor="user-password"> كلمة المرور </label>
-            <input
-              onChange={(e) => {setPassword(e.target.value); setPasswordValidate(true)}}
-              type="text"
-              id="user-password"
-              className={passwordValidate ? "" : "error"}
-            />
-          </div>
-        </div>
-        <div className="input-container">
-          <div className="input">
-            <label htmlFor="wats-number"> رقم الواتس اب </label>
-            <input
-              onChange={(e) => {setUserNumber(e.target.value); setUserNumberValidate(true)}}
-              type="number"
-              id="wats-number"
-              className={userNumberValidate ? "" : "error"}
-            />
-          </div>
-          <div className="input">
-            <label htmlFor="parent-wats"> رقم الواتس اب ولي الامر </label>
-            <input
-              onChange={(e) => {setParentNumber(e.target.value); setParentNumberValidate(true)}}
-              type="number"
-              id="parent-wats"
-              className={parentNumberValidate ? "" : "error"}
-            />
-          </div>
-        </div>
-        <div className="btns">
-          <div className="btn" onClick={handleSignup}>
-            تسجيل 
-          </div>
-          <Link to="/login"> لديك حساب بالفعل ؟</Link>
-        </div>
-      </form>
+        </form>
+      )}
     </div>
   );
 };

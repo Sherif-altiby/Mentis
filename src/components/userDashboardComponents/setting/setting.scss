@@ -1,0 +1,105 @@
+@import '../../../App.scss';
+
+.setting-user{
+    width: 100%;
+
+    h1{
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        font-size: 50px;
+        font-weight: 400;
+    }
+
+    .sec-header{
+        text-align: center;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 10px;
+        color: var(--green-color);
+    }
+
+    .save-btn{
+        width: 120px;
+        height: 50px;
+        margin: auto;
+        background-color: var(--green-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        transition: 0.3s;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        
+        &:hover{
+            transform: scale(0.9);
+        }
+    }
+
+    .input{
+        display: flex;
+        flex-direction: column;
+        margin: 10px 0;
+        flex: 1;
+
+        input{
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            padding: 10px;
+            outline: none;
+
+            &:focus{
+                border: 2px solid var(--primary-color);
+            }
+        }
+
+        label{
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+    }
+
+    .input-container{
+        display: flex;
+        gap: 10px;
+    }
+
+    .setting-user-img{
+        width: 100%;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+
+        .img-container{
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+
+            .img{
+                width: 120px;
+                height: 120px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 100px;
+                color: var(--green-color);
+            }
+        }
+
+        .btns-img{
+            display: flex;
+            font-size: 23px;
+            gap: 20px;
+            margin-top: 20px;
+        }
+    }
+
+    .change-password{
+        width: 100%;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 50px;
+    }
+ }

@@ -1,28 +1,40 @@
 import axios from "axios";
 import { RegisterProps } from "../types/index.types";
+ 
 
-export const register = async ({name, email, password, role, phone_number }: RegisterProps) => {
-     
-    const api = "http://127.0.0.1:8000/api/register";
-
-    try {
+export const register = async ({userName, parentName, userPhone, parentPhone, role}: RegisterProps) => {
+  const api = "http://127.0.0.1:8000/api/register";
+ 
         const response = await axios.post(api, {
-          name,
-          email,
-          password,
-          role,
-          phone_number
+          name: userName,
+          parent_name: parentName,
+          phone: userPhone,
+          parent_phone: parentPhone,
+          role
         });
+
+        const data = await response.data
     
-        return response.data;
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.error('AxiosError:', error.message);
-          console.error('Response data:', error.response?.data);
-          console.error('Response status:', error.response?.status);
-        } else {
-          console.error('Unexpected error:', error);
-        }
-        throw error;
-      }
+        return data ;
     };
+
+
+export const getUserInfo = async (token: string) => {
+
+ const api = `http://127.0.0.1:8000/api/user-from-token/${token}`
+  const response = await axios.get(api, {
+    headers:{
+      'Authorization': `Bearer ${token}`,
+    }
+  })
+
+  const data = await response.data;
+
+  return data
+
+}
+
+
+export const login = async () => {
+  const api = "http://127.0.0.1:8000/api/register"
+}

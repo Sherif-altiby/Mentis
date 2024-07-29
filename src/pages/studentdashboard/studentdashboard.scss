@@ -1,34 +1,15 @@
 .student-profile {
-  .profile-content {
-    display: flex;
-    justify-content: center;
-    height: calc(100vh - 80px);
+  position: relative;
 
-    .content {
-      flex: 1;
-      background-color: rgb(247 247 247 / 51%);
-      margin: 20px;
-      border-radius: 10px;
-      overflow-y: scroll;
-      direction: rtl;
-      padding: 20px;
-
-      &::-webkit-scrollbar {
-        width: 5px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: var(--primary-color);
-        border-radius: 6px;
-      }
-
-      &::-webkit-scrollbar-thumb:hover {
-        background: var(--primary-color-alt);
-      }
-    }
+  .dashborad-content {
+    background-color: rgba(247, 247, 247, 0.51);
+    margin: 20px;
+    border-radius: 10px;
+    direction: rtl;
+    padding: 20px;
+    left: 0;
+    position: relative;
+    width: calc(100% - 270px);
+    min-height: 100vh;
   }
 }

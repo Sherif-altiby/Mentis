@@ -15,7 +15,7 @@ import Lecture from './components/userDashboardComponents/lecture/Lecture';
 import Quizes from './components/userDashboardComponents/quizes/Quizes';
 import Books from './components/userDashboardComponents/books/Books';
 import Setting from './components/userDashboardComponents/setting/Setting';
-
+ 
 const App = () => {
   return (
     <Router>
@@ -37,7 +37,7 @@ const App = () => {
                <Route path='books' element={<ProtectedRoute element={Books} />} />
                <Route path='setting' element={<ProtectedRoute element={Setting} />} />
         </Route>
-      </Routes>
+       </Routes>
     </Router>
   );
 };

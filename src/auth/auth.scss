@@ -36,6 +36,12 @@
         margin-bottom: 10px;
       }
     }
+    
+    h3{
+      font-size: 16px;
+      color: var(--danger-color);
+      text-align: center;
+    }
 
     .input-container {
       display: flex;
@@ -66,6 +72,10 @@
         font-size: 12px;
         color: var(--primary-color);
         margin-right: 10px;
+
+        span{
+          color: var(--danger-color);
+        }
 
         @include screen(sm) {
           margin-bottom: 0;

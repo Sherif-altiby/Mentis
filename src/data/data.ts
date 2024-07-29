@@ -4,8 +4,11 @@ import { MdQuiz } from "react-icons/md";
 import { MdLibraryBooks } from "react-icons/md";
 import { IoSettings } from "react-icons/io5";
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { IoHome } from "react-icons/io5";
+
 
 export const menusData = [
+  { title: "الصفحة الرئيسة", icon: IoHome,    link: "/" },
   { title: "لوحة التحكم", icon: FaRegCompass,       link: "dashboard" },
   { title: "المحاضرات",   icon: MdSlowMotionVideo,  link: "lectures" },
   { title: "الاختبارات",   icon: MdQuiz,             link: "quizes" },
