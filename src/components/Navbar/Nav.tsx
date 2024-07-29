@@ -37,6 +37,7 @@ const Nav = () => {
       const userInfo = async () => {
         const data = await getUserInfo(token)
         setUserInfo(data)
+        console.log(data)
         setLoading(false)
       }
 

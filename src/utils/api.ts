@@ -35,6 +35,15 @@ export const getUserInfo = async (token: string) => {
 }
 
 
-export const login = async () => {
-  const api = "http://127.0.0.1:8000/api/register"
+export const login = async ( {email, password}: {email: string, password: string} ) => {
+  const api = "http://127.0.0.1:8000/api/login";
+
+  const response = await axios.post(api,{
+       email,
+      password
+  })
+
+  const data = await response.data
+
+  return data
 }

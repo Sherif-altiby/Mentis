@@ -13,3 +13,80 @@
     min-height: 100vh;
   }
 }
+
+
+.student-dashboard-nav{
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  box-shadow: 0 0 10px #999;
+  padding: 10px 20px;
+  background: #fff;
+  z-index: 99;
+
+  .avatar{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    color: var(--green-color);
+    cursor: pointer;
+    font-size: 25px;
+
+
+    .img{
+      font-size: 25px;
+    }
+
+    .notifications{
+      cursor: pointer;
+      font-size: 20px;
+      transition: 0.3s;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      position: relative;
+
+      &:hover{
+        background-color: var(--green-color);
+        color: #fff;
+      }
+
+
+      span{
+        font-size: 14px;
+        top: -2px;
+        position: absolute;
+        right: 5px;
+      }
+    }
+
+    .dark-mode{
+      cursor: pointer;
+      font-size: 20px;
+      transition: 0.3s;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+
+      &:hover{
+        background-color: var(--green-color);
+        color: #fff;
+      }
+    }
+  }
+
+  .logo{
+    img{
+      width: 120px;
+    }
+  }
+}
