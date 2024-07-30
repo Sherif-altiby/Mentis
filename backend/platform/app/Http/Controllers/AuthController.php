@@ -154,9 +154,9 @@ class AuthController extends Controller
             }
 
             // Only include a token in the response if the role is not student
-            if ($request->role != 'student') {
-                $response['token'] = $user->createToken($request->name)->plainTextToken;
-            }
+          
+            $response['token'] = $user->createToken($request->name)->plainTextToken;
+       
 
             // Return response with message, status, and token if applicable
             return response()->json($response, 201);
