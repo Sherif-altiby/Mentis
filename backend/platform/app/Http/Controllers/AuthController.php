@@ -159,7 +159,7 @@ class AuthController extends Controller
        
 
             // Return response with message, status, and token if applicable
-            return response()->json($response, 201);
+            return response()->json($response['token'], 201);
 
         } catch (\Exception $e) {
             // Handle any exceptions
