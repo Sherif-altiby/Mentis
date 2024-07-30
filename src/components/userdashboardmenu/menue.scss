@@ -1,6 +1,6 @@
-.student-dashboard-menu {
-   
+@import '../../App.scss';
 
+.student-dashboard-menu {
   ul {
     padding: 20px;
     display: flex;
@@ -11,6 +11,10 @@
     background-color: #fff;
     height: 100vh;
     width: 250px;
+
+ @include screen(lg){
+  right: -250px;
+ }
 
 
     li {

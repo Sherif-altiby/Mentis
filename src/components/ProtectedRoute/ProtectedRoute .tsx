@@ -9,6 +9,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element: Component }) =
      return localStorage.getItem('mentisID') !== null;
   };
 
+  const nn = true;
+
   return isAuthenticated() ? <Component /> : <Navigate to="/signup" />;
 };
 
