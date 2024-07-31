@@ -20,6 +20,15 @@ const Setting = () => {
 
   const [userInfo, setUserInfo] = useState<userInfo>();
 
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) { setImagePreviewUrl(URL.createObjectURL(file)); }
+  };
+
+   
+
   useEffect(() => {
     if (token) {
       setLoading(true);
@@ -49,7 +58,7 @@ const Setting = () => {
             <h3 className="sec-header"> تحديث صورة الملف الشخصي </h3>
             <div className="img-container">
               <div className="img">
-                <CiUser />
+                {imagePreviewUrl ? (  <img src={imagePreviewUrl} alt="" />  ) : (<CiUser />)}
               </div>
               <div className="text">
                 <h5> صورتك الشخصية </h5>
@@ -61,7 +70,7 @@ const Setting = () => {
                   <div className="btn">
                     <IoCloudUploadOutline />
                     <label htmlFor="file"> file </label>
-                    <input type="file"  id="file"/>
+                    <input type="file"  id="file" onChange={handleImageChange} />
                   </div>
                   <div className="btn">
                     <MdDelete />

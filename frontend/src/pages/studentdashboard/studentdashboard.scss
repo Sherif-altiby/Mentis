@@ -35,7 +35,7 @@
   justify-content: space-between;
   position: sticky;
   top: 0;
-  box-shadow: 0 0 10px #999;
+  box-shadow: 0 0 5px var(--box-shadow-color);
   padding: 10px 20px;
   background: #fff;
   z-index: 99;
@@ -54,10 +54,13 @@
     }
 
     .img{
-      font-size: 25px;
+      font-size: 30px;
+      margin-top: 6px;
+      transition: 0.3s;
+      margin-right: 10px;
 
-      @include screen(md){
-        font-size: 17px;
+      &:hover{
+        transform: scale(0.9);
       }
     }
 

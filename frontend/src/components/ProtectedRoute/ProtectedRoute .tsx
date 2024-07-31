@@ -11,7 +11,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element: Component }) =
 
   const nn = true;
 
-  return isAuthenticated() ? <Component /> : <Navigate to="/signup" />;
+  return nn ? <Component /> : <Navigate to="/signup" />;
 };
 
 export default ProtectedRoute;

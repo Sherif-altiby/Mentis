@@ -2,15 +2,17 @@ import './menue.scss';
 import { menusData } from '../../data/data';
 import { NavLink } from 'react-router-dom';
 
-const Menu = () => {
+const Menu = ( {showMenu, setShowMenu}: {showMenu: boolean, setShowMenu: React.Dispatch<React.SetStateAction<boolean>>} ) => {
 
   const hanldleLogout = () => { localStorage.removeItem('mentisID'); window.location.reload()}
 
-  const handleClick = () => {}
+  const handleClick = () => { setShowMenu(false)}
+
 
   return (
     <div className='student-dashboard-menu' >
-         <ul>
+        <div className={showMenu ? "overlay show" : "overlay"} onClick={() => setShowMenu(false)} ></div>
+         <ul className={showMenu ? "show" : ""} >
             {menusData.map((li) => (
                 <li key={li.title} >
                     <NavLink to={li.link} onClick={ li.title === "تسجيل الخروج" ? hanldleLogout : handleClick} >
