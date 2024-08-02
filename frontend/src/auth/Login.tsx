@@ -1,43 +1,98 @@
+import { useState } from 'react';
 import './auth.scss';
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useAppContext } from "../context/ContextProvider";
+import Loading from "../pages/loading/Loading";
+import { getUserInfo, login } from '../utils/api';
+import Circles from '../components/animation/Circles';
 
- 
-// your api for connection to back-end  http://127.0.0.1:8000/api/
-/*
-     signup example  
-          {
-          "name": "John Doe",
-          "email": "johndoe@example.com",
-          "password": "password",
-          "password_confirmation": "password",
-          "phone_number": "1234567890",
-          "role": "student"
-      }
- 
 
-*/
 const Login = () => {
+
+  const navigate = useNavigate()
+
+  const { setToken, loading, setLoading } = useAppContext();
+
+  const [error, setError] = useState(false)
+
+  const [userEmal, setUserEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [userEmailValidate, setUserEmailValidate] = useState(true);
+  const [passwordValidate, setPasswordEmailValidate] = useState(true);
+
+  const handleSubmit = async () => {
+    if(userEmal.length > 0 && password.length > 0){
+      
+      setLoading(true);
+     
+      try{
+        const data = await login({ email: userEmal, password })
+        
+        if(data){ 
+          setToken(data.token)
+
+          const loginData = await getUserInfo(data.token)
+
+          console.log(data)
+
+          if(loginData.role === "student"){
+              navigate('/')
+              setLoading(false)
+          }
+          else if(loginData.role === "teacher"){
+            setLoading(false)
+            navigate('/teacher/dashboard/controle')
+          }
+          else if(loginData.role === "admin"){
+            setLoading(false)
+             navigate('/admin/dashboard/controle')
+          }
+        }
+      }catch(error){
+        setLoading(false)
+        setError(true)
+       }
+    
+    } else{
+      setUserEmailValidate( userEmal.length > 0 )
+      setPasswordEmailValidate( password.length > 0 )
+    }
+  }
+
+  // 850439@Mentis.com
+  // 1UICrK20
+
   return (
     <div  className='signup' >
-        <form action="">
-            <h1> تسجيل  الدخول </h1>
-            <div className="input-container">
-                   <div className="input">
-                      <label htmlFor="arabic-name"> اسم المستخدم  </label>
-                      <input type="text" id='arabic-name'   />
-                   </div>
-                   <div className="input">
-                      <label htmlFor="user-password"> كلمة المرور   </label>
-                      <input type="text" id='user-password' />
-                   </div>
-            </div>
-            
-            
-            <div className="btns">
-                <div className="btn"> تسجيل </div>
-                <Link to='/forgot-password'> نسيت كلمة المرور ؟</Link>
-            </div>
-        </form>
+       <Circles />
+       { loading ? (<Loading />) : (
+          <form action="">
+          <h3 className="error">{error ? "البريد الإلكتروني او كلمة المرور خطا" : null}</h3>
+          <h1> تسجيل  الدخول </h1>
+          <div className="input-container">
+                 <div className="input">
+                    <label htmlFor="arabic-name"> اسم المستخدم  </label>
+                    <input type="text" id='arabic-name' 
+                       className={userEmailValidate ? "" : "error"}
+                       onChange={(e) => setUserEmail(e.target.value)}  />
+                 </div>
+                 <div className="input">
+                    <label htmlFor="user-password"> كلمة المرور   </label>
+                    <input type="text" id='user-password' 
+                       className={passwordValidate ? "" : "error"}
+                       onChange={(e) => setPassword(e.target.value)} />
+                 </div>
+          </div>
+          
+          
+          <div className="btns">
+              <div className="btn" onClick={handleSubmit} > تسجيل </div>
+              <Link to='/forgot-password'> نسيت كلمة المرور ؟</Link>
+          </div>
+      </form>
+        )
+       }
     </div>
   )
 }

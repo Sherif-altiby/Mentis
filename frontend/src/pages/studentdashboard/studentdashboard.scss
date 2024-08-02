@@ -3,6 +3,18 @@
 .student-profile {
   position: relative;
 
+  h1{
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 40px;
+    font-weight: 700;
+
+    @include screen(md){
+        font-size: 25px;
+        text-align: center;
+    }
+}
+
   .dashborad-content {
     background-color: rgba(247, 247, 247, 0.51);
     margin: 20px;
@@ -11,8 +23,8 @@
     padding: 20px;
     left: 0;
     position: relative;
-    width: calc(100% - 270px);
-    min-height: 100vh;
+    width: calc(100% - 290px);
+    min-height: calc(100vh - 125px);
 
     @include screen(lg){
       width: calc(100% - 40px);
@@ -46,7 +58,7 @@
     gap: 30px;
     color: var(--green-color);
     cursor: pointer;
-    font-size: 25px;
+    font-size: 20px;
 
 
     @include screen(md){
@@ -58,6 +70,14 @@
       margin-top: 6px;
       transition: 0.3s;
       margin-right: 10px;
+      color: var(--primary-color);
+      border: 2px solid var(--green-color);
+      border-radius: 50%;
+      height: 50px;
+      width: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       &:hover{
         transform: scale(0.9);
