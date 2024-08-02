@@ -20,6 +20,15 @@ const Setting = () => {
 
   const [userInfo, setUserInfo] = useState<userInfo>();
 
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) { setImagePreviewUrl(URL.createObjectURL(file)); }
+  };
+
+   
+
   useEffect(() => {
     if (token) {
       setLoading(true);
@@ -49,24 +58,22 @@ const Setting = () => {
             <h3 className="sec-header"> تحديث صورة الملف الشخصي </h3>
             <div className="img-container">
               <div className="img">
-                {" "}
-                <CiUser />{" "}
+                {imagePreviewUrl ? (  <img src={imagePreviewUrl} alt="" />  ) : (<CiUser />)}
               </div>
               <div className="text">
                 <h5> صورتك الشخصية </h5>
                 <p>
-                  {" "}
                   الصورة الشخصية لازم تكون بصيغة jpg, jpeg, png و متكونش اكبر من
                   800px طول او عرض
                 </p>
                 <div className="btns-img">
                   <div className="btn">
-                    {" "}
-                    <IoCloudUploadOutline />{" "}
+                    <IoCloudUploadOutline />
+                    <label htmlFor="file"> file </label>
+                    <input type="file"  id="file" onChange={handleImageChange} />
                   </div>
                   <div className="btn">
-                    {" "}
-                    <MdDelete />{" "}
+                    <MdDelete />
                   </div>
                 </div>
               </div>
@@ -84,12 +91,12 @@ const Setting = () => {
 
             <div className="input-container">
               <div className="input">
-                <label htmlFor="old-pass"> كلمة المرور الجديدة</label>
-                <input type="password" id="old-pass" />
+                <label htmlFor="new-pass"> كلمة المرور الجديدة</label>
+                <input type="password" id="new-pass" />
               </div>
               <div className="input">
-                <label htmlFor="old-pass"> تأكيد كلمة المرور الجديدة</label>
-                <input type="password" id="old-pass" />
+                <label htmlFor="new-confirm-pass"> تأكيد كلمة المرور الجديدة</label>
+                <input type="password" id="new-confirm-pass" />
               </div>
             </div>
 
@@ -102,18 +109,18 @@ const Setting = () => {
             <div className="input-container">
               <div className="input">
                 <label htmlFor="name"> الإسم </label>
-                <input type="text" id="name" value={userInfo?.name} />
+                <input type="text" id="name" placeholder={userInfo?.name} />
               </div>
               <div className="input">
                 <label htmlFor="email"> البريد الإلكتروني </label>
-                <input type="text" id="email" value={userInfo?.email} />
+                <input type="text" id="email" placeholder={userInfo?.email} />
               </div>
             </div>
 
             <div className="input-container">
               <div className="input">
-                <label htmlFor="name"> رقم الواتس اب </label>
-                <input type="text" id="name" value={userInfo?.phone_number} />
+                <label htmlFor="phone"> رقم الواتس اب </label>
+                <input type="number" id="phone" placeholder={userInfo?.phone_number} />
               </div>
             </div>
 

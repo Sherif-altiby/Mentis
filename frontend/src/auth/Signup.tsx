@@ -41,8 +41,10 @@ const Signup: React.FC = () => {
           role: "student"
         });
 
-        if (data.status === "success") {
-          setToken(data.token);
+        console.log(data)
+
+        if (data) {
+          setToken(data);
           setLoading(false);
           navigate('/');
         } else {
@@ -64,7 +66,7 @@ const Signup: React.FC = () => {
         <Loading />
       ) : (
         <form>
-          <h3 className="error">{error ? "Something is wrong" : null}</h3>
+          <h3 className="error">{error ? "حاول مرة اخري" : null}</h3>
           <h1>تسجيل حساب جديد</h1>
           <div className="input-container">
             <div className="input">

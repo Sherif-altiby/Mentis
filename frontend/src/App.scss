@@ -16,6 +16,7 @@
   --second-color: #009688;
   --card-material: #f5f5f5;
   --card-material-hover: #dadada;
+  --box-shadow-color: #9999994d;
 }
 
 body {
@@ -24,20 +25,20 @@ body {
 }
 
 body::-webkit-scrollbar {
-  width: 5px; /* Adjust width as needed */
+  width: 5px; 
 }
 
 body::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Color of the track */
+  background: #f1f1f1; 
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-color); /* Color of the thumb */
-  border-radius: 6px; /* Rounded corners of the thumb */
+  background: var(--primary-color); 
+  border-radius: 6px; 
 }
 
 body::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-color-alt); /* Darker color when hovering */
+  background: var(--primary-color-alt); 
 }
 
 ul li {
@@ -52,10 +53,16 @@ html {
   scroll-behavior: smooth;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 // Media Query
 @mixin screen($breakpoint) {
   @if $breakpoint == xsm {
-    @media (max-width: 375px) {
+    @media (max-width: 475px) {
       @content;
     }
   } @else if $breakpoint == sm {
