@@ -86,7 +86,7 @@ class AuthController extends Controller
             $password = $this->generatePassword();
 
             // Create a unique email address
-            $email = $user_id . '@gmail.com';
+            $email = $user_id . '@Mentis.com';
 
             // Check if a user with this ID or phone number already exists
             $existingUser = User::where('id', $user_id)->orWhere('phone_number', $request->phone)->first();
@@ -159,7 +159,7 @@ class AuthController extends Controller
        
 
             // Return response with message, status, and token if applicable
-            return response()->json($response['token'], 201);
+            return response()->json($response, 201);
 
         } catch (\Exception $e) {
             // Handle any exceptions

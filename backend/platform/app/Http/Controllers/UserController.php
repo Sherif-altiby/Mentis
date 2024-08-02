@@ -22,10 +22,6 @@ class UserController extends AbstractController
             throw new AccessDeniedException('Access Denied.');
         }
 
-        return $this->json([
-            'id' => $user->getId(),
-            'name' => $user->getUsername(), // Or any other fields you need
-            'email' => $user->getEmail(),
-        ]);
+        return $this->json($user);
     }
 }
