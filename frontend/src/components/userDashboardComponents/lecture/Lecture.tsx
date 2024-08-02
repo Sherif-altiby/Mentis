@@ -1,10 +1,12 @@
-import MainHeader from "../../mainheader/MainHeader"
-
+ 
+ 
 const Lecture = () => {
   return (
-    <div>
-              <MainHeader title="المحاضرات" />
-    </div>
+    <>
+      <div className="user-lectures">
+        <h1> الدروس </h1>
+      </div>
+    </>
   )
 }
 

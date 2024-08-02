@@ -3,18 +3,6 @@
 .setting-user{
     width: 100%;
 
-    h1{
-        color: var(--primary-color);
-        margin-bottom: 20px;
-        font-size: 50px;
-        font-weight: 400;
-
-        @include screen(md){
-            font-size: 25px;
-            text-align: center;
-        }
-    }
-
     .sec-header{
         text-align: center;
         border-bottom: 1px solid var(--border-color);

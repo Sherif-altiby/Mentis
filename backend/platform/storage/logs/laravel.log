@@ -1722,6 +1722,7 @@
 [stacktrace]
 #0 {main}
 "} 
+<<<<<<< HEAD
 [2024-08-02 18:33:24] local.ERROR: Route [login] not defined. {"exception":"[object] (Symfony\\Component\\Routing\\Exception\\RouteNotFoundException(code: 0): Route [login] not defined. at C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:512)
 [stacktrace]
 #0 C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(838): Illuminate\\Routing\\UrlGenerator->route('login', Array, true)
@@ -1804,4 +1805,73 @@
 #38 C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\public\\index.php(17): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #39 C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('C:\\\\xampp\\\\htdocs...')
 #40 {main}
+=======
+[2024-08-02 06:30:19] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\composer\\ClassLoader.php:429)
+[stacktrace]
+#0 {main}
+"} 
+[2024-08-02 07:21:33] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\symfony\\translation\\MessageCatalogue.php:20)
+[stacktrace]
+#0 {main}
+"} 
+[2024-08-02 13:10:05] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\composer\\ClassLoader.php:429)
+[stacktrace]
+#0 {main}
+"} 
+[2024-08-02 13:42:23] local.ERROR: SQLSTATE[HY000]: General error: 1 no such table: cache (Connection: sqlite, SQL: delete from "cache") {"exception":"[object] (Illuminate\\Database\\QueryException(code: HY000): SQLSTATE[HY000]: General error: 1 no such table: cache (Connection: sqlite, SQL: delete from \"cache\") at D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:813)
+[stacktrace]
+#0 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(767): Illuminate\\Database\\Connection->runQueryCallback()
+#1 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(584): Illuminate\\Database\\Connection->run()
+#2 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(548): Illuminate\\Database\\Connection->affectingStatement()
+#3 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3925): Illuminate\\Database\\Connection->delete()
+#4 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Cache\\DatabaseStore.php(340): Illuminate\\Database\\Query\\Builder->delete()
+#5 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Cache\\Repository.php(740): Illuminate\\Cache\\DatabaseStore->flush()
+#6 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Cache\\Console\\ClearCommand.php(69): Illuminate\\Cache\\Repository->__call()
+#7 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Cache\\Console\\ClearCommand->handle()
+#8 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#9 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure()
+#10 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod()
+#11 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(690): Illuminate\\Container\\BoundMethod::call()
+#12 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(213): Illuminate\\Container\\Container->call()
+#13 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Command\\Command.php(279): Illuminate\\Console\\Command->execute()
+#14 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(182): Symfony\\Component\\Console\\Command\\Command->run()
+#15 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php(1047): Illuminate\\Console\\Command->run()
+#16 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php(316): Symfony\\Component\\Console\\Application->doRunCommand()
+#17 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php(167): Symfony\\Component\\Console\\Application->doRun()
+#18 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(196): Symfony\\Component\\Console\\Application->run()
+#19 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1203): Illuminate\\Foundation\\Console\\Kernel->handle()
+#20 D:\\ments\\backend\\platform\\artisan(13): Illuminate\\Foundation\\Application->handleCommand()
+#21 {main}
+
+[previous exception] [object] (PDOException(code: HY000): SQLSTATE[HY000]: General error: 1 no such table: cache at D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:592)
+[stacktrace]
+#0 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(592): PDO->prepare()
+#1 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(800): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}()
+#2 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(767): Illuminate\\Database\\Connection->runQueryCallback()
+#3 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(584): Illuminate\\Database\\Connection->run()
+#4 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(548): Illuminate\\Database\\Connection->affectingStatement()
+#5 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3925): Illuminate\\Database\\Connection->delete()
+#6 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Cache\\DatabaseStore.php(340): Illuminate\\Database\\Query\\Builder->delete()
+#7 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Cache\\Repository.php(740): Illuminate\\Cache\\DatabaseStore->flush()
+#8 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Cache\\Console\\ClearCommand.php(69): Illuminate\\Cache\\Repository->__call()
+#9 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Cache\\Console\\ClearCommand->handle()
+#10 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#11 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure()
+#12 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod()
+#13 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(690): Illuminate\\Container\\BoundMethod::call()
+#14 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(213): Illuminate\\Container\\Container->call()
+#15 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Command\\Command.php(279): Illuminate\\Console\\Command->execute()
+#16 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(182): Symfony\\Component\\Console\\Command\\Command->run()
+#17 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php(1047): Illuminate\\Console\\Command->run()
+#18 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php(316): Symfony\\Component\\Console\\Application->doRunCommand()
+#19 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php(167): Symfony\\Component\\Console\\Application->doRun()
+#20 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(196): Symfony\\Component\\Console\\Application->run()
+#21 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1203): Illuminate\\Foundation\\Console\\Kernel->handle()
+#22 D:\\ments\\backend\\platform\\artisan(13): Illuminate\\Foundation\\Application->handleCommand()
+#23 {main}
+"} 
+[2024-08-02 14:06:56] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Pagination\\AbstractPaginator.php:17)
+[stacktrace]
+#0 {main}
+>>>>>>> 19f4550a7ae6880d2402382ff3d62ac90968e4c2
 "} 

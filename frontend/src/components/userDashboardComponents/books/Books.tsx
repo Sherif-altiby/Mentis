@@ -1,10 +1,11 @@
-import MainHeader from "../../mainheader/MainHeader"
 
 const Books = () => {
   return (
-    <div>
-        <MainHeader title="المذكرات" />
-    </div>
+    <>
+      <div className="user-notes">
+          <h1> المذكرات </h1>
+      </div>
+    </>
   )
 }
 

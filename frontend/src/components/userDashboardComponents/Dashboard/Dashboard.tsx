@@ -1,9 +1,8 @@
-import MainHeader from "../../mainheader/MainHeader"
 
 const Dashboard = () => {
   return (
      <div className="user-dashboard-content">
-           <MainHeader title="لوحة التحكم" />
+            <h1> لوحة التحكم </h1>
      </div>
   )
 }

@@ -1,10 +1,9 @@
-import MainHeader from "../../mainheader/MainHeader";
 
 const Quizes = () => {
   return (
     <div>
-      <MainHeader title="الاختبارات" />
-    </div>
+        <h1>   الإختبارات </h1>
+     </div>
   );
 };
 

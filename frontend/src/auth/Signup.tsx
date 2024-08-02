@@ -21,18 +21,15 @@ const Signup: React.FC = () => {
   const [userNumberValidate, setUserNumberValidate] = useState(true);
   const [parentNumberValidate, setParentNumberValidate] = useState(true);
 
+  const [errorMessage, setErrorMessage] = useState('حاول مرة اخري')
+
   const [error, setError] = useState(false);
 
   const handleSignup = async () => {
-    setUserNameValidate(userName.length > 0);
-    setParentNameValidate(parentName.length > 0);
-    setUserNumberValidate(userNumber.length >= 9);
-    setParentNumberValidate(parentNumber.length >= 9);
 
-    if (userNameValidate && parentNameValidate && userNumberValidate && parentNumberValidate) {
+    if (userName.length > 0 && parentName.length> 0 && userNumber.length > 0 && parentNumber.length > 0) {
       setLoading(true);
 
-      try {
         const data = await register({
           userName,
           userPhone: userNumber,
@@ -43,19 +40,27 @@ const Signup: React.FC = () => {
 
         console.log(data)
 
-        if (data) {
-          setToken(data);
+        if (!data.error) {
+          setToken(data.token);
           setLoading(false);
           navigate('/');
         } else {
           setLoading(false);
           setError(true);
+
+          if(data.message === "Validation failed"){
+             setErrorMessage("هذا الحساب موجود بالفعل")
+          }else if(data.message === "Parent phone number is required and must be unique"){
+            setErrorMessage("رقم الواتس اب مطابق لرقم الواتس اب ولي الامر")
+            console.log("fdkjndkjf")
+          }
         }
-      } catch (error) {
-        setLoading(false);
-        setError(true);
-        console.error('Signup error:', error);
-      }
+        
+    }else{
+      setUserNameValidate(userName.length > 0);
+      setParentNameValidate(parentName.length > 0);
+      setUserNumberValidate(userNumber.length >= 9);
+      setParentNumberValidate(parentNumber.length >= 9);
     }
   };
 
@@ -66,7 +71,7 @@ const Signup: React.FC = () => {
         <Loading />
       ) : (
         <form>
-          <h3 className="error">{error ? "حاول مرة اخري" : null}</h3>
+          <h3 className="error">{error ? errorMessage : null}</h3>
           <h1>تسجيل حساب جديد</h1>
           <div className="input-container">
             <div className="input">
