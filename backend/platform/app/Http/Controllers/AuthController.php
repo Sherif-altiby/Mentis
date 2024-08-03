@@ -110,7 +110,7 @@ class AuthController extends Controller
             $response = [
                 'status' => 'success',
                 'message' => 'User registered successfully!',
-                'user_id' => $user_id,
+                'user_id' => $user_id.'@Mentis.com',
                 'user_password' => $password
             ];
 
