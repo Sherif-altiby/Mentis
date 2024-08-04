@@ -48,7 +48,7 @@ const App = () => {
                <Route path='lectures' element={<ProtectedRoute element={Lecture} />} />
                <Route path='quizes' element={<ProtectedRoute element={Quizes} />} />
                <Route path='books' element={<ProtectedRoute element={Books} />} />
-               <Route path='setting' element={<ProtectedRoute element={Setting} />} />
+               <Route path='settings' element={<ProtectedRoute element={Setting} />} />
         </Route>
 
         {/*ADMIN ROUTES  */}

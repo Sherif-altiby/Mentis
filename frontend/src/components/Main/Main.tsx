@@ -21,6 +21,11 @@ import { card, dataType } from "../../types/index.types";
 import CreateTeacherCard from "../createTeacherCard/CreateTeacherCard";
 
 
+import { useAppSelector, useAppDispatch } from "../../redux/reduxHook";
+import axios from "axios";
+import { useEffect } from "react";
+
+import { setAllTeachers } from "./teacherSlice";
 
 const data: dataType = [
   {
@@ -97,13 +102,38 @@ const CreateMaterial = ({ data }: { data: card }) => {
 
  
 const Main = () => {
+
  
+  const dispatch = useAppDispatch()
+
+  const token = useAppSelector((state) => state.token.token)
+  const allTeacher = useAppSelector((state) => state.teacher.teachers)
+
+  
   const [text] = useTypewriter({
     words: ["منصة منتس التعليمية ", "حيث الريادة و التفوق و الدرجات النهائية"],
     loop: true,
     typeSpeed: 20,
     deleteSpeed: 50
   });
+
+  const getAllTeacher = async () => {
+     
+    const response = await axios.get("http://127.0.0.1:8000/api/teachers", {
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+     if(allTeacher.length === 0){
+      dispatch(setAllTeachers
+        (response.data))
+     }
+     console.log(allTeacher.length)
+
+  }
+
+  useEffect(() => { getAllTeacher() }, [token]);
 
   return (
     <div>
@@ -170,13 +200,16 @@ const Main = () => {
       <div className="all-teachers" id="all-mentis-teachers" >
         <MainHeader title="المدرسين" />
         <div className="teachers">
-          <CreateTeacherCard />
-          <CreateTeacherCard />
-          <CreateTeacherCard />
-          <CreateTeacherCard />
-          <CreateTeacherCard />
-          <CreateTeacherCard />
-          <CreateTeacherCard />
+           {allTeacher?.map((teacher) => ( 
+            <CreateTeacherCard 
+                email={teacher.email} 
+                id={teacher.id} 
+                name={teacher.name} 
+                phone_number={teacher.phone_number} 
+                role={teacher.role} 
+                key={teacher.id}
+            />
+            ))}
         </div>
       </div>
     </div>

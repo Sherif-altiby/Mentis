@@ -4,12 +4,18 @@ import { useState } from "react";
 import Circles from "../components/animation/Circles";
 import { register } from "../utils/api";
 import { useNavigate } from 'react-router-dom';
-import { useAppContext } from "../context/ContextProvider";
 import Loading from "../pages/loading/Loading";
+
+import { setToken } from "./tokenSlice";
+
+import { setLoading } from "../pages/loading/Loadingslice";
+import { useAppDispatch, useAppSelector } from "../redux/reduxHook";
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
-  const { setToken, loading, setLoading } = useAppContext();
+ 
+  const loading = useAppSelector((state) => state.loading.isLoading);
+  const dispatch = useAppDispatch()
 
   const [userName, setUserName] = useState("");
   const [parentName, setParentName] = useState("");
@@ -28,7 +34,7 @@ const Signup: React.FC = () => {
   const handleSignup = async () => {
 
     if (userName.length > 0 && parentName.length> 0 && userNumber.length > 0 && parentNumber.length > 0) {
-      setLoading(true);
+      dispatch(setLoading(true))
 
         const data = await register({
           userName,
@@ -41,11 +47,11 @@ const Signup: React.FC = () => {
         console.log(data)
 
         if (!data.error) {
-          setToken(data.token);
-          setLoading(false);
+          dispatch(setToken(data.token));
+          dispatch(setLoading(false));
           navigate('/');
         } else {
-          setLoading(false);
+          dispatch(setLoading(false));
           setError(true);
 
           if(data.message === "Validation failed"){

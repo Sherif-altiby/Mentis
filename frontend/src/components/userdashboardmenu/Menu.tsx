@@ -1,10 +1,15 @@
 import './menue.scss'; 
 import { menusData } from '../../data/data';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const Menu = ( {showMenu, setShowMenu}: {showMenu: boolean, setShowMenu: React.Dispatch<React.SetStateAction<boolean>>} ) => {
 
-  const hanldleLogout = () => { localStorage.removeItem('mentisID'); window.location.reload()}
+  const navigate = useNavigate()
+
+  const hanldleLogout = () => { 
+    localStorage.removeItem('mentisID');
+    navigate("/")
+     window.location.reload()}
 
   const handleClick = () => { setShowMenu(false)}
 

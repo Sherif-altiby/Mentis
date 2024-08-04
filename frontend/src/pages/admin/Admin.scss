@@ -1,14 +1,19 @@
 .admin-page{
      
+    h1{
+        text-align: right;
+        color: var(--primary-color);
+        margin-bottom: 30px;
+    }
 
     .admin-menu{
         position: fixed;
         right: 0;
-        top: 0;
+        top: 75px;
         height: 100vh;
         background-color: #fff;
         box-shadow:  0 0 10px #999;
-        width: 200px;
+        width: 250px;
         padding: 20px;
 
         .manu-link{
@@ -26,6 +31,12 @@
                 padding: 0 10px;
                 color: var(--primary-color);
                 transition: 0.3s;
+                box-shadow: 0 0 5px var(--box-shadow-color);
+
+                &.active{
+                    background-color: var(--primary-color);
+                    color: #fff;
+                }
 
                 .icon{
                     font-size: 20px;
@@ -37,5 +48,12 @@
                 }
             }
         }
+     }
+
+     .admin-dashboard{
+        background-color: rgba(247, 247, 247, 0.51);
+        width: calc(100% - 290px);
+        margin: 20px;
+        border-radius: 5px;
      }
 }

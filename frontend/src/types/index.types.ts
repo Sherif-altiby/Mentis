@@ -8,3 +8,20 @@ export type RegisterProps = {
     parentPhone: string;
     role: string;
 }
+
+
+export type TeacherProps = {
+    email: string;
+    id: number;
+    phone_number: string;
+    role: string;
+    name: string
+}
+
+export type userInfo = {
+    name: string;
+    email: string;
+    phone_number: string;
+    role: string;
+    user_id: number
+  }

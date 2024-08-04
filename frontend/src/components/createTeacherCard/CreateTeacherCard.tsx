@@ -3,16 +3,17 @@ import './CreateTeacher.scss';
 
 import phiscs from '../../assets/phiscs.jpg'
 
+import { TeacherProps } from '../../types/index.types';
 
-const CreateTeacherCard = () => {
+const CreateTeacherCard = ( {name, email, phone_number, id, role}: TeacherProps ) => {
   return (
     <>
-      <Link to="/teacher/mohamedabelnour" className="teacher-card" >
+      <Link to={`/teacher/${name}?query=${role}&id=${id}`} className="teacher-card" >
         <div className='content-info' >
           <div className="img">
             <img src={phiscs} alt="" /> 
           </div>
-          <h2> أ/ محمد عبد النور </h2>
+          <h2>  {name} </h2>
           <p> كمياء </p>
         </div>
       </Link>

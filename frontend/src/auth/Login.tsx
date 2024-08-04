@@ -1,17 +1,21 @@
 import { useState } from 'react';
 import './auth.scss';
 import { Link, useNavigate } from "react-router-dom"
-import { useAppContext } from "../context/ContextProvider";
 import Loading from "../pages/loading/Loading";
 import { getUserInfo, login } from '../utils/api';
 import Circles from '../components/animation/Circles';
 
+import { setToken } from './tokenSlice';
+
+import { setLoading } from "../pages/loading/Loadingslice";
+import { useAppDispatch, useAppSelector } from "../redux/reduxHook";
 
 const Login = () => {
 
   const navigate = useNavigate()
 
-  const { setToken, loading, setLoading } = useAppContext();
+  const loading = useAppSelector((state) => state.loading.isLoading);
+  const dispatch = useAppDispatch()
 
   const [error, setError] = useState(false)
 
@@ -24,13 +28,13 @@ const Login = () => {
   const handleSubmit = async () => {
     if(userEmal.length > 0 && password.length > 0){
       
-      setLoading(true);
+      dispatch(setLoading(true))
      
       try{
         const data = await login({ email: userEmal, password })
         
         if(data){ 
-          setToken(data.token)
+          dispatch(setToken(data.token))
 
           const loginData = await getUserInfo(data.token)
 
@@ -38,19 +42,19 @@ const Login = () => {
 
           if(loginData.role === "student"){
               navigate('/')
-              setLoading(false)
+              dispatch(setLoading(false))
           }
           else if(loginData.role === "teacher"){
-            setLoading(false)
+            dispatch(setLoading(false))
             navigate('/teacher/dashboard/controle')
           }
           else if(loginData.role === "admin"){
-            setLoading(false)
+            dispatch(setLoading(false))
              navigate('/admin/dashboard/controle')
           }
         }
       }catch(error){
-        setLoading(false)
+        dispatch(setLoading(false))
         setError(true)
        }
     

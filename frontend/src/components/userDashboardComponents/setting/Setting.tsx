@@ -3,20 +3,20 @@ import { CiUser } from "react-icons/ci";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { useAppContext } from "../../../context/ContextProvider";
 import { getUserInfo } from "../../../utils/api";
 import Loading from "../../../pages/loading/Loading";
 
-type userInfo = {
-  name: string;
-  email: string;
-  phone_number: string;
-  role: string;
-  user_id: number;
-};
+import { setLoading } from "../../../pages/loading/Loadingslice";
+import { useAppDispatch, useAppSelector } from "../../../redux/reduxHook" ;
+import { userInfo } from "../../../types/index.types";
+
 
 const Setting = () => {
-  const { token, loading, setLoading } = useAppContext();
+
+  const loading = useAppSelector((state) => state.loading.isLoading);
+  const dispatch = useAppDispatch()
+
+  const token = useAppSelector((state) => state.token.token)
 
   const [userInfo, setUserInfo] = useState<userInfo>();
 
@@ -31,18 +31,18 @@ const Setting = () => {
 
   useEffect(() => {
     if (token) {
-      setLoading(true);
+      dispatch(setLoading(true))
 
       const userInfo = async () => {
         const data = await getUserInfo(token);
         setUserInfo(data);
         console.log(data);
-        setLoading(false);
+        dispatch(setLoading(false));
       };
 
       userInfo();
     } else {
-      setLoading(false);
+      dispatch(setLoading(false));
     }
   }, []);
 
