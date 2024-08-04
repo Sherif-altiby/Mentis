@@ -42,7 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-    Route::get('/user-from-token/{token}', [AuthController::class, 'getUserFromToken']);
+    Route::get('/user-from-token/{token}', [AuthController::class, 'getUserFromToken']);//get user
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
