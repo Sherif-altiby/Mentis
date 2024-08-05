@@ -25,3 +25,16 @@ export type userInfo = {
     role: string;
     user_id: number
   }
+
+export type AllCoursesProps = {
+     id: number;
+     teacher_id: string;
+     title: string;
+     description: string;
+     price: string;
+     teacher: {
+        id: number;
+        name: string;
+        email: string;
+     }
+}

@@ -29,4 +29,20 @@ export const TeacherDashboardData = [
   { title: "المذكرات", link: "notes", icon: GrNotes },
   { title: "الإختبارات", link: "quizes", icon: MdOutlineQuiz },
   { title: "الإعدادات", link: "settings", icon: CiSettings },
+  { title: "تسجيل الخروج", icon: RiLogoutCircleLine, link: "/" },
+
 ];
+
+
+
+import { IoAddCircle } from "react-icons/io5";
+import { MdDelete } from "react-icons/md";
+
+export const adminData = [
+  { id: 1, title: "إضافة مدرس", icon: IoAddCircle, link: 'add-teacher'},
+  { id: 2, title: "حذف مدرس", icon: MdDelete, link: 'delete-teacher'},
+  { id: 2, title: "إضافة كورس", icon: IoAddCircle, link: 'add-course'},
+  { title: "الإعدادات", link: "settings", icon: CiSettings },
+  { title: "تسجيل الخروج", icon: RiLogoutCircleLine, link: "/" },
+
+]

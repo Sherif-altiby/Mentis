@@ -24,8 +24,8 @@ import TeacherDashboardComponent from './components/TeacherComponents/teacherdas
 import TeacherStudent from './components/TeacherComponents/teacherstudents/TeacherStudent';
 import TeacherNotes from './components/TeacherComponents/teachernotes/TeacherNotes';
 import TeacherQuizes from './components/TeacherComponents/teacherquizes/TeacherQuizes';
-import TeacherSettings from './components/TeacherComponents/teachersettings/TeacherSettings';
- 
+import AddCourse from './components/AdminComponents/addcourse/AddCourse';
+  
 const App = () => {
   return (
     <Router>
@@ -56,6 +56,8 @@ const App = () => {
                <Route index element={<AddTeacher />} />
                <Route path='add-teacher' element={<AddTeacher />}  />
                <Route path='delete-teacher' element={<DeleteTeacher />} />
+               <Route path='settings' element={<Setting />} />
+               <Route path='add-course' element={<AddCourse />} />
         </Route>
 
         {/* TEACHER ROUTES */}
@@ -66,7 +68,7 @@ const App = () => {
                 <Route path='students' element={<TeacherStudent />} />
                 <Route path='notes' element={<TeacherNotes />} />
                 <Route path='quizes' element={<TeacherQuizes />} />
-                <Route path='settings' element={<TeacherSettings />} />
+                <Route path='settings' element={<Setting />} />
         </Route>
        </Routes>
     </Router>

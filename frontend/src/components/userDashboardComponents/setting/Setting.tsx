@@ -2,23 +2,17 @@ import "./setting.scss";
 import { CiUser } from "react-icons/ci";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
-import { useEffect, useState } from "react";
-import { getUserInfo } from "../../../utils/api";
+import { useState } from "react";
 import Loading from "../../../pages/loading/Loading";
-
-import { setLoading } from "../../../pages/loading/Loadingslice";
-import { useAppDispatch, useAppSelector } from "../../../redux/reduxHook" ;
-import { userInfo } from "../../../types/index.types";
+import { useAppSelector } from "../../../redux/reduxHook" ;
 
 
 const Setting = () => {
 
   const loading = useAppSelector((state) => state.loading.isLoading);
-  const dispatch = useAppDispatch()
+  
 
-  const token = useAppSelector((state) => state.token.token)
-
-  const [userInfo, setUserInfo] = useState<userInfo>();
+  const userInfo = useAppSelector((state) => state.userInfo.userInfo)
 
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
 
@@ -27,24 +21,6 @@ const Setting = () => {
     if (file) { setImagePreviewUrl(URL.createObjectURL(file)); }
   };
 
-   
-
-  useEffect(() => {
-    if (token) {
-      dispatch(setLoading(true))
-
-      const userInfo = async () => {
-        const data = await getUserInfo(token);
-        setUserInfo(data);
-        console.log(data);
-        dispatch(setLoading(false));
-      };
-
-      userInfo();
-    } else {
-      dispatch(setLoading(false));
-    }
-  }, []);
 
   return (
     <>

@@ -1,23 +1,11 @@
 import { Link } from "react-router-dom";
-import MainHeader from "../mainheader/MainHeader";
-import math from "../../assets/math.png";
-import phiscs from "../../assets/phiscs.jpg";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
 import chemistry from "../../assets/chemistry.jpg";
-import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper/modules";
 import introImg from '../../assets/intro-img-2.png'
 import { motion } from "framer-motion";
 
- 
-import { Swiper, SwiperSlide } from "swiper/react";
 
-import "swiper/css";
-import "swiper/swiper-bundle.css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/autoplay";
 import Circles from "../animation/Circles";
-import { card, dataType } from "../../types/index.types";
 import CreateTeacherCard from "../createTeacherCard/CreateTeacherCard";
 
 
@@ -25,75 +13,20 @@ import { useAppSelector, useAppDispatch } from "../../redux/reduxHook";
 import axios from "axios";
 import { useEffect } from "react";
 
-import { setAllTeachers } from "./teacherSlice";
+import { setAllTeachers, setAllCourses} from "./teacherSlice";
 
-const data: dataType = [
-  {
-    id: 1,
-    title: "الكمياء",
-    img: chemistry,
-    link: "/material/chmistry",
-  },
-  {
-    id: 2,
-    title: "الفزياء",
-    img: phiscs,
-    link: "/material/phiscs",
-  },
-  {
-    id: 5,
-    title: "الرياضايت",
-    img: math,
-    link: "/material/math",
-  },
-  {
-    id: 5,
-    title: "الاحصاء",
-    img: math,
-    link: "/material/propability",
-  },
-  {
-    id: 5,
-    title: "العلوم",
-    img: math,
-    link: "/material/science",
-  },
-  {
-    id: 5,
-    title: "الانجليزي",
-    img: math,
-    link: "/material/english",
-  },
-  {
-    id: 5,
-    title: "عربي",
-    img: math,
-    link: "/material/arabic",
-  },
-  {
-    id: 6,
-    title: "فرنساوي",
-    img: math,
-    link: "/material/french",
-  },
-  {
-    id: 3,
-    title: "الالماني",
-    img: math,
-    link: "/material/germany",
-  },
-];
+import { AllCoursesProps } from "../../types/index.types";
 
-const CreateMaterial = ({ data }: { data: card }) => {
+const CreateMaterial = ({ data }: { data: AllCoursesProps }) => {
   return (
     <>
-      <Link to={data.link}>
+      <Link to={`/material/${data.title}?query=${data.title}&id=${data.id}`}>
         <div className="material">
-          <div className="img">
-             
-            <img src={data.img} alt="" /> 
+          <div className="img"> 
+            <img src={chemistry} alt="" /> 
           </div>
           <h3> {data.title} </h3>
+          <p> 2 معلمين </p>
         </div>
       </Link>
     </>
@@ -108,8 +41,8 @@ const Main = () => {
 
   const token = useAppSelector((state) => state.token.token)
   const allTeacher = useAppSelector((state) => state.teacher.teachers)
-
-  
+  const allCourses = useAppSelector((state) => state.teacher.courses);
+   
   const [text] = useTypewriter({
     words: ["منصة منتس التعليمية ", "حيث الريادة و التفوق و الدرجات النهائية"],
     loop: true,
@@ -119,22 +52,34 @@ const Main = () => {
 
   const getAllTeacher = async () => {
      
-    const response = await axios.get("http://127.0.0.1:8000/api/teachers", {
-      headers:{
-        Authorization: `Bearer ${token}`
-      }
-    })
-
-     if(allTeacher.length === 0){
-      dispatch(setAllTeachers
-        (response.data))
-     }
-     console.log(allTeacher.length)
+   if(allTeacher.length === 0) {
+        const response = await axios.get("http://127.0.0.1:8000/api/teachers", {
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        })
+    
+          dispatch(setAllTeachers(response.data))
+          console.log(allTeacher.length)
+   }
 
   }
 
-  useEffect(() => { getAllTeacher() }, [token]);
+  const getAllCourses = async () => {
+    if(allCourses.length === 0){
+      const respons  = await axios.get("http://127.0.0.1:8000/api/courses")
 
+      console.log(respons.data)
+      dispatch(setAllCourses(respons.data.data))
+    }
+  }
+
+
+  useEffect(() => { 
+    getAllTeacher() ;
+    getAllCourses() ;
+  }, [token]);
+ 
   return (
     <div>
       <div className="main-section">
@@ -165,41 +110,17 @@ const Main = () => {
       </div>
 
       <div className="all-materials" id='all-mentis-materials' >
-        <MainHeader title="المواد الدراسية" />
-
+           <h1> المواد الدراسية </h1>
         <div className="main-swiper-slider">
-          <Swiper
-            modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-            navigation
-            autoplay={true}
-            pagination={{ clickable: true }}
-            breakpoints={{
-              640: {
-                slidesPerView: 2,
-                spaceBetween: 10,
-              },
-              768: {
-                slidesPerView: 3,
-                spaceBetween: 15,
-              },
-              1024: {
-                slidesPerView: 5,
-                spaceBetween: 20,
-              },
-            }}
-          >
-            {data.map((item) => (
-              <SwiperSlide>
+            {allCourses?.map((item) => (
                 <CreateMaterial data={item} />
-              </SwiperSlide>
             ))}
-          </Swiper>
         </div>
       </div>
 
       <div className="all-teachers" id="all-mentis-teachers" >
-        <MainHeader title="المدرسين" />
-        <div className="teachers">
+        <h1> المدرسين </h1>
+         <div className="teachers">
            {allTeacher?.map((teacher) => ( 
             <CreateTeacherCard 
                 email={teacher.email} 

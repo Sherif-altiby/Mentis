@@ -2,13 +2,22 @@
 
 .main-header {
   width: 100%;
-  position: relative;
-  text-align: center;
-  color: #333;
-
-  h1 {
-    font-weight: 500;
-
+   text-align: right;
+   color: #333;
+   padding-right: 100px;
+   color: var(--primary-color);
+   font-weight: 400;
+   font-size: 20px;
+   margin: auto;
+   text-align: center;
+   display: flex;
+   justify-content: center;
+   h1 {
+     font-weight: 500;
+     width: 350px;
+     text-align: center;
+     border-bottom: 3px solid var(--danger-color);
+ 
     @include screen(md) {
       font-size: 20px;
     }
@@ -18,45 +27,4 @@
     }
   }
 
-  &::before {
-    position: absolute;
-    content: "";
-    border-bottom: 2px solid var(--primary-color);
-    border-top: 2px solid var(--primary-color);
-    height: 10px;
-    background-color: #f8f8f8;
-    left: 10%;
-    width: 30%;
-    top: 50%;
-    transform: translateY(-50%);
-
-    @include screen(lg) {
-      left: 3%;
-    }
-
-    @include screen(sm) {
-      height: 5px;
-    }
-  }
-
-  &::after {
-    position: absolute;
-    content: "";
-    border-bottom: 2px solid var(--primary-color);
-    border-top: 2px solid var(--primary-color);
-    height: 10px;
-    background-color: #f8f8f8;
-    width: 30%;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 10%;
-
-    @include screen(lg) {
-      right: 3%;
-    }
-
-    @include screen(sm) {
-      height: 5px;
-    }
-  }
 }

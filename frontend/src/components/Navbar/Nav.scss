@@ -69,12 +69,15 @@ nav {
         align-self: start;
         justify-content: end;
         align-items: center;
-        padding: 10px;
+        padding: 5px 10px;
         cursor: pointer;
         width: 100%;
         gap: 10px;
         font-size: 18px;
         transition: 0.3s;
+        &:not(:last-child){
+          border-bottom: 1px solid var(--border-color);
+        }
 
         &:hover{
             color: var(--primary-color);
