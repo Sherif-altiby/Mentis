@@ -88,7 +88,7 @@ const AddTeacher = () => {
               />
             </div>
           </div>
-          <div className="input">
+          {/* <div className="input">
             <label htmlFor="subject"> إسم المادة </label>
             <select name="subject" id="subject">
               <option value="0"></option>
@@ -97,7 +97,7 @@ const AddTeacher = () => {
               <option value="لغة انجليزية">لغة انجليزية</option>
               <option value="كمياء">كمياء</option>
             </select>
-          </div>
+          </div> */}
           <div className="btn" onClick={handleClick}>
             إضافة
           </div>
