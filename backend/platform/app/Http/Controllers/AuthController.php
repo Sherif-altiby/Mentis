@@ -10,6 +10,8 @@ use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Auth;  // Add this line
 use Illuminate\Support\Facades\DB;
 
+// registration
+
 class AuthController extends Controller
 {
     public function register(Request $request)
