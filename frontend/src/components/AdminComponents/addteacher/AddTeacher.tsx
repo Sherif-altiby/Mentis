@@ -3,7 +3,10 @@ import "./AddTeacher.scss";
 import { useState } from "react";
 import { getUserInfo } from "../../../utils/api";
 
-import { useAppSelector } from "../../../redux/reduxHook";
+import { useAppSelector, useAppDispatch } from "../../../redux/reduxHook";
+import CustomLoading from "../../../pages/loading/CustomLoading";
+
+import { setLoading } from "../../../pages/loading/Loadingslice";
 
 const AddTeacher = () => {
   const [teacherName, setTeacherName] = useState("");
@@ -12,18 +15,17 @@ const AddTeacher = () => {
   const [teacherpassword, setTeacherPassword] = useState("")
   const [teacherEmail, setTeacherEmail] = useState("")
 
+  const dispatch = useAppDispatch()
+
   const [showCard, setShowCard] = useState(false)
 
   const token = useAppSelector((state) => state.token.token);
+  const loading = useAppSelector((state) => state.loading.isLoading)
 
-  const createTeacherAcount = async ({
-    teacherName,
-    teacherPhone,
-  }: {
-    teacherName: string;
-    teacherPhone: string;
-  }) => {
+  const createTeacherAcount = async ({ teacherName, teacherPhone, }: { teacherName: string; teacherPhone: string;}) => {
     try {
+
+      dispatch(setLoading(true))
       const respone = await axios.post(
         "http://127.0.0.1:8000/api/register",
         {
@@ -38,7 +40,7 @@ const AddTeacher = () => {
         }
       );
 
-      setTeacherPassword(respone.data.user_password      )
+      setTeacherPassword(respone.data.user_password)
 
       console.log(respone.data);
 
@@ -46,9 +48,8 @@ const AddTeacher = () => {
 
       setTeacherEmail(teacherData.email)
 
+      dispatch(setLoading(false))
       setShowCard(true)
-
-      console.log(teacherData);
     } catch (error) {
       console.log(error);
     }
@@ -70,6 +71,9 @@ const AddTeacher = () => {
         <h1> إضافة مدرس </h1>
 
         <div className="card-add">
+ 
+          {loading ?  <CustomLoading /> : (null)}
+
           <div className="input-container">
             <div className="input">
               <label htmlFor="name"> إسم المدرس </label>

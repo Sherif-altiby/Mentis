@@ -25,6 +25,7 @@ import TeacherStudent from './components/TeacherComponents/teacherstudents/Teach
 import TeacherNotes from './components/TeacherComponents/teachernotes/TeacherNotes';
 import TeacherQuizes from './components/TeacherComponents/teacherquizes/TeacherQuizes';
 import AddCourse from './components/AdminComponents/addcourse/AddCourse';
+import Notifications from './components/notificationscomponent/Notifications';
   
 const App = () => {
   return (
@@ -49,6 +50,7 @@ const App = () => {
                <Route path='quizes' element={<ProtectedRoute element={Quizes} />} />
                <Route path='books' element={<ProtectedRoute element={Books} />} />
                <Route path='settings' element={<ProtectedRoute element={Setting} />} />
+               <Route path='notifications' element={<Notifications />} />
         </Route>
 
         {/*ADMIN ROUTES  */}
@@ -58,6 +60,7 @@ const App = () => {
                <Route path='delete-teacher' element={<DeleteTeacher />} />
                <Route path='settings' element={<Setting />} />
                <Route path='add-course' element={<AddCourse />} />
+               <Route path='notifications' element={<Notifications />} />
         </Route>
 
         {/* TEACHER ROUTES */}
@@ -69,6 +72,7 @@ const App = () => {
                 <Route path='notes' element={<TeacherNotes />} />
                 <Route path='quizes' element={<TeacherQuizes />} />
                 <Route path='settings' element={<Setting />} />
+                <Route path='notifications' element={<Notifications />} />
         </Route>
        </Routes>
     </Router>

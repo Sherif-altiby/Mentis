@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../../redux/reduxHook"
 import { TeacherProps } from "../../../types/index.types"
 import { setLoading } from '../../../pages/loading/Loadingslice'
-import Loading from '../../../pages/loading/Loading'
+import CustomLoading from '../../../pages/loading/CustomLoading'
 
 const AddCourse = () => {
 
@@ -57,8 +57,13 @@ const AddCourse = () => {
 
             if(response.data.status === "success"){
                 dispatch(setLoading(false))
+                setCourseName("")
+                setCourseDeesc("");
+                setCoursePrice("")
+                setTeacherId(0)
             } else {
                 dispatch(setLoading(false))
+                console.log(response.data.response)
             }
 
         }else{
@@ -71,35 +76,44 @@ const AddCourse = () => {
          <h1> إضافة كورس </h1>
 
          <div className="add-course-section">
-
-          {loading ? <Loading /> : (
-            <>
+                {loading ? <CustomLoading /> : (null)}
                <div className="input-container">
                 <div className="input">
                     <label htmlFor="course-name"> إسم المادة </label>
-                    <input type="text" id="course-name" onChange={(e) => setCourseName(e.target.value)} />
+                    <input type="text" id="course-name" 
+                      onChange={(e) => setCourseName(e.target.value)} 
+                       value={courseName}
+                      />
                 </div>
                 <div className="input">
                     <label htmlFor="course-desc"> الشرح </label>
-                    <input type="text" id="course-desc" onChange={(e) => setCourseDeesc(e.target.value)} />
+                    <input type="text" id="course-desc" 
+                      onChange={(e) => setCourseDeesc(e.target.value)} 
+                       value={courseDesc}
+                      />
                 </div>
             </div>
             <div className="input-container">
                 <div className="input">
                     <label htmlFor="course-price"> سعر المادة </label>
-                    <input type="number" id="course-price" onChange={(e) => setCoursePrice(e.target.value)} />
+                    <input type="number" id="course-price" 
+                      onChange={(e) => setCoursePrice(e.target.value)} 
+                      value={coursePrice}
+                      />
                 </div>
                 <div className="input">
                     <label htmlFor="course-teacher-name"> اختر المدرس </label>
-                    <select id="course-teacher-name" onChange={(e) => setTeacherId(Number(e.target.value))} >
+                    <select id="course-teacher-name" 
+                      onChange={(e) => setTeacherId(Number(e.target.value))} 
+                       value={teacherId}
+                      >
+                        <option value="0"></option>
                         {teachers?.map((teacher) => (
                             <option value={teacher.id} > {teacher.name} </option>
                         ))}
                     </select>
                  </div>
-            </div>
-            </>
-          )}   
+            </div> 
         
           <div className="add-btn" onClick={handelAddCours} > إضافة </div>
 

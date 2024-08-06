@@ -56,6 +56,15 @@
         align-items: center;
       }
 
+      h1{
+        display: flex;
+        gap: 10px;
+
+        span{
+          color: var(--danger-color);
+        }
+      }
+
       h2 {
         color: #fff;
         font-size: 40px;
@@ -93,6 +102,15 @@
         @include screen(sm) {
           font-size: 14px;
         }
+
+      }
+
+      .student-intro-p{
+        text-align: center  ;
+        width: 100%;
+        margin-top: 30px;
+        color: #fff;
+        font-size: 30px;
       }
 
       .btns {
@@ -227,7 +245,19 @@
 
   a{
     display: block;
-    width: calc(100% / 4 - 15px)
+    width: calc(100% / 4 - 15px);
+
+    @include screen(md){
+      width: calc(100% / 3 - 15px);
+    }
+
+    @include screen(sm){
+      width: calc(100% / 2 - 15px);
+    }
+
+    @include screen(xsm){
+      width: 100% ;
+    }
   }
   .material {
     width: 100%;
@@ -317,8 +347,8 @@
       margin: 50px;
     }
 
-    @include screen(md) {
-      margin: 50px 20px;
+    @include screen(lg) {
+      margin: 50px 10px;
     }
 
     @include screen(xsm) {

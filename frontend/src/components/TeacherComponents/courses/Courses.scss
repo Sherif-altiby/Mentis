@@ -38,6 +38,7 @@
       font-size: 20px;
       display: flex;
       justify-content: center;
+      flex-direction: row-reverse;
       gap: 5px;
       align-items: center;
     }
@@ -84,6 +85,7 @@
       p {
         display: flex;
         align-items: center;
+        flex-direction: row-reverse;
         gap: 5px;
         font-size: 20px;
         color: var(--green-color);

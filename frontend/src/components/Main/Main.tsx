@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
 import chemistry from "../../assets/chemistry.jpg";
-import introImg from '../../assets/intro-img-2.png'
+import introImg from '../../assets/intro-img-2.png';
+import studentintroimg from '../../assets/student-intro-img-2.png'
+import teacherintroimg from '../../assets/teacher-intro.png';
 import { motion } from "framer-motion";
 
 
@@ -26,7 +28,7 @@ const CreateMaterial = ({ data }: { data: AllCoursesProps }) => {
             <img src={chemistry} alt="" /> 
           </div>
           <h3> {data.title} </h3>
-          <p> 2 معلمين </p>
+          {/* <p> 2 معلمين </p> */}
         </div>
       </Link>
     </>
@@ -42,6 +44,7 @@ const Main = () => {
   const token = useAppSelector((state) => state.token.token)
   const allTeacher = useAppSelector((state) => state.teacher.teachers)
   const allCourses = useAppSelector((state) => state.teacher.courses);
+  const userInfo = useAppSelector((state) => state.userInfo.userInfo)
    
   const [text] = useTypewriter({
     words: ["منصة منتس التعليمية ", "حيث الريادة و التفوق و الدرجات النهائية"],
@@ -60,7 +63,6 @@ const Main = () => {
         })
     
           dispatch(setAllTeachers(response.data))
-          console.log(allTeacher.length)
    }
 
   }
@@ -69,15 +71,14 @@ const Main = () => {
     if(allCourses.length === 0){
       const respons  = await axios.get("http://127.0.0.1:8000/api/courses")
 
-      console.log(respons.data)
       dispatch(setAllCourses(respons.data.data))
     }
   }
 
 
   useEffect(() => { 
-    getAllTeacher() ;
-    getAllCourses() ;
+      getAllTeacher() ;
+      getAllCourses() ;
   }, [token]);
  
   return (
@@ -89,16 +90,24 @@ const Main = () => {
            <motion.div className="img"
             animate={{ bottom: [-50, 80, -50] }}
             transition={{duration: 5, repeat: Infinity}}
-           > <img src={introImg} alt="" /> </motion.div>
+           > <img src={userInfo.role === "student" ? studentintroimg : userInfo.role === "teacher" ? teacherintroimg : introImg} alt="" /> </motion.div>
 
            <div className="text">
-             <h2> <span> <Cursor /> </span> <span> { text } </span> </h2>
-             <p> منصة تعليمية مبتكرة تهدف إلى توفير تجربة تعليمية متكاملة وشاملة للمستخدمين من جميع الأعمار والخلفيات. تعتمد "منتس" على أحدث التقنيات التعليمية لخلق بيئة تعلم تفاعلية وجذابة، حيث يمكن للمتعلمين الوصول إلى مجموعة متنوعة من الموارد والدورات التدريبية المصممة بعناية لتلبية احتياجاتهم التعليمية. </p>
-             <div className="btns">
-                <div className="btn"> <a href='#all-mentis-materials' > المواد الدراسية </a> </div>
-                <div className="btn"> <a href='#all-mentis-teachers' >  المدرسين </a> </div>
-                <div className="btn"> <Link to='/signup' >  انضم الي منتس </Link> </div>
-             </div>
+              {token ? ( 
+                <> 
+                  <h1> <span> {userInfo.name} </span> مرحبا </h1>
+                  <p className="student-intro-p" > نتمني لك تجربة مشوقة وممتعة في التعلم </p>
+                </> ) : (
+                <>
+                <h2> <span> <Cursor /> </span> <span> { text } </span> </h2>
+                <p> منصة تعليمية مبتكرة تهدف إلى توفير تجربة تعليمية متكاملة وشاملة للمستخدمين من جميع الأعمار والخلفيات. تعتمد "منتس" على أحدث التقنيات التعليمية لخلق بيئة تعلم تفاعلية وجذابة، حيث يمكن للمتعلمين الوصول إلى مجموعة متنوعة من الموارد والدورات التدريبية المصممة بعناية لتلبية احتياجاتهم التعليمية. </p>
+                <div className="btns">
+                   <div className="btn"> <a href='#all-mentis-materials' > المواد الدراسية </a> </div>
+                   <div className="btn"> <a href='#all-mentis-teachers' >  المدرسين </a> </div>
+                   <div className="btn"> <Link to='/signup' >  انضم الي منتس </Link> </div>
+                </div>
+                </>
+              )}
            </div>
         </div>
 
@@ -113,7 +122,7 @@ const Main = () => {
            <h1> المواد الدراسية </h1>
         <div className="main-swiper-slider">
             {allCourses?.map((item) => (
-                <CreateMaterial data={item} />
+                <CreateMaterial data={item} key={item.id} />
             ))}
         </div>
       </div>

@@ -4,13 +4,16 @@ import { MdQuiz } from "react-icons/md";
 import { MdLibraryBooks } from "react-icons/md";
 import { IoSettings } from "react-icons/io5";
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { IoNotifications } from "react-icons/io5";
+
 
 export const menusData = [
   { title: "لوحة التحكم", icon: FaRegCompass, link: "dashboard" },
   { title: "المحاضرات", icon: MdSlowMotionVideo, link: "lectures" },
   { title: "الاختبارات", icon: MdQuiz, link: "quizes" },
   { title: "المذكرات", icon: MdLibraryBooks, link: "books" },
-  { title: "الاعدادات", icon: IoSettings, link: "setting" },
+  { title: "الاعدادات", icon: IoSettings, link: "settings" },
+  { title: "الإشعارات", link: "notifications", icon: IoNotifications },
   { title: "تسجيل الخروج", icon: RiLogoutCircleLine, link: "/" },
 ];
 
@@ -29,6 +32,7 @@ export const TeacherDashboardData = [
   { title: "المذكرات", link: "notes", icon: GrNotes },
   { title: "الإختبارات", link: "quizes", icon: MdOutlineQuiz },
   { title: "الإعدادات", link: "settings", icon: CiSettings },
+  { title: "الإشعارات", link: "notifications", icon: IoNotifications },
   { title: "تسجيل الخروج", icon: RiLogoutCircleLine, link: "/" },
 
 ];
@@ -43,6 +47,7 @@ export const adminData = [
   { id: 2, title: "حذف مدرس", icon: MdDelete, link: 'delete-teacher'},
   { id: 2, title: "إضافة كورس", icon: IoAddCircle, link: 'add-course'},
   { title: "الإعدادات", link: "settings", icon: CiSettings },
+  { title: "الإشعارات", link: "notifications", icon: IoNotifications },
   { title: "تسجيل الخروج", icon: RiLogoutCircleLine, link: "/" },
 
 ]
