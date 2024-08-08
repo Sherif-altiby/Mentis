@@ -25,7 +25,7 @@ const CreateMaterial = ({ data }: { data: AllCoursesProps }) => {
       <Link to={`/material/${data.title}?query=${data.title}&id=${data.id}`}>
         <div className="material">
           <div className="img"> 
-            <img src={chemistry} alt="" /> 
+            <img src={ data.image ? data.image : chemistry } alt="" /> 
           </div>
           <h3> {data.title} </h3>
           {/* <p> 2 معلمين </p> */}

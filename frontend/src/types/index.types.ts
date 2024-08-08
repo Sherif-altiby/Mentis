@@ -32,6 +32,7 @@ export type AllCoursesProps = {
      title: string;
      description: string;
      price: string;
+     image: string;
      teacher: {
         id: number;
         name: string;

@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../../redux/reduxHook"
 import { TeacherProps } from "../../../types/index.types"
 import { setLoading } from '../../../pages/loading/Loadingslice'
 import CustomLoading from '../../../pages/loading/CustomLoading'
+import Message from '../../message/Message'
 
 const AddCourse = () => {
 
@@ -20,8 +21,11 @@ const AddCourse = () => {
     const [courseDesc, setCourseDeesc] = useState("")
     const [coursePrice, setCoursePrice] = useState("")
     const [teacherId, setTeacherId] = useState<number>(0)
+    const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
-    useEffect( () => {
+    const [showMsg, setShow] = useState(false)
+
+    useEffect(() => {
 
         const getAllTeachers = async () => {
             const response = await axios.get("http://127.0.0.1:8000/api/teachers", {
@@ -29,8 +33,6 @@ const AddCourse = () => {
                     Authorization: `Bearer ${token}`
                 }
             });
-
-            console.log(response.data)
             setTeachers(response.data)
         }
 
@@ -38,88 +40,104 @@ const AddCourse = () => {
     }, []);
 
     const handelAddCours = async () => {
-        if(courseName.length > 0 && courseDesc.length > 0 && coursePrice.length > 0 && teacherId > 0){
+        if(courseName.length > 0 && courseDesc.length > 0 && coursePrice.length > 0 && teacherId > 0 && selectedImage) {
 
             dispatch(setLoading(true));
-            console.log("true")
 
-            const response = await axios.post("http://127.0.0.1:8000/api/courses", {
-                title: courseName,
-                description: courseDesc,
-                price: coursePrice,
-                teacher_id: teacherId
-            },{
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: "application/json"
+            const formData = new FormData();
+            formData.append("title", courseName);
+            formData.append("description", courseDesc);
+            formData.append("price", coursePrice);
+            formData.append("teacher_id", teacherId.toString());
+            formData.append("image", selectedImage);
+
+            try {
+                const response = await axios.post("http://127.0.0.1:8000/api/courses", formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+
+                console.log(response.data)
+
+                if(response.data.status === "success") {
+                    dispatch(setLoading(false));
+                    setCourseName("");
+                    setCourseDeesc("");
+                    setCoursePrice("");
+                    setTeacherId(0);
+                    setSelectedImage(null);
+                    setShow(true)
+                } else {
+                    dispatch(setLoading(false));
+                    console.log(response.data.response);
                 }
-            })
-
-            if(response.data.status === "success"){
-                dispatch(setLoading(false))
-                setCourseName("")
-                setCourseDeesc("");
-                setCoursePrice("")
-                setTeacherId(0)
-            } else {
-                dispatch(setLoading(false))
-                console.log(response.data.response)
+            } catch (error) {
+                dispatch(setLoading(false));
+                console.error("Error uploading the course:", error);
             }
 
-        }else{
-            console.log("failed")
+        } else {
+            console.log("Please fill in all fields and select an image.");
         }
     }
 
-  return (
-    <div className="add-course-admin" >
-         <h1> إضافة كورس </h1>
+    return (
+        <div className="add-course-admin">
+             
+             <Message show ={showMsg} message='تم إضافة المادة بنجاح' closeMsg={setShow} />
 
-         <div className="add-course-section">
-                {loading ? <CustomLoading /> : (null)}
-               <div className="input-container">
-                <div className="input">
-                    <label htmlFor="course-name"> إسم المادة </label>
-                    <input type="text" id="course-name" 
-                      onChange={(e) => setCourseName(e.target.value)} 
-                       value={courseName}
-                      />
+            <h1> إضافة كورس </h1>
+
+            <div className="add-course-section">
+                {loading ? <CustomLoading /> : null}
+                <div className="input-container">
+                    <div className="input">
+                        <label htmlFor="course-name"> إسم المادة </label>
+                        <input type="text" id="course-name" 
+                          onChange={(e) => setCourseName(e.target.value)} 
+                           value={courseName}
+                          />
+                    </div>
+                    <div className="input">
+                        <label htmlFor="course-desc"> الشرح </label>
+                        <input type="text" id="course-desc" 
+                          onChange={(e) => setCourseDeesc(e.target.value)} 
+                           value={courseDesc}
+                          />
+                    </div>
                 </div>
+                <div className="input-container">
+                    <div className="input">
+                        <label htmlFor="course-price"> سعر المادة </label>
+                        <input type="number" id="course-price" 
+                          onChange={(e) => setCoursePrice(e.target.value)} 
+                          value={coursePrice}
+                          />
+                    </div>
+                    <div className="input">
+                        <label htmlFor="course-teacher-name"> اختر المدرس </label>
+                        <select id="course-teacher-name" 
+                          onChange={(e) => setTeacherId(Number(e.target.value))} 
+                           value={teacherId}
+                          >
+                            <option value="0"></option>
+                            {teachers?.map((teacher) => (
+                                <option value={teacher.id} key={teacher.id}> {teacher.name} </option>
+                            ))}
+                        </select>
+                     </div>
+                </div> 
                 <div className="input">
-                    <label htmlFor="course-desc"> الشرح </label>
-                    <input type="text" id="course-desc" 
-                      onChange={(e) => setCourseDeesc(e.target.value)} 
-                       value={courseDesc}
-                      />
+                    <label htmlFor="img">  صورة المادة </label>
+                    <input type="file" id="img" onChange={(e) => setSelectedImage(e.target.files ? e.target.files[0] : null)} />
                 </div>
+
+                <div className="add-btn" onClick={handelAddCours}> إضافة </div>
             </div>
-            <div className="input-container">
-                <div className="input">
-                    <label htmlFor="course-price"> سعر المادة </label>
-                    <input type="number" id="course-price" 
-                      onChange={(e) => setCoursePrice(e.target.value)} 
-                      value={coursePrice}
-                      />
-                </div>
-                <div className="input">
-                    <label htmlFor="course-teacher-name"> اختر المدرس </label>
-                    <select id="course-teacher-name" 
-                      onChange={(e) => setTeacherId(Number(e.target.value))} 
-                       value={teacherId}
-                      >
-                        <option value="0"></option>
-                        {teachers?.map((teacher) => (
-                            <option value={teacher.id} > {teacher.name} </option>
-                        ))}
-                    </select>
-                 </div>
-            </div> 
-        
-          <div className="add-btn" onClick={handelAddCours} > إضافة </div>
-
-         </div>
-    </div>
-  )
+        </div>
+    )
 }
 
-export default AddCourse
+export default AddCourse;
