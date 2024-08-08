@@ -6,6 +6,7 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -20,32 +21,30 @@ class CourseController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
-{
-    $courses = Course::with('teacher')->get()->map(function ($course) {
-        return [
-            'id' => $course->id,
-            'teacher_id' => $course->teacher_id,
-            'teacher' => $course->teacher ? [
-                'id' => $course->teacher->id,
-                'name' => $course->teacher->name,
-                'email' => $course->teacher->email,
-                // Add other teacher attributes as needed
-            ] : null,
-            'title' => $course->title,
-            'description' => $course->description,
-            'price' => $course->price,
-            'image' => $course->image ? base64_encode($course->image) : null,
-            'created_at' => $course->created_at,
-            'updated_at' => $course->updated_at,
-        ];
-    });
+    {
+        $courses = Course::with('teacher')->get()->map(function ($course) {
+            return [
+                'id' => $course->id,
+                'teacher_id' => $course->teacher_id,
+                'teacher' => $course->teacher ? [
+                    'id' => $course->teacher->id,
+                    'name' => $course->teacher->name,
+                    'email' => $course->teacher->email,
+                ] : null,
+                'title' => $course->title,
+                'description' => $course->description,
+                'price' => $course->price,
+                'image' => $course->image ? asset('storage/' . $course->image) : null,
+                'created_at' => $course->created_at,
+                'updated_at' => $course->updated_at,
+            ];
+        });
 
-    return response()->json([
-        'status' => 'success',
-        'data' => $courses
-    ], 200);
-}
-
+        return response()->json([
+            'status' => 'success',
+            'data' => $courses
+        ], 200);
+    }
 
     /**
      * Store a new course.
@@ -60,7 +59,7 @@ class CourseController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric',
             'teacher_id' => 'required|exists:users,id',
-            'image' => 'nullable|string', // base64 encoded image
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         try {
@@ -77,8 +76,9 @@ class CourseController extends Controller
 
             $course = new Course($validated);
 
-            if ($request->filled('image')) {
-                $course->image = base64_decode($request->image);
+            if ($request->hasFile('image')) {
+                $path = $request->file('image')->store('courses', 'public');
+                $course->image = $path;
             }
 
             $course->save();
@@ -116,7 +116,7 @@ class CourseController extends Controller
                     'title' => $course->title,
                     'description' => $course->description,
                     'price' => $course->price,
-                    'image' => $course->image ? base64_encode($course->image) : null,
+                    'image' => $course->image ? asset('storage/' . $course->image) : null,
                     'created_at' => $course->created_at,
                     'updated_at' => $course->updated_at,
                 ]
@@ -148,7 +148,7 @@ class CourseController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric',
             'teacher_id' => 'required|exists:users,id',
-            'image' => 'nullable|string', // base64 encoded image
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         try {
@@ -164,8 +164,14 @@ class CourseController extends Controller
                 ], 409);
             }
 
-            if ($request->filled('image')) {
-                $validated['image'] = base64_decode($request->image);
+            if ($request->hasFile('image')) {
+                // Delete the old image if it exists
+                if ($course->image) {
+                    Storage::disk('public')->delete($course->image);
+                }
+
+                $path = $request->file('image')->store('courses', 'public');
+                $course->image = $path;
             }
 
             $course->update($validated);
@@ -193,6 +199,11 @@ class CourseController extends Controller
     public function destroy(Course $course)
     {
         try {
+            // Delete the image from storage
+            if ($course->image) {
+                Storage::disk('public')->delete($course->image);
+            }
+
             $course->delete();
 
             return response()->json([
