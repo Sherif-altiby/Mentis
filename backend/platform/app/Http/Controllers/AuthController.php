@@ -48,7 +48,8 @@ class AuthController extends Controller
         if ($request->role == 'student') {
             $rules['parent_name'] = 'required|string|max:255';
             $rules['parent_phone'] = 'required|string|max:20|unique:users,phone_number';
-        } 
+            $rules['grade_level'] = 'required|integer|min:1|max:12';
+        }
 
         // Validate the request
         $validator = Validator::make($request->all(), $rules);
@@ -56,7 +57,7 @@ class AuthController extends Controller
         // Return validation errors with specific role-related messages
         if ($validator->fails()) {
             $messages = $validator->errors();
-            
+
             // Specific messages based on role
             if ($request->role == 'student') {
                 if ($messages->has('parent_name')) {
@@ -73,7 +74,14 @@ class AuthController extends Controller
                         'errors' => $messages
                     ], 422);
                 }
-            } 
+                if ($messages->has('grade_level')) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Grade level is required and must be between 1 and 12',
+                        'errors' => $messages
+                    ], 422);
+                }
+            }
 
             return response()->json([
                 'status' => 'error',
@@ -112,12 +120,19 @@ class AuthController extends Controller
             $response = [
                 'status' => 'success',
                 'message' => 'User registered successfully!',
-                'user_id' => $user_id.'@Mentis.com',
+                'user_id' => $user_id . '@Mentis.com',
                 'user_password' => $password
             ];
 
-            // If the user is a student, create the parent user and relationship
+            // If the user is a student, store their grade level
             if ($request->role == 'student') {
+                DB::table('students')->insert([
+                    'user_id' => $user->id,
+                    'grade_level' => $request->grade_level,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
                 // Generate a unique ID and password for the parent
                 $parent_id = $this->generateUniqueId();
                 $parent_password = $this->generatePassword();
@@ -156,18 +171,14 @@ class AuthController extends Controller
             }
 
             // Only include a token in the response if the role is not student
-          
             $response['token'] = $user->createToken($request->name)->plainTextToken;
-       
 
-            // Return response with message, status, and token if applicable
+            // Return response with message, status, and token
             return response()->json($response, 201);
-
         } catch (\Exception $e) {
-            // Handle any exceptions
             return response()->json([
                 'status' => 'error',
-                'message' => 'Registration failed',
+                'message' => 'Failed to register user',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -244,16 +255,31 @@ class AuthController extends Controller
         if ($personalAccessToken) {
             // Get the associated user
             $user = $personalAccessToken->tokenable;
-
-            return response()->json([
+            
+            $userDetails = [
                 'user_id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
-                'phone_number'=>$user->phone_number,
-                'role'=>$user->role,
-                
-                // Add other user fields you need
-            ]);
+                'phone_number' => $user->phone_number,
+                'role' => $user->role,
+            ];
+
+            // Fetch additional details based on user role
+            if ($user->role == 'student') {
+                $studentDetails = DB::table('students')
+                                    ->where('user_id', $user->id)
+                                    ->first();
+
+                $userDetails['grade_level'] = $studentDetails->grade_level;
+            } elseif ($user->role == 'teacher') {
+                // Fetch teacher-specific details if required
+            } elseif ($user->role == 'parent') {
+                // Fetch parent-specific details if required
+            } elseif ($user->role == 'admin') {
+                // Fetch admin-specific details if required
+            }
+
+            return response()->json($userDetails);
         }
 
         return response()->json(['error' => 'Token not found'], 404);

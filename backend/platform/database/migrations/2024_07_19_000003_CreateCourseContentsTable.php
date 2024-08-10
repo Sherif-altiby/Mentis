@@ -13,6 +13,7 @@ class CreateCourseContentsTable extends Migration
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
             $table->enum('content_type', ['video', 'document', 'quiz']);
             $table->string('title');
+            $table->binary('image')->nullable(); // Store image as binary data
             $table->string('file_path')->nullable();
             $table->text('content')->nullable();
             $table->integer('order')->default(0);

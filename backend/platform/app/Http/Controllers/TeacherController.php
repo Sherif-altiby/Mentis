@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Validator;
 
 class TeacherController extends Controller
 {
+    // Retrieve all teachers and their courses
     public function index()
     {
         try {
-            $teachers = User::where('role', 'teacher')->with(['courses' => function($query) {
-                $query->select('id', 'teacher_id', 'title', 'description', 'price', 'created_at', 'updated_at'); // Exclude 'image'
+            $teachers = User::where('role', 'teacher')->with(['courses' => function ($query) {
+                $query->select('id', 'teacher_id', 'title', 'description', 'price', 'created_at', 'updated_at');
             }])->get();
             return response()->json($teachers);
         } catch (\Exception $e) {
@@ -22,11 +23,12 @@ class TeacherController extends Controller
         }
     }
 
+    // Retrieve a specific teacher and their courses
     public function show($id)
     {
         try {
-            $teacher = User::where('role', 'teacher')->with(['courses' => function($query) {
-                $query->select('id', 'teacher_id', 'title', 'description', 'price', 'created_at', 'updated_at'); // Exclude 'image'
+            $teacher = User::where('role', 'teacher')->with(['courses' => function ($query) {
+                $query->select('id', 'teacher_id', 'title', 'description', 'price', 'created_at', 'updated_at');
             }])->findOrFail($id);
             return response()->json($teacher);
         } catch (\Exception $e) {
@@ -34,6 +36,7 @@ class TeacherController extends Controller
         }
     }
 
+    // Create a new course
     public function storeCourse(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -41,7 +44,7 @@ class TeacherController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric',
-            'image' => 'nullable|binary',
+            'image' => 'nullable|binary', // Image is optional
         ]);
 
         if ($validator->fails()) {
@@ -51,7 +54,7 @@ class TeacherController extends Controller
         try {
             $courseData = $request->all();
             if ($request->has('image')) {
-                $courseData['image'] = base64_encode($request->image);
+                $courseData['image'] = base64_encode($request->image); // Encode image as base64
             }
             $course = Course::create($courseData);
             return response()->json($course, 201);
@@ -60,13 +63,14 @@ class TeacherController extends Controller
         }
     }
 
+    // Update an existing course
     public function updateCourse(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric',
-            'image' => 'nullable|binary',
+            'image' => 'nullable|binary', // Image is optional
         ]);
 
         if ($validator->fails()) {
@@ -77,7 +81,7 @@ class TeacherController extends Controller
             $course = Course::findOrFail($id);
             $courseData = $request->all();
             if ($request->has('image')) {
-                $courseData['image'] = base64_encode($request->image);
+                $courseData['image'] = base64_encode($request->image); // Encode image as base64
             }
             $course->update($courseData);
             return response()->json($course);
@@ -86,6 +90,7 @@ class TeacherController extends Controller
         }
     }
 
+    // Delete a specific course
     public function deleteCourse($id)
     {
         try {
@@ -98,28 +103,48 @@ class TeacherController extends Controller
     }
 
     public function storeCourseContent(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'course_id' => 'required|exists:courses,id',
-            'content_type' => 'required|in:video,document,quiz',
-            'title' => 'required|string|max:255',
-            'file_path' => 'nullable|string',
-            'content' => 'nullable|string',
-            'order' => 'required|integer',
-        ]);
+{
+    // Validate the request
+    $validator = Validator::make($request->all(), [
+        'course_id' => 'required|exists:courses,id',
+        'content_type' => 'required|in:video,document,quiz',
+        'title' => 'required|string|max:255',
+        'file_path' => 'nullable|string',
+        'content' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate image with size and format
+        'order' => 'required|integer',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => 'Validation failed', 'message' => $validator->errors()], 422);
-        }
-
-        try {
-            $courseContent = CourseContent::create($request->all());
-            return response()->json($courseContent, 201);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Unable to create course content', 'message' => $e->getMessage()], 500);
-        }
+    if ($validator->fails()) {
+        return response()->json(['error' => 'Validation failed', 'message' => $validator->errors()], 422);
     }
 
+    try {
+        $data = $request->all();
+        
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            // Generate a unique file name
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            // Store the image in the 'images' directory
+            $image->storeAs('public/images', $imageName);
+            // Save the file path
+            $data['image'] = $imageName;
+        }
+        
+        // Create CourseContent
+        $courseContent = CourseContent::create($data);
+        return response()->json($courseContent, 201);
+        
+    } catch (\Exception $e) {
+        // Handle exceptions
+        return response()->json(['error' => 'Unable to create course content', 'message' => $e->getMessage()], 500);
+    }
+}
+
+
+    // Update an existing course content
     public function updateCourseContent(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -127,6 +152,7 @@ class TeacherController extends Controller
             'title' => 'required|string|max:255',
             'file_path' => 'nullable|string',
             'content' => 'nullable|string',
+            'image' => 'nullable|image', // Validate image
             'order' => 'required|integer',
         ]);
 
@@ -136,13 +162,18 @@ class TeacherController extends Controller
 
         try {
             $courseContent = CourseContent::findOrFail($id);
-            $courseContent->update($request->all());
+            $data = $request->all();
+            if ($request->hasFile('image')) {
+                $data['image'] = file_get_contents($request->file('image')->getRealPath()); // Store image as binary data
+            }
+            $courseContent->update($data);
             return response()->json($courseContent);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Unable to update course content', 'message' => $e->getMessage()], 500);
         }
     }
 
+    // Delete a specific course content
     public function deleteCourseContent($id)
     {
         try {
@@ -151,6 +182,28 @@ class TeacherController extends Controller
             return response()->json(['message' => 'Course content deleted successfully'], 204);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Unable to delete course content', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    // Retrieve all course contents
+    public function getAllCourseContents()
+    {
+        try {
+            $courseContents = CourseContent::all();
+            return response()->json($courseContents);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unable to retrieve course contents', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    // Retrieve a specific course content
+    public function showCourseContent($id)
+    {
+        try {
+            $courseContent = CourseContent::findOrFail($id);
+            return response()->json($courseContent);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Course content not found', 'message' => $e->getMessage()], 404);
         }
     }
 }
