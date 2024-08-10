@@ -1,5 +1,22 @@
 @import '../../App.scss';
 
+.user-profile-contianer{
+  &.dark{
+    background-color: var(--main-dark-color);
+    padding-bottom: 20px;
+
+    .student-profile{
+      h1{
+        color: #fff;
+      }
+
+      .dashborad-content{
+        background-color: #282727b3;
+      }
+    }
+  }
+}
+
 .student-profile {
   position: relative;
 
@@ -51,6 +68,19 @@
   padding: 10px 20px;
   background: #fff;
   z-index: 99;
+
+  &.dark{
+    background-color: var(--nav-bg-dark);
+
+    .avatar{
+      color: #fff;
+
+      .img{
+        color: #fff;
+        border-color: var(--primary-color);
+      }
+    }
+  }
 
   .avatar{
     display: flex;

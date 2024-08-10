@@ -124,6 +124,14 @@ const Signup: React.FC = () => {
               />
             </div>
           </div>
+          <div className="input">
+            <label htmlFor="grade"> الصف الدراسي </label>
+            <select name="grade" id="grade">
+              <option value="1"> الصف الاول الثانوي </option>
+              <option value="2"> الصف الثاني الثانوي </option>
+              <option value="3"> الصف الثالث الثانوي </option>
+            </select>
+          </div>
           <div className="btns">
             <div className="btn" onClick={handleSignup}>
               تسجيل

@@ -3,6 +3,61 @@
 .setting-user{
     width: 100%;
 
+    &.dark{
+        .setting-user-img{
+            background-color: var(--main-dark-color);
+        }
+
+        .sec-header{
+            color: #fff;
+        }
+
+        .save-btn{
+            background-color: #fff;
+            color: #000;
+        }
+
+        .img-container .text{
+            color: #fff;
+        }
+
+        .change-password{
+            background-color: var(--main-dark-color);
+
+            .input{
+                label{
+                    color: #999;
+                }
+
+                input{
+                    background-color: #333;
+                    border-color: #999;
+                    color: #fff;
+                }
+            }
+        }
+        
+        .general-setting{
+            background-color: var(--main-dark-color);
+
+            .input{
+                label{
+                    color: #999;
+                }
+
+                input{
+                    background-color: #333;
+                    border-color: #999;
+                    color: #fff;
+                }
+            }
+        }
+
+        .theme{
+            background-color: var(--main-dark-color);
+        }
+    }
+
     .sec-header{
         text-align: center;
         border-bottom: 1px solid var(--border-color);
@@ -158,5 +213,41 @@
         padding: 20px;
         border-radius: 10px;
         margin-top: 50px;
+    }
+
+    .theme{
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 50px;
+
+        h3{
+            color: var(--green-color);
+        }
+
+        .icons{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            box-shadow: 0 0 5px var(--box-shadow-color);
+            width: 400px;
+            margin-top: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+
+            .icon{
+              width: 100%;
+              text-align: center;
+              font-size: 30px;
+              color: #999;
+              cursor: pointer;
+
+              &.active{
+                background-color: var(--primary-color);
+                color: #fff;
+              }
+            }
+        }
     }
  }

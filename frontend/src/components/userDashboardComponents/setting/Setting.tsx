@@ -1,19 +1,24 @@
 import "./setting.scss";
 import { CiUser } from "react-icons/ci";
 import { IoCloudUploadOutline } from "react-icons/io5";
+import { CiCloudSun } from "react-icons/ci";
+import { MdDarkMode } from "react-icons/md";
+
 import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 import Loading from "../../../pages/loading/Loading";
-import { useAppSelector } from "../../../redux/reduxHook" ;
+import { useAppSelector, useAppDispatch } from "../../../redux/reduxHook" ;
+import { setDarkTheme, setLightTheme } from "./settingSlice";
 
 
 const Setting = () => {
 
+  const dispatch = useAppDispatch()
+
   const loading = useAppSelector((state) => state.loading.isLoading);
-  
-
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
   const userInfo = useAppSelector((state) => state.userInfo.userInfo)
-
+   
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,13 +26,12 @@ const Setting = () => {
     if (file) { setImagePreviewUrl(URL.createObjectURL(file)); }
   };
 
-
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
-        <div className="setting-user">
+        <div className={`setting-user ${appMode === 'dark' ? 'dark' : ''} `}>
           <h1> الإعدادات </h1>
 
           <div className="setting-user-img">
@@ -101,6 +105,14 @@ const Setting = () => {
             </div>
 
             <div className="save-btn"> حفظ </div>
+          </div>
+
+          <div className="theme">
+                 <h3> السمة </h3>
+                 <div className="icons">
+                    <div className={`icon ${appMode === 'dark' ? '' : 'active'} `} onClick={() => dispatch(setLightTheme())} > <CiCloudSun /> </div>
+                    <div className={`icon ${appMode === 'dark' ? 'active' : ''} `} onClick={() => dispatch(setDarkTheme())} > <MdDarkMode /> </div>
+                 </div>
           </div>
         </div>
       )}

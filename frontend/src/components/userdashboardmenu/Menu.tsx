@@ -1,10 +1,13 @@
 import './menue.scss'; 
 import { menusData } from '../../data/data';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../redux/reduxHook';
 
 const Menu = ( {showMenu, setShowMenu}: {showMenu: boolean, setShowMenu: React.Dispatch<React.SetStateAction<boolean>>} ) => {
 
   const navigate = useNavigate()
+
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
 
   const hanldleLogout = () => { 
     localStorage.removeItem('mentisID');
@@ -15,7 +18,7 @@ const Menu = ( {showMenu, setShowMenu}: {showMenu: boolean, setShowMenu: React.D
 
 
   return (
-    <div className='student-dashboard-menu' >
+    <div className={`student-dashboard-menu ${appMode}`} >
         <div className={showMenu ? "overlay show" : "overlay"} onClick={() => setShowMenu(false)} ></div>
          <ul className={showMenu ? "show" : ""} >
             {menusData.map((li) => (

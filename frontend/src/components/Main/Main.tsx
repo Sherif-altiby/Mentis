@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
-import chemistry from "../../assets/chemistry.jpg";
+// import chemistry from "../../assets/chemistry.jpg";
 import introImg from '../../assets/intro-img-2.png';
 import studentintroimg from '../../assets/student-intro-img-2.png'
 import teacherintroimg from '../../assets/teacher-intro.png';
@@ -17,23 +17,23 @@ import { useEffect } from "react";
 
 import { setAllTeachers, setAllCourses} from "./teacherSlice";
 
-import { AllCoursesProps } from "../../types/index.types";
+// import { AllCoursesProps } from "../../types/index.types";
 
-const CreateMaterial = ({ data }: { data: AllCoursesProps }) => {
-  return (
-    <>
-      <Link to={`/material/${data.title}?query=${data.title}&id=${data.id}`}>
-        <div className="material">
-          <div className="img"> 
-            <img src={ data.image ? data.image : chemistry } alt="" /> 
-          </div>
-          <h3> {data.title} </h3>
-          {/* <p> 2 معلمين </p> */}
-        </div>
-      </Link>
-    </>
-  );
-};
+// const CreateMaterial = ({ data }: { data: AllCoursesProps }) => {
+//   return (
+//     <>
+//       <Link to={`/material/${data.title}?query=${data.title}&id=${data.id}`}>
+//         <div className="material">
+//           <div className="img"> 
+//             <img src={ data.image ? data.image : chemistry } alt="" /> 
+//           </div>
+//           <h3> {data.title} </h3>
+//           {/* <p> 2 معلمين </p> */}
+//         </div>
+//       </Link>
+//     </>
+//   );
+// };
 
  
 const Main = () => {
@@ -118,14 +118,14 @@ const Main = () => {
 
       </div>
 
-      <div className="all-materials" id='all-mentis-materials' >
+      {/* <div className="all-materials" id='all-mentis-materials' >
            <h1> المواد الدراسية </h1>
         <div className="main-swiper-slider">
             {allCourses?.map((item) => (
                 <CreateMaterial data={item} key={item.id} />
             ))}
         </div>
-      </div>
+      </div> */}
 
       <div className="all-teachers" id="all-mentis-teachers" >
         <h1> المدرسين </h1>
