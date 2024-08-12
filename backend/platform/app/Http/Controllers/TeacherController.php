@@ -213,6 +213,64 @@ public function updateCourseContent(Request $request, $id)
             return response()->json(['error' => 'Unable to retrieve course contents', 'message' => $e->getMessage()], 500);
         }
     }
+    public function getCourseContentsByTeacherAndLevel($teacherId, $level)
+{
+    try {
+        // Validate input parameters
+        if (!is_numeric($teacherId) || $teacherId <= 0) {
+            return response()->json([
+                'error' => 'Invalid teacher ID',
+                'message' => 'The provided teacher ID must be a positive number.'
+            ], 400);
+        }
+
+        $validLevels = ['first', 'second', 'third'];
+        if (!in_array($level, $validLevels)) {
+            return response()->json([
+                'error' => 'Invalid level',
+                'message' => 'The level must be one of the following: ' . implode(', ', $validLevels) . '.'
+            ], 400);
+        }
+
+        // Check if the teacher exists
+        $teacherExists = User::where('id', $teacherId)->where('role', 'teacher')->exists();
+        if (!$teacherExists) {
+            return response()->json([
+                'error' => 'Teacher not found',
+                'message' => 'No teacher found with the provided ID.'
+            ], 404);
+        }
+
+        // Retrieve course contents
+        $courseContents = CourseContent::whereHas('course', function ($query) use ($teacherId) {
+            $query->where('teacher_id', $teacherId);
+        })
+        ->where('level', $level)
+        ->get();
+
+        if ($courseContents->isEmpty()) {
+            return response()->json([
+                'error' => 'No course contents found',
+                'message' => 'No course contents found for the specified teacher and level.'
+            ], 404);
+        }
+
+        // Return the course contents
+        return response()->json([
+            'success' => true,
+            'message' => 'Course contents retrieved successfully.',
+            'data' => $courseContents
+        ], 200);
+
+    } catch (\Exception $e) {
+        // Handle exceptions
+        return response()->json([
+            'error' => 'Unable to retrieve course contents',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
+
 
     // Retrieve a specific course content
     public function showCourseContent($id)

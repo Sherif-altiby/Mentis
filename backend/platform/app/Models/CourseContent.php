@@ -13,19 +13,15 @@ class CourseContent extends Model
         'course_id',
         'content_type',
         'title',
+        'image',
         'file_path',
         'content',
         'order',
-        'image', // Added for handling image data
+        'level',
     ];
 
-    /**
-     * Define the relationship with the Course model.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function course()
     {
-        return $this->belongsTo(Course::class, 'course_id');
+        return $this->belongsTo(Course::class);
     }
 }

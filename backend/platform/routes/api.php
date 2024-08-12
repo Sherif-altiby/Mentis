@@ -65,6 +65,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Course Content Routes
     Route::get('/course-contents', [TeacherController::class, 'getAllCourseContents']);
     Route::get('/course-contents/{id}', [TeacherController::class, 'showCourseContent']);
+
+    Route::get('/course-contents/teacher/{teacherId}/level/{level}', [TeacherController::class, 'getCourseContentsByTeacherAndLevel']);
     
     // --------------------- User & Authentication Routes ---------------------
     
