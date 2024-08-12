@@ -112,7 +112,7 @@ class TeacherController extends Controller
         'file_path' => 'nullable|string',
         'content' => 'nullable|string',
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate image with size and format
-        'order' => 'required|integer',
+        'level' => 'required|in:first,second,third',
     ]);
 
     if ($validator->fails()) {
@@ -132,7 +132,11 @@ class TeacherController extends Controller
             // Save the file path
             $data['image'] = $imageName;
         }
-        
+
+        // Set the order for the new content based on the current max order
+        $maxOrder = CourseContent::where('course_id', $request->course_id)->max('order');
+        $data['order'] = $maxOrder + 1;
+
         // Create CourseContent
         $courseContent = CourseContent::create($data);
         return response()->json($courseContent, 201);
@@ -143,35 +147,49 @@ class TeacherController extends Controller
     }
 }
 
+public function updateCourseContent(Request $request, $id)
+{
+    $validator = Validator::make($request->all(), [
+        'content_type' => 'required|in:video,document,quiz',
+        'title' => 'required|string|max:255',
+        'file_path' => 'nullable|string',
+        'content' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate image
+        'level' => 'required|in:first,second,third',
+    ]);
 
-    // Update an existing course content
-    public function updateCourseContent(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'content_type' => 'required|in:video,document,quiz',
-            'title' => 'required|string|max:255',
-            'file_path' => 'nullable|string',
-            'content' => 'nullable|string',
-            'image' => 'nullable|image', // Validate image
-            'order' => 'required|integer',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => 'Validation failed', 'message' => $validator->errors()], 422);
-        }
-
-        try {
-            $courseContent = CourseContent::findOrFail($id);
-            $data = $request->all();
-            if ($request->hasFile('image')) {
-                $data['image'] = file_get_contents($request->file('image')->getRealPath()); // Store image as binary data
-            }
-            $courseContent->update($data);
-            return response()->json($courseContent);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Unable to update course content', 'message' => $e->getMessage()], 500);
-        }
+    if ($validator->fails()) {
+        return response()->json(['error' => 'Validation failed', 'message' => $validator->errors()], 422);
     }
+
+    try {
+        $courseContent = CourseContent::findOrFail($id);
+        $data = $request->all();
+        
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            // Generate a unique file name
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            // Store the image in the 'images' directory
+            $image->storeAs('public/images', $imageName);
+            // Save the file path
+            $data['image'] = $imageName;
+        }
+        
+        // If the order is changing, we may want to re-adjust the orders of other contents
+        if (isset($data['order'])) {
+            $maxOrder = CourseContent::where('course_id', $courseContent->course_id)->max('order');
+            $data['order'] = min($data['order'], $maxOrder);
+        }
+
+        $courseContent->update($data);
+        return response()->json($courseContent);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Unable to update course content', 'message' => $e->getMessage()], 500);
+    }
+}
+
 
     // Delete a specific course content
     public function deleteCourseContent($id)

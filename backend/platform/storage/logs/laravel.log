@@ -6653,3 +6653,30 @@ Did you mean one of these?
 [stacktrace]
 #0 {main}
 "} 
+[2024-08-12 15:49:01] local.ERROR: Command "migrate:refrish" is not defined.
+
+Did you mean one of these?
+    migrate
+    migrate:fresh
+    migrate:install
+    migrate:refresh
+    migrate:reset
+    migrate:rollback
+    migrate:status {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"migrate:refrish\" is not defined.
+
+Did you mean one of these?
+    migrate
+    migrate:fresh
+    migrate:install
+    migrate:refresh
+    migrate:reset
+    migrate:rollback
+    migrate:status at C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\vendor\\symfony\\console\\Application.php:702)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\vendor\\symfony\\console\\Application.php(258): Symfony\\Component\\Console\\Application->find('migrate:refrish')
+#1 C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\vendor\\symfony\\console\\Application.php(167): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(196): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1203): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#5 {main}
+"} 
