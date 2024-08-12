@@ -43,7 +43,7 @@ const Main = () => {
 
   const token = useAppSelector((state) => state.token.token)
   const allTeacher = useAppSelector((state) => state.teacher.teachers)
-  const allCourses = useAppSelector((state) => state.teacher.courses);
+  // const allCourses = useAppSelector((state) => state.teacher.courses);
   const userInfo = useAppSelector((state) => state.userInfo.userInfo)
    
   const [text] = useTypewriter({
@@ -63,22 +63,23 @@ const Main = () => {
         })
     
           dispatch(setAllTeachers(response.data))
+          console.log(response.data)
    }
 
   }
 
-  const getAllCourses = async () => {
-    if(allCourses.length === 0){
-      const respons  = await axios.get("http://127.0.0.1:8000/api/courses")
+  // const getAllCourses = async () => {
+  //   if(allCourses.length === 0){
+  //     const respons  = await axios.get("http://127.0.0.1:8000/api/courses")
 
-      dispatch(setAllCourses(respons.data.data))
-    }
-  }
+  //     dispatch(setAllCourses(respons.data.data))
+  //   }
+  // }
 
 
   useEffect(() => { 
       getAllTeacher() ;
-      getAllCourses() ;
+      // getAllCourses() ;
   }, [token]);
  
   return (
