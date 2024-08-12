@@ -16,7 +16,8 @@ class CreateCourseContentsTable extends Migration
             $table->binary('image')->nullable(); // Store image as binary data
             $table->string('file_path')->nullable();
             $table->text('content')->nullable();
-            $table->integer('order')->default(0);
+            $table->integer('order')->default(0); // This will be updated later
+            $table->enum('level', ['first', 'second', 'third'])->default('first');
             $table->timestamps();
         });
     }
