@@ -248,42 +248,73 @@ class AuthController extends Controller
     }
 
     public function getUserFromToken($token)
-    {
-        // Find the token using the static method
-        $personalAccessToken = PersonalAccessToken::findToken($token);
+{
+    // Find the token using the static method
+    $personalAccessToken = PersonalAccessToken::findToken($token);
 
-        if ($personalAccessToken) {
-            // Get the associated user
-            $user = $personalAccessToken->tokenable;
-            
-            $userDetails = [
-                'user_id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'phone_number' => $user->phone_number,
-                'role' => $user->role,
-            ];
-
-            // Fetch additional details based on user role
-            if ($user->role == 'student') {
-                $studentDetails = DB::table('students')
-                                    ->where('user_id', $user->id)
-                                    ->first();
-
-                $userDetails['grade_level'] = $studentDetails->grade_level;
-            } elseif ($user->role == 'teacher') {
-                // Fetch teacher-specific details if required
-            } elseif ($user->role == 'parent') {
-                // Fetch parent-specific details if required
-            } elseif ($user->role == 'admin') {
-                // Fetch admin-specific details if required
-            }
-
-            return response()->json($userDetails);
-        }
-
+    // Check if the token is found
+    if (!$personalAccessToken) {
         return response()->json(['error' => 'Token not found'], 404);
     }
+
+    // Get the associated user
+    $user = $personalAccessToken->tokenable;
+
+    if (!$user) {
+        return response()->json(['error' => 'User not found for the given token'], 404);
+    }
+
+    $userDetails = [
+        'user_id' => $user->id,
+        'name' => $user->name,
+        'email' => $user->email,
+        'phone_number' => $user->phone_number,
+        'role' => $user->role,
+    ];
+
+    // Fetch additional details based on user role
+    try {
+        switch ($user->role) {
+            case 'student':
+                $studentDetails = DB::table('students')
+                    ->where('user_id', $user->id)
+                    ->first();
+
+                if (!$studentDetails) {
+                    return response()->json(['error' => 'Student details not found'], 404);
+                }
+
+                $userDetails['grade_level'] = $studentDetails->grade_level;
+                break;
+
+            case 'teacher':
+                // Fetch teacher-specific details if required
+                // Add relevant code here for teacher details
+                break;
+
+            case 'parent':
+                // Fetch parent-specific details if required
+                // Add relevant code here for parent details
+                break;
+
+            case 'admin':
+                // Fetch admin-specific details if required
+                // Add relevant code here for admin details
+                break;
+
+            default:
+                return response()->json(['error' => 'Invalid user role'], 400);
+        }
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'An error occurred while fetching user details',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+
+    return response()->json($userDetails, 200);
+}
+
     public function resetPassword(Request $request)
     {
         // Validate the request
