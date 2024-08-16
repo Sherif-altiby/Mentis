@@ -13,7 +13,7 @@ class CreateQuizResponsesTable extends Migration
             $table->foreignId('quiz_question_id')->constrained('quiz_questions')->onDelete('cascade');
             $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
             $table->string('answer');
-            $table->boolean('is_correct');
+            $table->boolean('is_correct')->default(false); // Computed during the answer submission
             $table->timestamps();
         });
     }
