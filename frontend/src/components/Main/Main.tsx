@@ -55,7 +55,6 @@ const Main = () => {
 
   const getAllTeacher = async () => {
      
-   if(allTeacher.length === 0) {
         const response = await axios.get("http://127.0.0.1:8000/api/teachers", {
           headers:{
             Authorization: `Bearer ${token}`
@@ -63,9 +62,6 @@ const Main = () => {
         })
     
           dispatch(setAllTeachers(response.data))
-          console.log(response.data)
-   }
-
   }
 
   // const getAllCourses = async () => {

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./auth.scss";
 import { useState } from "react";
 import Circles from "../components/animation/Circles";
-import { register } from "../utils/api";
+import { getUserInfo, register } from "../utils/api";
 import { useNavigate } from 'react-router-dom';
 import Loading from "../pages/loading/Loading";
 
@@ -10,6 +10,7 @@ import { setToken } from "./tokenSlice";
 
 import { setLoading } from "../pages/loading/Loadingslice";
 import { useAppDispatch, useAppSelector } from "../redux/reduxHook";
+import { setUserInfo } from "../components/Navbar/userInfo";
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
@@ -31,6 +32,8 @@ const Signup: React.FC = () => {
 
   const [error, setError] = useState(false);
 
+  
+
   const handleSignup = async () => {
 
     if (userName.length > 0 && parentName.length> 0 && userNumber.length > 0 && parentNumber.length > 0) {
@@ -48,6 +51,10 @@ const Signup: React.FC = () => {
 
         if (!data.error) {
           dispatch(setToken(data.token));
+          
+          const userInfoData = await getUserInfo(data.token);
+          dispatch(setUserInfo(userInfoData))
+
           dispatch(setLoading(false));
           navigate('/');
         } else {
@@ -61,6 +68,7 @@ const Signup: React.FC = () => {
             console.log("fdkjndkjf")
           }
         }
+
         
     }else{
       setUserNameValidate(userName.length > 0);

@@ -9,6 +9,7 @@ import { setToken } from './tokenSlice';
 
 import { setLoading } from "../pages/loading/Loadingslice";
 import { useAppDispatch, useAppSelector } from "../redux/reduxHook";
+import { setUserInfo } from '../components/Navbar/userInfo';
 
 const Login = () => {
 
@@ -38,7 +39,7 @@ const Login = () => {
 
           const loginData = await getUserInfo(data.token)
 
-          console.log(data)
+          dispatch(setUserInfo(loginData))
 
           if(loginData.role === "student"){
               navigate('/')

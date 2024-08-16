@@ -8,14 +8,19 @@ export type UserInfoProps = {
   user_id: number;
 };
 
-const initialState: { userInfo: UserInfoProps } = {
-  userInfo: {
+ const loadUserInfo = (): UserInfoProps => {
+  const storedUserInfo = localStorage.getItem("userInfo");
+  return storedUserInfo ? JSON.parse(storedUserInfo) : {
     name: "",
     email: "",
     phone_number: "",
     role: "",
     user_id: 0
-  }
+  };
+};
+
+const initialState: { userInfo: UserInfoProps } = {
+  userInfo: loadUserInfo()
 };
 
 const userSlice = createSlice({
@@ -24,6 +29,8 @@ const userSlice = createSlice({
   reducers: {
     setUserInfo: (state, action: PayloadAction<UserInfoProps>) => {
       state.userInfo = action.payload;
+      // Save userInfo to localStorage
+      localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
     }
   }
 });

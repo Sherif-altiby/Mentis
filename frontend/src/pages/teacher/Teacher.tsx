@@ -1,9 +1,14 @@
 import { useParams } from 'react-router-dom';
 import './Teacher.scss';
 import MainHeader from '../../components/mainheader/MainHeader';
-
 import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getTeacherAllCourses } from '../../utils/teacher';
+import { useAppSelector,useAppDispatch } from '../../redux/reduxHook';
+import { setLoading } from '../loading/Loadingslice';
+import Loading from '../loading/Loading';
 import { Link } from 'react-router-dom';
+import { setVideoId } from '../videoplayer/videoSlice';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -11,27 +16,49 @@ const useQuery = () => {
 
 
 const Teacher = () => {
+  const { teacherId } = useParams<{ teacherId: string }>();
+  const [courses, setCourses] = useState<any[]>([]);
+  const query = useQuery();
+  const id = query.get('id');
+  const token = useAppSelector((state) => state.token.token);
+  const loading = useAppSelector((state) => state.loading.isLoading)
+  const dispatch = useAppDispatch()
+  
 
-    const { teacherId } = useParams();
+  useEffect(() => {
+    const fetchCourses = async () => {
+      dispatch(setLoading(true))
+      if (id && token) {
+        try {
+          const courses = await getTeacherAllCourses(id, token, "second");
+          console.log(courses);
+          setCourses(courses.data);
+          dispatch(setLoading(false))
+        } catch (error) {
+          console.error('Error fetching courses:', error);
+        }
+      }
+    };
 
-    const query = useQuery();
-    const searchQuery = query.get('query');
-    const id = query.get('id');
+    fetchCourses();
+  }, [id, token]);
 
-    
   return (
-    <div className='teacher-page' >
-        <MainHeader title={teacherId ? teacherId : ''} />
-        <div className="all-levels-container">
-          <h3> إختر الصف </h3>
-          <div className="levels">
-            <Link to="first-grade" className="level"> الصف الاول الثانوي </Link>
-            <Link to="second-grade" className="level"> الصف الثاني الثانوي </Link>
-            <Link to="third-grade" className="level"> الصف الثالث الثانوي </Link>
-          </div>
+    <>
+       {loading ? (<Loading />) : (
+        <div className='teacher-page'>
+        <MainHeader title={teacherId || ''} />
+        <div className="all-courses">
+          {courses && courses.map((course) => (
+            <Link to="/user/user-subjects/video" key={course.id} className="course" onClick={() => dispatch(setVideoId(course.file_path))} >
+              <h3>{course.title}</h3>
+            </Link>
+          ))}
         </div>
-    </div>
-  )
-}
+      </div>
+       )}
+    </>
+  );
+};
 
-export default Teacher
+export default Teacher;

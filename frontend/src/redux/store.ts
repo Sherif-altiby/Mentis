@@ -3,7 +3,8 @@ import loadingReducer from "../pages/loading/Loadingslice";
 import tokenReducer from "../auth/tokenSlice";
 import teacherReducer from "../components/Main/teacherSlice";
 import userInfoReducer from "../components/Navbar/userInfo"
-import themeReducer from "../components/userDashboardComponents/setting/settingSlice"
+import themeReducer from "../components/userDashboardComponents/setting/settingSlice";
+import videoReducer from "../pages/videoplayer/videoSlice"
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
       teacher: teacherReducer,
       userInfo: userInfoReducer,
       mentisusertheme: themeReducer,
+      videoId: videoReducer,
      }
 })
 

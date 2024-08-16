@@ -26,6 +26,8 @@ import TeacherNotes from './components/TeacherComponents/teachernotes/TeacherNot
 import TeacherQuizes from './components/TeacherComponents/teacherquizes/TeacherQuizes';
 import AddCourse from './components/AdminComponents/addcourse/AddCourse';
 import Notifications from './components/notificationscomponent/Notifications';
+import VideoPlayer from './pages/videoplayer/VideoPlayer';
+
   
 const App = () => {
   return (
@@ -74,6 +76,9 @@ const App = () => {
                 <Route path='settings' element={<Setting />} />
                 <Route path='notifications' element={<Notifications />} />
         </Route>
+
+        {/* VIDEO PLAYER ROUTE */}
+        <Route path='/user/user-subjects/video' element={< VideoPlayer />} />
        </Routes>
     </Router>
   );
