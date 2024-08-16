@@ -91,11 +91,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/quiz-questions/{id}', [QuizQuestionController::class, 'update']);
     Route::delete('/quiz-questions/{id}', [QuizQuestionController::class, 'destroy']);
     
+    Route::get('/student-results/{studentId}/quiz/{quizId}', [QuizResponseController::class, 'getStudentResult']);
     Route::get('/quiz-responses', [QuizResponseController::class, 'index']);
     Route::post('/quiz-responses', [QuizResponseController::class, 'store']);
     Route::get('/quiz-responses/{id}', [QuizResponseController::class, 'show']);
     Route::put('/quiz-responses/{id}', [QuizResponseController::class, 'update']);
     Route::delete('/quiz-responses/{id}', [QuizResponseController::class, 'destroy']);
+
+   
+
 
     // --------------------- User & Authentication Routes ---------------------
     
