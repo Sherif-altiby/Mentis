@@ -5,7 +5,7 @@ import phiscs from '../../assets/phiscs.jpg'
 
 import { TeacherProps } from '../../types/index.types';
 
-const CreateTeacherCard = ( {name, email, phone_number, id, role, courses}: TeacherProps ) => {
+const CreateTeacherCard = ( {name, id, role, courses}: TeacherProps ) => {
   return (
     <>
       <Link to={`/teacher/${name}?query=${role}&id=${id}`} className="teacher-card" >

@@ -27,6 +27,7 @@ import TeacherQuizes from './components/TeacherComponents/teacherquizes/TeacherQ
 import AddCourse from './components/AdminComponents/addcourse/AddCourse';
 import Notifications from './components/notificationscomponent/Notifications';
 import VideoPlayer from './pages/videoplayer/VideoPlayer';
+import AllQuizes from './components/TeacherComponents/teacherquizes/AllQuizes';
 
   
 const App = () => {
@@ -72,7 +73,8 @@ const App = () => {
                 <Route path='courses' element={<Courses />} />
                 <Route path='students' element={<TeacherStudent />} />
                 <Route path='notes' element={<TeacherNotes />} />
-                <Route path='quizes' element={<TeacherQuizes />} />
+                <Route path='quizes' element={<AllQuizes />} />
+                <Route path='teacher-add-quize' element={<TeacherQuizes />} />
                 <Route path='settings' element={<Setting />} />
                 <Route path='notifications' element={<Notifications />} />
         </Route>

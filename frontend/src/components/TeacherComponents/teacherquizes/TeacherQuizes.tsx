@@ -35,9 +35,6 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({ index, question, 
   );
 };
 
-interface QuizCreatorState {
-  questions: Question[];
-}
 
 const TeacherQuizes: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -63,22 +60,34 @@ const TeacherQuizes: React.FC = () => {
   };
 
   return (
-    <div>
-      {questions.map((question, index) => (
-        <QuestionComponent
-          key={index}
-          index={index}
-          question={question.question}
-          answers={question.answers}
-          onQuestionChange={handleQuestionChange}
-          onAnswerChange={handleAnswerChange}
-        />
-      ))}
-      <div className='btn-quize-container' >
-          <button className='add-question-btn' onClick={addQuestion}>Add Question</button>
-          {questions.length > 0 && (<button className='btn-send-quize' onClick={saveQuiz}>Save Quiz</button>)}
-      </div>
-    </div>
+    <>
+        <div className="quize-header">
+            <div className="input">
+               <input type="text" placeholder='إسم الإختبار' />
+               <select>
+                  <option value="1"> الصف الأول الثانوي </option>
+                  <option value="1"> الصف الثاني الثانوي </option>
+                  <option value="1"> الصف الثالث الثانوي </option>
+               </select>
+            </div>
+        </div>
+        <div>
+          {questions.map((question, index) => (
+            <QuestionComponent
+              key={index}
+              index={index}
+              question={question.question}
+              answers={question.answers}
+              onQuestionChange={handleQuestionChange}
+              onAnswerChange={handleAnswerChange}
+            />
+          ))}
+          <div className='btn-quize-container' >
+              <button className='add-question-btn' onClick={addQuestion}> إضافة سؤال  </button>
+              {questions.length > 0 && (<button className='btn-send-quize' onClick={saveQuiz}> حفظ  </button>)}
+          </div>
+        </div>
+    </>
   );
 };
 
