@@ -22,20 +22,38 @@ const Teacher = () => {
   const id = query.get('id');
   const token = useAppSelector((state) => state.token.token);
   const loading = useAppSelector((state) => state.loading.isLoading)
+  const gradeLeve = useAppSelector((state) => state.userInfo.userInfo.grade_level)
   const dispatch = useAppDispatch()
-  
+  const [noCourses, setNoCourses] = useState(false)
+
+   let  grade_level = "first";
 
   useEffect(() => {
     const fetchCourses = async () => {
+
+      if(gradeLeve === 1){
+        grade_level = "first"
+      }
+
+      if(gradeLeve === 2){
+        grade_level = "second"
+      }
+
+      if(gradeLeve === 3){
+        grade_level = "third"
+      }
+
       dispatch(setLoading(true))
       if (id && token) {
         try {
-          const courses = await getTeacherAllCourses(id, token, "second");
+          const courses = await getTeacherAllCourses(id, token, grade_level);
           console.log(courses);
           setCourses(courses.data);
           dispatch(setLoading(false))
         } catch (error) {
           console.error('Error fetching courses:', error);
+          setNoCourses(true)
+          dispatch(setLoading(false))
         }
       }
     };
@@ -54,6 +72,7 @@ const Teacher = () => {
               <h3>{course.title}</h3>
             </Link>
           ))}
+          {noCourses && ( <h3> لا يوجد دروس الان </h3> ) }
         </div>
       </div>
        )}

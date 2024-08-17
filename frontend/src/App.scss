@@ -24,6 +24,20 @@
   --input-dark-bg: #1a1919;
 }
 
+select {
+  -webkit-appearance: none;  
+  -moz-appearance: none;     
+  appearance: none;          
+  background: none;          
+}
+
+
+.video .ytp-chrome-tops{
+  display: none !important;
+  background-color: red;
+}
+
+
 body {
   overflow-x: hidden;
   font-family: "Cairo", sans-serif;

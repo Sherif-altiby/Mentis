@@ -6963,3 +6963,19 @@ Did you mean one of these?
 #60 {main}
 >>>>>>> 1ae8028255d2d4f8f4581aaea77a38e1fa9ddb43
 "} 
+[2024-08-16 06:32:10] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php:24)
+[stacktrace]
+#0 {main}
+"} 
+[2024-08-16 07:23:01] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php:27)
+[stacktrace]
+#0 {main}
+"} 
+[2024-08-16 07:24:34] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\composer\\ClassLoader.php:429)
+[stacktrace]
+#0 {main}
+"} 
+[2024-08-16 07:30:58] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\symfony\\translation\\Loader\\ArrayLoader.php:21)
+[stacktrace]
+#0 {main}
+"} 

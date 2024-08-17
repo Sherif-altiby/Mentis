@@ -7,6 +7,7 @@ export type RegisterProps = {
     userPhone: string;
     parentPhone: string;
     role: string;
+    grade_level: number;
 }
 
 
@@ -23,7 +24,7 @@ export type userInfo = {
     email: string;
     phone_number: string;
     role: string;
-    user_id: number
+    user_id: number;
   }
 
 export type AllCoursesProps = {
@@ -39,3 +40,15 @@ export type AllCoursesProps = {
         email: string;
      }
 }
+
+export type QuestionProps = {
+    name: string;
+    answers: [
+        one:   {value: string, correct: "true" | "false"},
+        two:   {value: string, correct: "true" | "false"},
+        three: {value: string, correct: "true" | "false"},
+        foure: {value: string, correct: "true" | "false"},
+    ]
+}
+
+export type allQuestionsProps = QuestionProps[]

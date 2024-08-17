@@ -6,6 +6,7 @@ export type UserInfoProps = {
   phone_number: string;
   role: string;
   user_id: number;
+  grade_level: number;
 };
 
  const loadUserInfo = (): UserInfoProps => {
@@ -15,7 +16,8 @@ export type UserInfoProps = {
     email: "",
     phone_number: "",
     role: "",
-    user_id: 0
+    user_id: 0,
+    grade_level: 0
   };
 };
 

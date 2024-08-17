@@ -8,6 +8,7 @@ export const register = async ({
   userPhone,
   parentPhone,
   role,
+  grade_level
 }: RegisterProps) => {
   const api = "http://127.0.0.1:8000/api/register";
   try {
@@ -17,6 +18,7 @@ export const register = async ({
       phone: userPhone,
       parent_phone: parentPhone,
       role,
+      grade_level
     });
 
     const data = await response.data;
