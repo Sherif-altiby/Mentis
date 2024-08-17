@@ -32,15 +32,16 @@ select {
 }
 
 
-.video .ytp-chrome-tops{
-  display: none !important;
-  background-color: red;
-}
-
-
 body {
   overflow-x: hidden;
   font-family: "Cairo", sans-serif;
+}
+
+option{
+  text-align: center;
+  width: 100%;
+  font-size: 20px;
+  color: var(--primary-color);
 }
 
 body::-webkit-scrollbar {

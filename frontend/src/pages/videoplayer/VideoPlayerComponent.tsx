@@ -25,16 +25,14 @@ const VideoPlayerComponent = () => {
               autoplay: 1,
               controls: 1,
               showinfo: 0,
-              // modestbranding: 1,
               rel: 0,
-              // iv_load_policy: 3,
-              fs: 0,
+               fs: 0,
               cc_load_policy: 0,
             },
           }}
         />
       ) : (
-        <p>Invalid or missing video ID.</p>
+        <p> حدث خطا في تحيل الفديو </p>
       )}
     </div>
   );

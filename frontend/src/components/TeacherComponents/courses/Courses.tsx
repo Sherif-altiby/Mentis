@@ -13,7 +13,7 @@ import Message from '../../message/Message';
 const Courses = () => {
 
   const [courseName, setCourseName] = useState("");
-  const [courseLeve, setCourseLeve] = useState("");
+  const [courseLevel, setCourseLevel] = useState("");
   const [courseLink, setCourseLink] = useState("");
   const [courseId, setCourseId] = useState("0")
   const [loading, setLoading] = useState(false)
@@ -60,21 +60,18 @@ const Courses = () => {
     if(response.data){
         setLoading(false)
         setMsg(true)
-        console.log(response.data)
+        setCourseName("");
+        setCourseLevel("");
+        setCourseLink("");
     }
   }
 
   const handleClick = () => {
-     if(courseName.length > 0  && courseLink.length > 0 && courseLeve.length > 0 ){
+     if(courseName.length > 0  && courseLink.length > 0 && courseLevel.length > 0 ){
         createCourse()
      }
 
-    console.log(courseLeve);
   }
-
-//862267@Mentis.com
-// RqpWU317
-
 
   return (
     <div>
@@ -97,16 +94,28 @@ const Courses = () => {
                 <div className="input-container">
                     <div className="input">
                         <label htmlFor="course-name"> عنوان الدرس </label>
-                        <input type="text" id='course-name' onChange={(e) => setCourseName(e.target.value)} />
+                        <input type="text" 
+                             id='course-name' 
+                             onChange={(e) => setCourseName(e.target.value)} 
+                             value={courseName}
+                          />
                     </div>
                     <div className="input">
                         <label htmlFor="course-link"> رابط الدرس </label>
-                        <input type="text" id='course-link' onChange={(e) => setCourseLink(e.target.value)} />
+                        <input type="text" 
+                             id='course-link' 
+                             onChange={(e) => setCourseLink(e.target.value)} 
+                             value={courseLink}
+                          />
                     </div>
                 </div>
                 <div className="input">
                     <label htmlFor="course-level"> إختر الصف </label>
-                    <select name='course-level' id="course-level" onChange={(e) => setCourseLeve(e.target.value)} >
+                    <select name='course-level' 
+                         id="course-level" 
+                         onChange={(e) => setCourseLevel(e.target.value)}
+                         value={courseLevel}
+                       >
                         <option value=""> </option>
                         <option value="first"> الصف الاول الثانوي </option>
                         <option value="second"> الصف الثاني الثانوي </option>

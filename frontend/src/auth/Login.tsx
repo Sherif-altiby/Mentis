@@ -20,25 +20,28 @@ const Login = () => {
 
   const [error, setError] = useState(false)
 
-  const [userEmal, setUserEmail] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [userEmailValidate, setUserEmailValidate] = useState(true);
   const [passwordValidate, setPasswordEmailValidate] = useState(true);
 
   const handleSubmit = async () => {
-    if(userEmal.length > 0 && password.length > 0){
+    if(userEmail.length > 0 && password.length > 0){
       
       dispatch(setLoading(true))
      
       try{
-        const data = await login({ email: userEmal, password })
+        const data = await login({ email: userEmail, password })
         
         if(data){ 
           dispatch(setToken(data.token))
 
+          console.log(data);
+
           const loginData = await getUserInfo(data.token)
 
+          console.log(loginData)
           dispatch(setUserInfo(loginData))
 
           if(loginData.role === "student"){
@@ -52,6 +55,8 @@ const Login = () => {
           else if(loginData.role === "admin"){
             dispatch(setLoading(false))
              navigate('/admin/dashboard/controle')
+          } else {
+            console.log(loginData)
           }
         }
       }catch(error){
@@ -60,7 +65,7 @@ const Login = () => {
        }
     
     } else{
-      setUserEmailValidate( userEmal.length > 0 )
+      setUserEmailValidate( userEmail.length > 0 )
       setPasswordEmailValidate( password.length > 0 )
     }
   }

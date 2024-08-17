@@ -37,6 +37,15 @@
             cursor: pointer;
             margin-bottom: 10px;
 
+            &.active{
+                background-color: var(--primary-color);
+                cursor: none;
+
+                h2{
+                    color: #fff;
+                }
+            }
+
             &:hover{
                 background-color: var(--primary-color);
 

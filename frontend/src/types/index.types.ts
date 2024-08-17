@@ -16,7 +16,12 @@ export type TeacherProps = {
     id: number;
     phone_number: string;
     role: string;
-    name: string
+    name: string;
+    courses: {
+        id: string;
+        price: string;
+        title: string;
+    }[];
 }
 
 export type userInfo = {

@@ -8,7 +8,7 @@ import { useAppSelector,useAppDispatch } from '../../redux/reduxHook';
 import { setLoading } from '../loading/Loadingslice';
 import Loading from '../loading/Loading';
 import { Link } from 'react-router-dom';
-import { setVideoId } from '../videoplayer/videoSlice';
+import { setAllVideos, setVideoId } from '../videoplayer/videoSlice';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -29,6 +29,7 @@ const Teacher = () => {
    let  grade_level = "first";
 
   useEffect(() => {
+   
     const fetchCourses = async () => {
 
       if(gradeLeve === 1){
@@ -47,9 +48,9 @@ const Teacher = () => {
       if (id && token) {
         try {
           const courses = await getTeacherAllCourses(id, token, grade_level);
-          console.log(courses);
           setCourses(courses.data);
           dispatch(setLoading(false))
+          dispatch(setAllVideos(courses.data))
         } catch (error) {
           console.error('Error fetching courses:', error);
           setNoCourses(true)
@@ -57,8 +58,10 @@ const Teacher = () => {
         }
       }
     };
-
+    
     fetchCourses();
+   
+
   }, [id, token]);
 
   return (

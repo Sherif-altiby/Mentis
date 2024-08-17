@@ -2,35 +2,19 @@
     import "./VideoPlayer.scss";
     import 'video.js/dist/video-js.css';
 
+    import VideoPlayerComponent from './VideoPlayerComponent';  
+import { useAppSelector , useAppDispatch} from "../../redux/reduxHook";
+import { setVideoId } from "./videoSlice";
 
-    import VideoPlayerComponent from './VideoPlayerComponent'; // Adjust the import path as necessary
+    const VideoPlayer = () => {   
+ 
+        const allVideos = useAppSelector((state) => state.videoId.allVideos)
+        const videoId = useAppSelector((state) => state.videoId.videoId);
 
-    const VideoPlayer = () => {
-    
-        // const videoJsOptions = {
-        //     controls: true,
-        //     responsive: true,
-        //     fluid: true,
-        //     sources: [
-        //       {
-        //         src: 'https://www.youtube.com/watch?v=2LRsO20nAFU', // YouTube URL
-        //         type: 'video/youtube', // Correct type for YouTube videos
-        //       },
-        //     ],
-        //   };
 
-        //   const videoJsOptions = {
-        //     controls: true,
-        //     autoplay: false,
-        //     preload: 'auto',
-        //     sources: [
-        //       {
-        //         src: 'https://www.example.com/video.mp4', // Your video source URL
-        //         type: 'video/youtube',
-        //       },
-        //     ],
-        //   };
-          
+        const dispatch = useAppDispatch()
+
+
 
     return (
         <div className="video__player__page" >
@@ -42,11 +26,14 @@
                     </div>
                 </div>
                 <div className="video__list">
-                    <div className="subject__video"> <h2> العضوية </h2> </div>
-                    <div className="subject__video"> <h2> العضوية </h2> </div>
-                    <div className="subject__video"> <h2> العضوية </h2> </div>
-                    <div className="subject__video"> <h2> العضوية </h2> </div>
-                    <div className="subject__video"> <h2> العضوية </h2> </div>
+                    {allVideos.map((video) => (
+                        <div className={`subject__video ${video.file_path === videoId ? 'active' : ''} `} 
+                           id={video.title}
+                           onClick={() => dispatch(setVideoId(video.file_path))}
+                         > 
+                            <h2> {video.title} </h2> 
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
