@@ -4,6 +4,12 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\AssignmentSubmissionController;
+use App\Http\Controllers\QuizController;
+use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\QuizQuestionController;
+use App\Http\Controllers\QuizResponseController;
 
 // ------------------------ Authentication Routes ----------------------------
 
@@ -45,15 +51,6 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route to get details of a specific teacher by ID (protected)
     Route::get('/teachers/{id}', [TeacherController::class, 'show']);
     
-    // // Route to create a new course associated with a teacher (protected)
-    // Route::post('/teachers/courses', [TeacherController::class, 'storeCourse']);
-    
-    // // Route to update a specific course by its ID (protected)
-    // Route::put('/teachers/courses/{id}', [TeacherController::class, 'updateCourse']);
-    
-    // // Route to delete a specific course by its ID (protected)
-    // Route::delete('/teachers/courses/{id}', [TeacherController::class, 'deleteCourse']);
-    
     // Route to add new content to a course (e.g., lesson, video, etc.) (protected)
     Route::post('/teachers/courses/contents', [TeacherController::class, 'storeCourseContent']);
     
@@ -62,12 +59,48 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Route to delete specific content from a course by content ID (protected)
     Route::delete('/teachers/courses/contents/{id}', [TeacherController::class, 'deleteCourseContent']);
+    
     // Course Content Routes
     Route::get('/course-contents', [TeacherController::class, 'getAllCourseContents']);
     Route::get('/course-contents/{id}', [TeacherController::class, 'showCourseContent']);
-
     Route::get('/course-contents/teacher/{teacherId}/level/{level}', [TeacherController::class, 'getCourseContentsByTeacherAndLevel']);
     
+    // ----------------------------------------
+    Route::post('/quizzes', [QuizController::class, 'store']);
+    Route::get('/quizzes/{id}', [QuizController::class, 'show']);
+    Route::put('/quizzes/{id}', [QuizController::class, 'update']);
+    Route::delete('/quizzes/{id}', [QuizController::class, 'destroy']);
+    
+    Route::post('/assignments', [AssignmentController::class, 'store']);
+    Route::get('/assignments/{id}', [AssignmentController::class, 'show']);
+    Route::put('/assignments/{id}', [AssignmentController::class, 'update']);
+    Route::delete('/assignments/{id}', [AssignmentController::class, 'destroy']);
+    
+    Route::post('/files', [FileController::class, 'store']);
+    Route::get('/files/{id}', [FileController::class, 'show']);
+    Route::delete('/files/{id}', [FileController::class, 'destroy']);
+    
+    Route::post('/assignment-submissions', [AssignmentSubmissionController::class, 'store']);
+    Route::get('/assignment-submissions/{id}', [AssignmentSubmissionController::class, 'show']);
+    Route::put('/assignment-submissions/{id}', [AssignmentSubmissionController::class, 'update']);
+    Route::delete('/assignment-submissions/{id}', [AssignmentSubmissionController::class, 'destroy']);
+    
+    Route::get('/quiz-questions', [QuizQuestionController::class, 'index']);
+    Route::post('/quiz-questions', [QuizQuestionController::class, 'store']);
+    Route::get('/quiz-questions/{id}', [QuizQuestionController::class, 'show']);
+    Route::put('/quiz-questions/{id}', [QuizQuestionController::class, 'update']);
+    Route::delete('/quiz-questions/{id}', [QuizQuestionController::class, 'destroy']);
+    
+    Route::get('/student-results/{studentId}/quiz/{quizId}', [QuizResponseController::class, 'getStudentResult']);
+    Route::get('/quiz-responses', [QuizResponseController::class, 'index']);
+    Route::post('/quiz-responses', [QuizResponseController::class, 'store']);
+    Route::get('/quiz-responses/{id}', [QuizResponseController::class, 'show']);
+    Route::put('/quiz-responses/{id}', [QuizResponseController::class, 'update']);
+    Route::delete('/quiz-responses/{id}', [QuizResponseController::class, 'destroy']);
+
+   
+
+
     // --------------------- User & Authentication Routes ---------------------
     
     // Route to get user details from a token (protected)

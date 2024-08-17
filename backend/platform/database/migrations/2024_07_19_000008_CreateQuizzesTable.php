@@ -12,6 +12,11 @@ class CreateQuizzesTable extends Migration
             $table->id();
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
             $table->string('title');
+            $table->text('description')->nullable();
+            $table->enum('type', ['multiple_choice', 'true_false', 'short_answer'])->default('multiple_choice');
+            $table->boolean('is_published')->default(false); // Indicates if the quiz is ready for students
+            $table->timestamp('start_time')->nullable();
+            $table->timestamp('end_time')->nullable();
             $table->timestamps();
         });
     }

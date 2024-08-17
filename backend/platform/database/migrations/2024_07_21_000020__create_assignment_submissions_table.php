@@ -9,10 +9,11 @@ class CreateAssignmentSubmissionsTable extends Migration
     public function up()
     {
         Schema::create('assignment_submissions', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // This is an auto-incrementing UNSIGNED BIGINT
             $table->foreignId('assignment_id')->constrained('assignments')->onDelete('cascade');
             $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
-            $table->string('file_path');
+            $table->unsignedBigInteger('file_id');
+            $table->foreign('file_id')->references('id')->on('files')->onDelete('cascade');
             $table->decimal('grade', 5, 2)->nullable();
             $table->timestamp('submission_date');
             $table->timestamps();
