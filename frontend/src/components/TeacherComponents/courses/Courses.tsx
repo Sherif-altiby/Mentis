@@ -24,6 +24,8 @@ const Courses = () => {
 
   const teacherId = useAppSelector((state) => state.userInfo.userInfo.user_id);
 
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
+
   useEffect(() => {
       const getCourseId = async () => {
         const respons = await axios.get(`http://127.0.0.1:8000/api/teachers/${teacherId}`,{
@@ -76,7 +78,7 @@ const Courses = () => {
   return (
     <div>
              <Message show ={msg} message='تم إضافة الدرس بنجاح' closeMsg={setMsg} />
-             <div className="teacher-dashboard-courses">
+        <div className={`teacher-dashboard-courses ${appMode}`}>
             <h1> الدروس </h1>
             <div className="courses-amount">
                 <h3> عدد الدروس التي قمت بإضافتها </h3>

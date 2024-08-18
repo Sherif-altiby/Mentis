@@ -129,3 +129,22 @@
     width: 100%;
   }
 }
+
+
+.all-quzes{
+
+  &.dark{
+
+    .all-three-qizes{
+
+      a{
+        background-color: var(--main-dark-color);
+        color: #fff;
+      }
+    }
+
+    .add-quize-link{
+      background-color: var(--main-dark-color);
+    }
+  }
+}

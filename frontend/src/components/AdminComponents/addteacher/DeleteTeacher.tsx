@@ -13,6 +13,8 @@ const DeleteTeacher = () => {
   const [teacherSearch, setTeacherSearch] = useState("")
   const [teacherId, setTeacherId] = useState(0)
 
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
+
   useEffect(() => {
     setFilteredTeachers(
       allTeachers.filter((teacher) => 
@@ -27,7 +29,7 @@ const DeleteTeacher = () => {
          <div className="card">
             <h1> حذف مدرس </h1>
              
-             <div className="card-add">
+             <div className={`card-add ${appMode}`}>
                 <div className="input">
                     <label htmlFor="name"> إسم المدرس </label>
                     <input type="text" id='name' value={teacherSearch} onChange={(e) => setTeacherSearch(e.target.value)} />

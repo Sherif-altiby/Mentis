@@ -1,7 +1,21 @@
 @import '../../App.scss';
 
-.teacher-dashboard{
+.teacher-dashboard-container{
+    &.dark{
+        background-color: var(--main-dark-color);
+        padding-bottom: 60px;
 
+        h1{
+            color: #fff;
+        }
+
+        .teacher-dashboard-content{
+            background-color: var(--section-card-color);
+        }
+    }
+}
+
+.teacher-dashboard{
     position: relative;
 
     .overlay{
