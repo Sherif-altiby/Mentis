@@ -11,7 +11,8 @@ import Message from '../../message/Message'
 const AddCourse = () => {
 
     const token = useAppSelector((state) => state.token.token)
-    const loading = useAppSelector((state) => state.loading.isLoading)
+    const loading = useAppSelector((state) => state.loading.isLoading);
+    const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
 
     const dispatch = useAppDispatch()
 
@@ -90,7 +91,7 @@ const AddCourse = () => {
 
             <h1> إضافة كورس </h1>
 
-            <div className="add-course-section">
+            <div className={`add-course-section ${appMode} ` }>
                 {loading ? <CustomLoading /> : null}
                 <div className="input-container">
                     <div className="input">

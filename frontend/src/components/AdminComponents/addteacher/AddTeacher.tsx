@@ -20,7 +20,9 @@ const AddTeacher = () => {
   const [showCard, setShowCard] = useState(false)
 
   const token = useAppSelector((state) => state.token.token);
-  const loading = useAppSelector((state) => state.loading.isLoading)
+  const loading = useAppSelector((state) => state.loading.isLoading);
+
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
 
   const createTeacherAcount = async ({ teacherName, teacherPhone, }: { teacherName: string; teacherPhone: string;}) => {
     try {
@@ -55,9 +57,6 @@ const AddTeacher = () => {
     }
   };
 
-  // 523447@Mentis.com
-  // n3lqieFg
-
   const handleClick = async () => {
     if (teacherName.length > 0 && teacherPhone.length > 0) {
       console.log("first");
@@ -70,7 +69,7 @@ const AddTeacher = () => {
       <div className="card">
         <h1> إضافة مدرس </h1>
 
-        <div className="card-add">
+        <div className={`card-add ${appMode} `}>
  
           {loading ?  <CustomLoading /> : (null)}
 

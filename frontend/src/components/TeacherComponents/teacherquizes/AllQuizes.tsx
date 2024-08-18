@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
 import './TeacherQuize.scss'
+import { useAppSelector } from "../../../redux/reduxHook";
 
 const AllQuizes = () => {
+ 
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
+
   return (
-    <div className='all-quzes' >
+    <div className={`all-quzes ${appMode}`} >
       <h1> الإختبارات </h1>
          <div className="all-three-qizes">
              <Link to={'specific-garde-quizes'} > الصف الأول الثانوي </Link>

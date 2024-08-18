@@ -1,6 +1,60 @@
 @import "../../../App.scss";
 
 .teacher-dashboard-courses {
+  &.dark {
+    .courses-amount {
+      background-color: var(--main-dark-color);
+      box-shadow: none;
+      color: #fff;
+    }
+
+    .courses-levels {
+      a {
+        background-color: var(--main-dark-color);
+
+        p {
+          color: #fff;
+        }
+      }
+    }
+
+    .add-course-card {
+      background-color: var(--main-dark-color);
+
+      h3 {
+        color: #fff;
+        border-color: #fff;
+      }
+
+      .input {
+        input {
+          background-color: var(--input-dark-bg);
+          border-color: #999;
+          color: #fff;
+        }
+
+        label{
+          color: #fff;
+        }
+
+        select{
+          background-color: var(--input-dark-bg);
+
+          option{
+            color: #fff;
+          }
+        }
+      }
+
+      .btns {
+        .btn{
+          background-color: #fff;
+          color: var(--primary-color);
+        }
+      }
+    }
+  }
+
   span {
     &.counter-up-number {
       font-size: 26px;
@@ -101,39 +155,39 @@
     margin: 20px 0;
     position: relative;
 
-    h3{
+    h3 {
       text-align: right;
       margin-bottom: 20px;
       color: var(--green-color);
       font-size: 30px;
       border-bottom: 2px solid var(--green-color);
-      padding-bottom: 20px; 
+      padding-bottom: 20px;
     }
 
-    .input-container{
+    .input-container {
       display: flex;
       gap: 10px;
 
-      @include screen(md){
+      @include screen(md) {
         flex-direction: column;
       }
     }
 
-    .input{
+    .input {
       display: flex;
       align-items: end;
       flex-direction: column;
       margin-bottom: 20px;
       width: 100%;
-      
-      label{
+
+      label {
         color: var(--green-color);
         margin-bottom: 10px;
         font-size: 20px;
         width: 100%;
-       }
+      }
 
-      input{
+      input {
         width: 100%;
         border: 2px solid var(--border-color);
         padding: 10px;
@@ -144,7 +198,7 @@
         font-size: 18px;
       }
 
-      select{
+      select {
         width: 100%;
         border: 2px solid var(--border-color);
         padding: 10px;
@@ -154,10 +208,10 @@
         color: var(--primary-color);
         font-size: 18px;
         appearance: none;
-        -webkit-appearance: none; 
-        -moz-appearance: none; 
+        -webkit-appearance: none;
+        -moz-appearance: none;
 
-        option{
+        option {
           padding: 10px !important;
           border: none;
         }

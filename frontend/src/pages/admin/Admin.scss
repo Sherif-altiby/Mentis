@@ -3,6 +3,19 @@
 .admin-page{
      position: relative;
 
+     &.dark{
+        background-color: var(--main-dark-color);
+        padding-bottom: 100px;
+
+        h1{
+            color: #fff;
+        }
+
+        .admin-dashboard{
+            background-color: var(--section-card-color);
+        }
+     }
+
      .overlay{
         position: absolute;
         top: 0;
@@ -25,7 +38,7 @@
     .admin-menu{
         position: fixed;
         right: 0;
-        top: 75px;
+        top: 76px;
         height: 100vh;
         background-color: #fff;
         box-shadow:  0 0 10px #999;
@@ -33,6 +46,26 @@
         padding: 20px;
         transition: 0.3s;
         z-index: 99999;
+
+        &.dark{
+            background-color: var(--main-dark-color);
+            box-shadow: none;
+
+            .manu-link a{
+                color: #fff;
+                box-shadow: 0 0 2px #fff;
+
+                &:hover{
+                    background-color: #fff;
+                    color: #000;
+                }
+
+                &.active{
+                    background-color: #fff;
+                    color: #000;
+                }
+            }
+        }
 
         @include screen(lg){
             right: -250px;

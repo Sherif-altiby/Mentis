@@ -7,6 +7,25 @@
     box-shadow: 0 0 5px var(--box-shadow-color);
     position: relative;
 
+    &.dark{
+        background-color: var(--main-dark-color);
+
+        input, select{
+            background-color: var(--input-dark-bg);
+            border-color: #999;
+            color: #fff;
+        }
+
+        label{
+            color: #fff;
+        }
+
+        .add-btn{
+            background-color: #fff;
+            color: var(--primary-color);
+        }
+    }
+
     input, select{
         flex: 1;
         width: 100%;

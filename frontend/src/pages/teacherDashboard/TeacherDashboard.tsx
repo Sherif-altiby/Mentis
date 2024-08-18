@@ -8,14 +8,16 @@ import { FaBars } from 'react-icons/fa6'
 import { NavLink, Outlet } from 'react-router-dom'
 import { TeacherDashboardData } from '../../data/data'
 import { Link } from 'react-router-dom'
+import { useAppSelector } from '../../redux/reduxHook'
 
 const TeacherDashboard = () => {
 
     const [showMenu, setShowMenu] = useState(false)
+    const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
 
   return (
-    <div>
-          <div className="student-dashboard-nav">
+    <div className={`teacher-dashboard-container ${appMode}`} >
+          <div className={`student-dashboard-nav ${appMode === "dark" ? 'dark' : ''} `}>
              <div className="avatar">
                 <Link to='settings' className="img"> <FaUserAlt /> </Link>
                 <div className="icon" onClick={() => setShowMenu(!showMenu)} > <FaBars /> </div>

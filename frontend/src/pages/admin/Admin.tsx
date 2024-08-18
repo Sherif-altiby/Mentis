@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { FaBars } from 'react-icons/fa6';
 import { NavLink } from 'react-router-dom';
 import { adminData } from '../../data/data';
+import { useAppSelector } from '../../redux/reduxHook';
 
 
 
@@ -14,19 +15,19 @@ import { adminData } from '../../data/data';
 const Admin = () => {
 
   const [showMenu, setShowMenu] = useState(false)
-
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
 
   return (
-    <div className='admin-page' >
+    <div className={`admin-page ${appMode}`} >
       <div className={showMenu ? "overlay show" : "overlay"} onClick={() => {setShowMenu(false)}} ></div>
-       <div className="student-dashboard-nav">
+       <div className={`student-dashboard-nav ${appMode}`}>
              <div className="avatar">
                 <Link to='settings' className="img"> <FaUserAlt /> </Link>
                 <div className="icon" onClick={() => setShowMenu(!showMenu)} > <FaBars /> </div>
              </div> 
              <Link to="/" className="logo"> <img src={logo} alt="" /> </Link>
           </div>
-          <div className={showMenu ? "admin-menu show" : "admin-menu"}>
+          <div className={`${showMenu ? "admin-menu show" : "admin-menu"} ${appMode} `}>
               {adminData.map(item => (
                     <div className='manu-link' key={item.id} onClick={() => setShowMenu(false)} >
                          <NavLink to={item.link}  > 

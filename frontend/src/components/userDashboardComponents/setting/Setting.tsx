@@ -34,7 +34,7 @@ const Setting = () => {
         <div className={`setting-user ${appMode === 'dark' ? 'dark' : ''} `}>
           <h1> الإعدادات </h1>
 
-          <div className="setting-user-img">
+          {/* <div className="setting-user-img">
             <h3 className="sec-header"> تحديث صورة الملف الشخصي </h3>
             <div className="img-container">
               <div className="img">
@@ -59,7 +59,7 @@ const Setting = () => {
               </div>
             </div>
             <div className="save-btn"> حفظ </div>
-          </div>
+          </div> */}
 
           <div className="change-password">
             <h3 className="sec-header"> تغيير كلمة المرور </h3>
