@@ -6,17 +6,18 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class QuizFactory extends Factory
 {
     public function definition()
-    {
-        return [
-            'course_id' => 1,
-            'title' => 'Geography Quiz',
-            'description' => 'A quiz on basic geography questions.',
-            'type' => 'multiple_choice',
-            'is_published' => true,
-            'start_time' => '2024-08-18 10:00:00',
-            'end_time' => '2024-08-18 11:00:00',
-        ];
-    }
+{
+    return [
+        'course_id' => 1,
+        'title' => 'Geography Quiz',
+        'description' => 'A quiz on basic geography questions.',
+        'type' => 'multiple_choice',
+        'is_published' => true,
+        'start_time' => '2024-08-18 10:00:00',
+        'end_time' => '2024-08-18 11:00:00',
+        'level' => 'first', // Add this line
+    ];
+}
 }
 
 \App\Models\Quiz::factory()->createMany([

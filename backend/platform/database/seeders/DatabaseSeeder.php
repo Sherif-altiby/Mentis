@@ -150,6 +150,7 @@ class DatabaseSeeder extends Seeder
             'type' => 'multiple_choice',
             'is_published' => true,
             'start_time' => now(),
+            'level'=>'first',
             'end_time' => now()->addDays(7),
         ]);
 
