@@ -1,44 +1,53 @@
 <?php
 
-namespace Database\Factories;
 
+namespace Database\Factories;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
+
 class UserFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
-    protected static ?string $password;
-
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    public function definition()
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'name' => $this->faker->name,
+            'email' => $this->faker->unique()->safeEmail, // Ensure email is unique
+            'password' => Hash::make('password123'), // Default password
+            'phone_number' => $this->faker->phoneNumber,
+            'role' => $this->faker->randomElement(['student', 'teacher', 'parent', 'admin']),
         ];
     }
-
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
-    public function unverified(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
-    }
 }
+
+\App\Models\User::factory()->createMany([
+    [
+        'name' => 'John Doe',
+        'email' => 'john.doe@example.com',
+        'password' => Hash::make('johnpassword'),
+        'phone_number' => '01098765432',
+        'role' => 'student',
+    ],
+    [
+        'name' => 'Jane Smith',
+        'email' => 'jane.smith@example.com',
+        'password' => Hash::make('janesmith123'),
+        'phone_number' => '01112345678',
+        'role' => 'teacher',
+    ],
+    [
+        'name' => 'Michael Johnson',
+        'email' => 'michael.johnson@example.com',
+        'password' => Hash::make('michael2024'),
+        'phone_number' => '01234567890',
+        'role' => 'parent',
+    ],
+    [
+        'name' => 'Emily Davis',
+        'email' => 'emily.davis@example.com',
+        'password' => Hash::make('emilydavis'),
+        'phone_number' => '01198765432',
+        'role' => 'student',
+    ],
+]);
