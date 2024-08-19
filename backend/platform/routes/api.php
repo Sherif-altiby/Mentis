@@ -26,6 +26,9 @@ Route::get('/courses', [CourseController::class, 'index']);
 
 // -------------------- Protected Routes (Requires Auth) --------------------
 
+ // Route to get a list of all teachers (protected)
+ Route::get('/teachers', [TeacherController::class, 'index']);
+
 // Group of routes that require the user to be authenticated with Sanctum
 Route::middleware('auth:sanctum')->group(function () {
     
@@ -45,8 +48,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // ------------------------ Teacher Routes --------------------------------
     
-    // Route to get a list of all teachers (protected)
-    Route::get('/teachers', [TeacherController::class, 'index']);
+   
     
     // Route to get details of a specific teacher by ID (protected)
     Route::get('/teachers/{id}', [TeacherController::class, 'show']);
