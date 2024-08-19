@@ -11,6 +11,7 @@ class CourseContent extends Model
 
     protected $fillable = [
         'course_id',
+        'file_id', // Added file_id to the fillable array
         'content_type',
         'title',
         'image',
@@ -23,5 +24,10 @@ class CourseContent extends Model
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function file()
+    {
+        return $this->belongsTo(File::class);
     }
 }

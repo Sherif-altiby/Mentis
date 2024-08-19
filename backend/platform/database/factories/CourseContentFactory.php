@@ -8,6 +8,7 @@ class CourseContentFactory extends Factory
     {
         return [
             'course_id' => \App\Models\Course::factory(),
+            'file_id'=>1,
             'content_type' => $this->faker->randomElement(['video', 'document', 'quiz']),
             'title' => $this->faker->sentence,
             'image' => $this->faker->image(null, 640, 480, null, false),

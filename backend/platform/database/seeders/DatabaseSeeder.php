@@ -75,6 +75,12 @@ class DatabaseSeeder extends Seeder
             'due_date' => now()->addWeek(),
             'is_published' => true,
         ]);
+        $file = File::create([
+            'user_id' => User::where('role', 'teacher')->first()->id,
+            'file_name' => 'course_material.pdf',
+            'file_type' => 'application/pdf',
+            'file_data' => 'sample binary data',
+        ]);
 
         // Insert specific records for course contents
         CourseContent::create([
@@ -82,6 +88,7 @@ class DatabaseSeeder extends Seeder
             'content_type' => 'video',
             'title' => 'فيديو مقدمة في الرياضيات',
             'image' => 'https://example.com/images/math_video.jpg',
+            'file_id'=>$file->id,
             'file_path' => 'https://www.youtube.com/watch?v=OmJ-4B-mS-Y',
             'content' => 'هذا الفيديو يقدم أساسيات الرياضيات.',
             'order' => 1,
@@ -93,6 +100,7 @@ class DatabaseSeeder extends Seeder
             'content_type' => 'document',
             'title' => 'مذكرة أساسيات الرياضيات',
             'image' => 'https://example.com/images/math_notes.jpg',
+            'file_id'=>$file->id,
             'file_path' => 'https://www.youtube.com/watch?v=OmJ-4B-mS-Y',
             'content' => 'مذكرة تغطي أساسيات الرياضيات.',
             'order' => 2,
@@ -102,6 +110,7 @@ class DatabaseSeeder extends Seeder
         CourseContent::create([
             'course_id' => $course->id,
             'content_type' => 'quiz',
+            'file_id'=>$file->id,
             'title' => 'اختبار الرياضيات ١',
             'image' => 'https://example.com/images/math_quiz.jpg',
             'file_path' => 'https://www.youtube.com/watch?v=OmJ-4B-mS-Y',
