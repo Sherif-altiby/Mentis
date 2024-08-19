@@ -1,6 +1,4 @@
 <?php
-
-// app/Models/Quiz.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +8,7 @@ class Quiz extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['course_id', 'title', 'description', 'type', 'is_published', 'start_time', 'end_time'];
+    protected $fillable = ['course_id', 'title', 'description', 'type', 'is_published', 'start_time', 'end_time', 'grade_level'];
 
     public function course()
     {
