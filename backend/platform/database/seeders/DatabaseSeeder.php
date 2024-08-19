@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -12,13 +13,14 @@ use App\Models\Quiz;
 use App\Models\QuizQuestion;
 use App\Models\QuizResponse;
 use App\Models\AssignmentSubmission;
+use App\Models\Student;
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
         // Insert specific records for users
-        User::create([
+        $admin = User::create([
             'name' => 'علي هدهود',
             'email' => '123456@Menyis.com',
             'password' => Hash::make('password123'),
@@ -26,7 +28,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        User::create([
+        $student1 = User::create([
             'name' => 'محمد أحمد',
             'email' => '234567@Menyis.com',
             'password' => Hash::make('password123'),
@@ -34,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'student',
         ]);
 
-        User::create([
+        $teacher = User::create([
             'name' => 'أحمد علي',
             'email' => '345678@Menyis.com',
             'password' => Hash::make('password123'),
@@ -42,7 +44,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'teacher',
         ]);
 
-        User::create([
+        $parent = User::create([
             'name' => 'خالد عبد الله',
             'email' => '456789@Menyis.com',
             'password' => Hash::make('password123'),
@@ -50,7 +52,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'parent',
         ]);
 
-        User::create([
+        $student2 = User::create([
             'name' => 'منى حسن',
             'email' => '567890@Menyis.com',
             'password' => Hash::make('password123'),
@@ -58,9 +60,28 @@ class DatabaseSeeder extends Seeder
             'role' => 'student',
         ]);
 
+        $student1 = User::where('email', '234567@Menyis.com')->first();
+
+        // Now you can access the ID
+        $student1Id = $student1->id;
+
+                // Fetch the user based on specific criteria, e.g., role or email
+        $student2 = User::where('email', '567890@Menyis.com')->first();
+
+        // Now you can access the ID
+        $student2Id = $student2->id;
+
+        Student::create([
+            'user_id' => $student1Id,  // This returns a User object, not an ID
+            'grade_level' => 'first',
+        ]);
+        Student::create([
+            'user_id' => $student2Id,  // This returns a User object, not an ID
+            'grade_level' => 'first',
+        ]);
         // Insert specific records for courses
         $course = Course::create([
-            'teacher_id' => User::where('role', 'teacher')->first()->id,
+            'teacher_id' => $teacher->id,
             'title' => 'مقدمة في الرياضيات',
             'description' => 'دورة تعلم أساسيات الرياضيات باللغة العربية.',
             'price' => 99.99,
@@ -68,27 +89,28 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Insert specific records for assignments
-        Assignment::create([
+        $assignment = Assignment::create([
             'course_id' => $course->id,
             'title' => 'تمارين على أساسيات الرياضيات',
             'description' => 'حل التمارين المعطاة في الدرس.',
             'due_date' => now()->addWeek(),
             'is_published' => true,
         ]);
+
+        // Insert specific records for course contents
         $file = File::create([
-            'user_id' => User::where('role', 'teacher')->first()->id,
+            'user_id' => $teacher->id,
             'file_name' => 'course_material.pdf',
             'file_type' => 'application/pdf',
             'file_data' => 'sample binary data',
         ]);
 
-        // Insert specific records for course contents
         CourseContent::create([
             'course_id' => $course->id,
             'content_type' => 'video',
             'title' => 'فيديو مقدمة في الرياضيات',
             'image' => 'https://example.com/images/math_video.jpg',
-            'file_id'=>$file->id,
+            'file_id' => $file->id,
             'file_path' => 'https://www.youtube.com/watch?v=OmJ-4B-mS-Y',
             'content' => 'هذا الفيديو يقدم أساسيات الرياضيات.',
             'order' => 1,
@@ -100,7 +122,7 @@ class DatabaseSeeder extends Seeder
             'content_type' => 'document',
             'title' => 'مذكرة أساسيات الرياضيات',
             'image' => 'https://example.com/images/math_notes.jpg',
-            'file_id'=>$file->id,
+            'file_id' => $file->id,
             'file_path' => 'https://www.youtube.com/watch?v=OmJ-4B-mS-Y',
             'content' => 'مذكرة تغطي أساسيات الرياضيات.',
             'order' => 2,
@@ -110,7 +132,7 @@ class DatabaseSeeder extends Seeder
         CourseContent::create([
             'course_id' => $course->id,
             'content_type' => 'quiz',
-            'file_id'=>$file->id,
+            'file_id' => $file->id,
             'title' => 'اختبار الرياضيات ١',
             'image' => 'https://example.com/images/math_quiz.jpg',
             'file_path' => 'https://www.youtube.com/watch?v=OmJ-4B-mS-Y',
@@ -132,7 +154,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Insert specific records for quiz questions
-        QuizQuestion::create([
+        $quizQuestion = QuizQuestion::create([
             'quiz_id' => $quiz->id,
             'question' => 'ما هو العدد 2 + 2؟',
             'options' => json_encode(['3', '4', '5', '6']),
@@ -141,22 +163,16 @@ class DatabaseSeeder extends Seeder
 
         // Insert specific records for quiz responses
         QuizResponse::create([
-            'quiz_question_id' => QuizQuestion::first()->id,
-            'student_id' => User::where('role', 'student')->first()->id,
+            'quiz_question_id' => $quizQuestion->id,
+            'student_id' => $student1->id,
             'answer' => '4',
             'is_correct' => true,
-        ]);
-        $file = File::create([
-            'user_id' => User::where('role', 'teacher')->first()->id,
-            'file_name' => 'course_material.pdf',
-            'file_type' => 'application/pdf',
-            'file_data' => 'sample binary data',
         ]);
 
         // Insert specific records for assignment submissions
         AssignmentSubmission::create([
-            'assignment_id' => Assignment::first()->id,
-            'student_id' => User::where('role', 'student')->first()->id,
+            'assignment_id' => $assignment->id,
+            'student_id' => $student1->id,
             'file_id' => $file->id,
             'grade' => 90,
             'submission_date' => now(),

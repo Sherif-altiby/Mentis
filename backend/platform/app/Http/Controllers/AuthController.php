@@ -48,7 +48,7 @@ class AuthController extends Controller
         if ($request->role == 'student') {
             $rules['parent_name'] = 'required|string|max:255';
             $rules['parent_phone'] = 'required|string|max:20|unique:users,phone_number';
-            $rules['grade_level'] = 'required|integer|min:1|max:12';
+            $rules['grade_level'] = 'required|string|in:first,second,third';
         }
 
         // Validate the request

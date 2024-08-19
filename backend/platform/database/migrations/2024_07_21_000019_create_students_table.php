@@ -11,7 +11,7 @@ class createstudentstable extends Migration
     Schema::create('students', function (Blueprint $table) {
         $table->id();
         $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-        $table->integer('grade_level')->nullable(); // Integer representation of grade level
+        $table->enum('grade_level', ['first', 'second', 'third'])->default('first'); // Integer representation of grade level
         $table->timestamps();
     });
 }
