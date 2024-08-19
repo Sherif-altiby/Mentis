@@ -12,17 +12,19 @@ import { setLoading } from "../../pages/loading/Loadingslice";
 
 import logo from "../../assets/logo-2.png";
 
-import { getUserInfo } from "../../utils/api";
+import { getUserInfo, logout } from "../../utils/api";
 import Loading from "../../pages/loading/Loading"; 
  
 import { setUserInfo } from "./userInfo";
 
-const Nav = () => {
 
+const Nav = () => {
+  
   const navigate = useNavigate();
- 
+  
   const loading = useAppSelector((state) => state.loading.isLoading);
   const dispatch = useAppDispatch()
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme);
 
   const token = useAppSelector((state) => state.token.token)
 
@@ -70,17 +72,20 @@ const Nav = () => {
     }
   }
 
-  const handleLogout = () => {
-     localStorage.removeItem('mentisID');
+  const handleLogout = async () => {
+     dispatch(setLoading(true))
+    //  await logout(token)
      navigate("/");
      window.location.reload()
+     localStorage.clear()
+     dispatch(setLoading(false))
   }
 
   return (
     <nav>
       {
         loading ? (<Loading />) : (
-          <div className="nav">
+          <div className={`nav ${appMode} `}>
         {token ? (
       <>  
           <div className="nav-user" onClick={() => setShowMenu(!showMenu)} >

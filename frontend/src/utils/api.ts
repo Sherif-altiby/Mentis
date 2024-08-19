@@ -69,3 +69,18 @@ export const login = async ( {email, password}: {email: string, password: string
 
   return data
 }
+
+export const logout = async (token: string | null) => {
+   const api = "http://127.0.0.1:8000/api/logout";
+
+   const response = await axios.post(api, {
+    headers:{
+      'Authorization': `Bearer ${token}`,
+    }
+   })
+
+   const data = response.data
+   console.log('first')
+   console.log(data)
+   localStorage.clear()
+}

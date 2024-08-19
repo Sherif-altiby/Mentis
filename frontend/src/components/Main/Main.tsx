@@ -23,6 +23,7 @@ const Main = () => {
   const token = useAppSelector((state) => state.token.token)
   const allTeacher = useAppSelector((state) => state.teacher.teachers)
   const userInfo = useAppSelector((state) => state.userInfo.userInfo)
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
    
   const [text] = useTypewriter({
     words: ["منصة منتس التعليمية ", "حيث الريادة و التفوق و الدرجات النهائية"],
@@ -47,7 +48,7 @@ const Main = () => {
  
   return (
     <div>
-      <div className="main-section">
+      <div className={`main-section ${appMode}`}>
         <Circles />
 
         <div className="intro-section">
@@ -82,7 +83,7 @@ const Main = () => {
 
       </div>
 
-      <div className="all-teachers" id="all-mentis-teachers" >
+      <div className={`all-teachers ${appMode} `} id="all-mentis-teachers" >
         <h1> المدرسين </h1>
          <div className="teachers">
            {allTeacher?.map((teacher) => ( 

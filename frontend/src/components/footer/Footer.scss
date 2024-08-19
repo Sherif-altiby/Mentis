@@ -9,6 +9,10 @@ footer{
     background-color: var(--primary-color);
     width: 100%;
 
+    &.dark{
+        background-color: var(--main-dark-color);
+    }
+
     @include screen(lg){
         padding: 50px;
         flex-direction: column;

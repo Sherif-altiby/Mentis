@@ -14,7 +14,7 @@ const CreateTeacherCard = ( {name, id, role, courses}: TeacherProps ) => {
             <img src={phiscs} alt="" /> 
           </div>
           <h2>  {name} </h2>
-          <p> {courses[0].title} </p>
+          <p> {courses[0]?.title} </p>
         </div>
       </Link>
     </>

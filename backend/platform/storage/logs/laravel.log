@@ -9524,3 +9524,72 @@ Did you mean one of these?
 #61 C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
 #62 {main}
 "} 
+[2024-08-18 14:49:51] local.ERROR: No arguments expected for "migrate:refresh" command, got "seed". {"exception":"[object] (Symfony\\Component\\Console\\Exception\\RuntimeException(code: 0): No arguments expected for \"migrate:refresh\" command, got \"seed\". at D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Input\\ArgvInput.php:193)
+[stacktrace]
+#0 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Input\\ArgvInput.php(86): Symfony\\Component\\Console\\Input\\ArgvInput->parseArgument()
+#1 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Input\\ArgvInput.php(71): Symfony\\Component\\Console\\Input\\ArgvInput->parseToken()
+#2 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Input\\Input.php(53): Symfony\\Component\\Console\\Input\\ArgvInput->parse()
+#3 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Command\\Command.php(238): Symfony\\Component\\Console\\Input\\Input->bind()
+#4 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(182): Symfony\\Component\\Console\\Command\\Command->run()
+#5 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php(1047): Illuminate\\Console\\Command->run()
+#6 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php(316): Symfony\\Component\\Console\\Application->doRunCommand()
+#7 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php(167): Symfony\\Component\\Console\\Application->doRun()
+#8 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(196): Symfony\\Component\\Console\\Application->run()
+#9 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1203): Illuminate\\Foundation\\Console\\Kernel->handle()
+#10 D:\\ments\\backend\\platform\\artisan(13): Illuminate\\Foundation\\Application->handleCommand()
+#11 {main}
+"} 
+[2024-08-18 14:52:06] local.ERROR: Command "migrate:reresh" is not defined.
+
+Did you mean one of these?
+    migrate
+    migrate:fresh
+    migrate:install
+    migrate:refresh
+    migrate:reset
+    migrate:rollback
+    migrate:status {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"migrate:reresh\" is not defined.
+
+Did you mean one of these?
+    migrate
+    migrate:fresh
+    migrate:install
+    migrate:refresh
+    migrate:reset
+    migrate:rollback
+    migrate:status at D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php:702)
+[stacktrace]
+#0 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php(258): Symfony\\Component\\Console\\Application->find()
+#1 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php(167): Symfony\\Component\\Console\\Application->doRun()
+#2 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(196): Symfony\\Component\\Console\\Application->run()
+#3 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1203): Illuminate\\Foundation\\Console\\Kernel->handle()
+#4 D:\\ments\\backend\\platform\\artisan(13): Illuminate\\Foundation\\Application->handleCommand()
+#5 {main}
+"} 
+[2024-08-18 14:52:26] local.ERROR: Command "migrate:rfresh" is not defined.
+
+Did you mean one of these?
+    migrate
+    migrate:fresh
+    migrate:install
+    migrate:refresh
+    migrate:reset
+    migrate:rollback
+    migrate:status {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"migrate:rfresh\" is not defined.
+
+Did you mean one of these?
+    migrate
+    migrate:fresh
+    migrate:install
+    migrate:refresh
+    migrate:reset
+    migrate:rollback
+    migrate:status at D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php:702)
+[stacktrace]
+#0 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php(258): Symfony\\Component\\Console\\Application->find()
+#1 D:\\ments\\backend\\platform\\vendor\\symfony\\console\\Application.php(167): Symfony\\Component\\Console\\Application->doRun()
+#2 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(196): Symfony\\Component\\Console\\Application->run()
+#3 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1203): Illuminate\\Foundation\\Console\\Kernel->handle()
+#4 D:\\ments\\backend\\platform\\artisan(13): Illuminate\\Foundation\\Application->handleCommand()
+#5 {main}
+"} 

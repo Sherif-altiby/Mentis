@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom"
 import './Footer.scss'
+import { useAppSelector } from "../../redux/reduxHook"
  
 const Footer = () => {
+ 
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
+
   return (
     <div>
-        <footer>
+        <footer className={`${appMode}`} >
             <div className="links">
                 <Link to='/' > شروط الالستخدام </Link>
                 <Link to='/' > سياية الخصوصية </Link>

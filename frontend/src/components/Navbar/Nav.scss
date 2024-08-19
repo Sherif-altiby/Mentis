@@ -6,6 +6,8 @@ nav {
   z-index: 999999;
   position: relative;
 
+
+
   .nav {
     height: 80px;
     display: flex;
@@ -14,6 +16,10 @@ nav {
     padding: 0 100px;
     background-color: #fff;
     z-index: 999999999;
+
+    &.dark{
+      background-color: var(--nav-bg-dark);
+    }
 
     @include screen(lg) {
       padding: 0 50px;

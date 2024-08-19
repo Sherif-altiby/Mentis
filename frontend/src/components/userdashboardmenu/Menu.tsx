@@ -2,15 +2,17 @@ import './menue.scss';
 import { menusData } from '../../data/data';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../redux/reduxHook';
+import { logout } from '../../utils/api';
 
 const Menu = ( {showMenu, setShowMenu}: {showMenu: boolean, setShowMenu: React.Dispatch<React.SetStateAction<boolean>>} ) => {
 
   const navigate = useNavigate()
 
-  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme);
+  const token = useAppSelector((state) =>state.token.token) || ''
 
   const hanldleLogout = () => { 
-    localStorage.removeItem('mentisID');
+    logout(token)
     navigate("/")
      window.location.reload()}
 

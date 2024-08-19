@@ -1,10 +1,22 @@
 @import "../../App.scss";
 
+
+.home-container{
+
+  &.dark{
+    background-color: var(--input-dark-bg);
+  }
+}
+
 .main-section {
   position: relative;
   height: 600px;
   width: 100%;
   background-color: var(--primary-color);
+
+  &.dark{
+    background-color: var(--input-dark-bg);
+  }
 
   .intro-section {
     position: absolute;
@@ -320,6 +332,10 @@
 }
 
 .all-teachers {
+
+  &.dark{
+    background-color: var(--input-dark-bg);
+  }
  
   h1{
     color: var(--primary-color);
