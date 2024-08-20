@@ -7,7 +7,7 @@ export type RegisterProps = {
     userPhone: string;
     parentPhone: string;
     role: string;
-    grade_level: number;
+    grade_level: number | string;
 }
 
 

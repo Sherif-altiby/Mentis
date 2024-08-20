@@ -51,3 +51,21 @@ export const createQuizeQuestion = async (token: string | null, quiz_id: string,
     );
     return response.data; 
 };
+
+
+ export const uploadFile = async ( token: string | null, file_name: string, file_type: string, file_data: File | Blob, user_id: number ) => {
+    const formData = new FormData();
+    formData.append('user_id', user_id.toString());
+    formData.append('file_name', file_name);
+    formData.append('file_type', file_type);
+    formData.append('file_data', file_data);
+
+    const response = await axios.post(`${api}/files`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    return response.data;
+};

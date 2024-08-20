@@ -68,7 +68,8 @@ const TeacherQuizes: React.FC = () => {
   const saveQuiz = async () => {
     console.log(questions);
     const mainQuiz = await createQuize(token, teacherCourseId, courseTitle, gardeLevel );
-    console.log(mainQuiz.data)
+    console.log(mainQuiz.data);
+
   };
 
   return (
@@ -76,10 +77,11 @@ const TeacherQuizes: React.FC = () => {
         <div className="quize-header">
             <div className="input">
                <input type="text" placeholder='إسم الإختبار' onChange={(e) => setCourseTitle(e.target.value)} />
-               <select onChange={(e) => setGradeLevel(e.target.value)} >
-                  <option value="1"> الصف الأول الثانوي </option>
-                  <option value="1"> الصف الثاني الثانوي </option>
-                  <option value="1"> الصف الثالث الثانوي </option>
+               <label className='none' htmlFor="select"> df </label>
+               <select id="select" onChange={(e) => setGradeLevel(e.target.value)} >
+                  <option value="first"> الصف الأول الثانوي </option>
+                  <option value="second"> الصف الثاني الثانوي </option>
+                  <option value="third"> الصف الثالث الثانوي </option>
                </select>
             </div>
         </div>

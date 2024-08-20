@@ -22,7 +22,7 @@ const Signup: React.FC = () => {
   const [parentName, setParentName] = useState("");
   const [userNumber, setUserNumber] = useState('');
   const [parentNumber, setParentNumber] = useState('');
-  const [gardeLeve, setGradeLeve] = useState(0)
+  const [gardeLevel, setGradeLevel] = useState('')
 
   const [userNameValidate, setUserNameValidate] = useState(true);
   const [parentNameValidate, setParentNameValidate] = useState(true);
@@ -35,10 +35,10 @@ const Signup: React.FC = () => {
 
   const handleSignup = async () => {
 
-    if (userName.length > 0 && parentName.length> 0 && userNumber.length > 0 && parentNumber.length > 0 && gardeLeve > 0) {
+    if (userName.length > 0 && parentName.length> 0 && userNumber.length > 0 && parentNumber.length > 0 && gardeLevel.length > 0 ) {
       dispatch(setLoading(true))
 
-        console.log(gardeLeve)
+        console.log(gardeLevel)
 
 
         const data = await register({
@@ -47,7 +47,7 @@ const Signup: React.FC = () => {
           parentName,
           parentPhone: parentNumber,
           role: "student",
-          grade_level: gardeLeve
+          grade_level: gardeLevel
         }); 
 
 
@@ -69,7 +69,6 @@ const Signup: React.FC = () => {
              setErrorMessage("هذا الحساب موجود بالفعل")
           }else if(data.message === "Parent phone number is required and must be unique"){
             setErrorMessage("رقم الواتس اب مطابق لرقم الواتس اب ولي الامر")
-            console.log("fdkjndkjf")
           }
         }
 
@@ -139,13 +138,13 @@ const Signup: React.FC = () => {
           <div className="input">
             <label htmlFor="grade"> الصف الدراسي </label>
             <select name="grade" id="grade" 
-               onChange={(e) => setGradeLeve(Number(e.target.value))}
-               value={gardeLeve}
+               onChange={(e) => setGradeLevel(e.target.value)}
+               value={gardeLevel}
              >
               <option value="">  </option>
-              <option value="1"> الصف الاول الثانوي </option>
-              <option value="2"> الصف الثاني الثانوي </option>
-              <option value="3"> الصف الثالث الثانوي </option>
+              <option value="first"> الصف الاول الثانوي </option>
+              <option value="second"> الصف الثاني الثانوي </option>
+              <option value="third"> الصف الثالث الثانوي </option>
             </select>
           </div>
           <div className="btns">
