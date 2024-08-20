@@ -103,151 +103,146 @@ class TeacherController extends Controller
     }
 
     public function storeCourseContent(Request $request)
-    {
-        // Validate the request
-        $validator = Validator::make($request->all(), [
-            'course_id' => 'required|exists:courses,id',
-            'content_type' => 'required|in:video,document,quiz',
-            'title' => 'required|string|max:255',
-            'file_path' => 'nullable|string',
-            'content' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate image with size and format
-            'level' => 'required|in:first,second,third',
-        ]);
-    
-        if ($validator->fails()) {
-            // Returning all validation errors with their respective fields
-            return response()->json([
-                'status' => 'error',
-                'code' => 422,
-                'error' => 'Validation failed',
-                'details' => $validator->errors()
-            ], 422);
-        }
-    
-        try {
-            $data = $request->all();
-            
-            // Handle image upload
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-    
-                // Validate image file before storing
-                if (!$image->isValid()) {
-                    return response()->json([
-                        'status' => 'error',
-                        'code' => 422,
-                        'error' => 'Invalid image file',
-                        'message' => 'The uploaded image file is invalid.'
-                    ], 422);
-                }
-    
-                // Generate a unique file name and store the image
-                $imageName = time() . '.' . $image->getClientOriginalExtension();
-                $image->storeAs('public/images', $imageName);
-                $data['image'] = $imageName;
-            }
-    
-            // Set the order for the new content based on the current max order
-            $maxOrder = CourseContent::where('course_id', $request->course_id)->max('order');
-            $data['order'] = $maxOrder + 1;
-    
-            // Create CourseContent
-            $courseContent = CourseContent::create($data);
-    
-            return response()->json([
-                'status' => 'success',
-                'code' => 201,
-                'message' => 'Course content created successfully.',
-                'data' => $courseContent
-            ], 201);
-            
-        } catch (\Exception $e) {
-            // Handle exceptions
-            return response()->json([
-                'status' => 'error',
-                'code' => 500,
-                'error' => 'Unable to create course content',
-                'message' => $e->getMessage()
-            ], 500);
-        }
+{
+    // Validate the request
+    $validator = Validator::make($request->all(), [
+        'course_id' => 'required|exists:courses,id',
+        'content_type' => 'required|in:video,document,quiz',
+        'title' => 'required|string|max:255',
+        'file_id' => 'nullable|exists:files,id', // Validate file_id
+        'file_path' => 'nullable|string',
+        'content' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate image with size and format
+        'level' => 'required|in:first,second,third',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => 'error',
+            'code' => 422,
+            'error' => 'Validation failed',
+            'details' => $validator->errors()
+        ], 422);
     }
-    
-    public function updateCourseContent(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'content_type' => 'required|in:video,document,quiz',
-            'title' => 'required|string|max:255',
-            'file_path' => 'nullable|string',
-            'content' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate image
-            'level' => 'required|in:first,second,third',
-        ]);
-    
-        if ($validator->fails()) {
-            // Returning all validation errors with their respective fields
-            return response()->json([
-                'status' => 'error',
-                'code' => 422,
-                'error' => 'Validation failed',
-                'details' => $validator->errors()
-            ], 422);
-        }
-    
-        try {
-            $courseContent = CourseContent::findOrFail($id);
-            $data = $request->all();
-            
-            // Handle image upload
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-    
-                // Validate image file before storing
-                if (!$image->isValid()) {
-                    return response()->json([
-                        'status' => 'error',
-                        'code' => 422,
-                        'error' => 'Invalid image file',
-                        'message' => 'The uploaded image file is invalid.'
-                    ], 422);
-                }
-    
-                // Generate a unique file name and store the image
-                $imageName = time() . '.' . $image->getClientOriginalExtension();
-                $image->storeAs('public/images', $imageName);
-                $data['image'] = $imageName;
+
+    try {
+        $data = $request->all();
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+
+            if (!$image->isValid()) {
+                return response()->json([
+                    'status' => 'error',
+                    'code' => 422,
+                    'error' => 'Invalid image file',
+                    'message' => 'The uploaded image file is invalid.'
+                ], 422);
             }
-            
-            // If the order is changing, we may want to re-adjust the orders of other contents
-            if (isset($data['order'])) {
-                $maxOrder = CourseContent::where('course_id', $courseContent->course_id)->max('order');
-                $data['order'] = min($data['order'], $maxOrder);
-            }
-    
-            $courseContent->update($data);
-    
-            return response()->json([
-                'status' => 'success',
-                'code' => 200,
-                'message' => 'Course content updated successfully.',
-                'data' => $courseContent
-            ], 200);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json([
-                'status' => 'error',
-                'code' => 404,
-                'error' => 'Course content not found',
-                'message' => 'No course content found with the provided ID.'
-            ], 404);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'code' => 500,
-                'error' => 'Unable to update course content',
-                'message' => $e->getMessage()
-            ], 500);
+
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/images', $imageName);
+            $data['image'] = $imageName;
         }
+
+        // Set the order for the new content based on the current max order
+        $maxOrder = CourseContent::where('course_id', $request->course_id)->max('order');
+        $data['order'] = $maxOrder + 1;
+
+        // Create CourseContent
+        $courseContent = CourseContent::create($data);
+
+        return response()->json([
+            'status' => 'success',
+            'code' => 201,
+            'message' => 'Course content created successfully.',
+            'data' => $courseContent
+        ], 201);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'code' => 500,
+            'error' => 'Unable to create course content',
+            'message' => $e->getMessage()
+        ], 500);
     }
+}
+
+public function updateCourseContent(Request $request, $id)
+{
+    $validator = Validator::make($request->all(), [
+        'content_type' => 'required|in:video,document,quiz',
+        'title' => 'required|string|max:255',
+        'file_id' => 'nullable|exists:files,id', // Validate file_id
+        'file_path' => 'nullable|string',
+        'content' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate image
+        'level' => 'required|in:first,second,third',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => 'error',
+            'code' => 422,
+            'error' => 'Validation failed',
+            'details' => $validator->errors()
+        ], 422);
+    }
+
+    try {
+        $courseContent = CourseContent::findOrFail($id);
+        $data = $request->all();
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+
+            if (!$image->isValid()) {
+                return response()->json([
+                    'status' => 'error',
+                    'code' => 422,
+                    'error' => 'Invalid image file',
+                    'message' => 'The uploaded image file is invalid.'
+                ], 422);
+            }
+
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/images', $imageName);
+            $data['image'] = $imageName;
+        }
+
+        if (isset($data['order'])) {
+            $maxOrder = CourseContent::where('course_id', $courseContent->course_id)->max('order');
+            $data['order'] = min($data['order'], $maxOrder);
+        }
+
+        $courseContent->update($data);
+
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Course content updated successfully.',
+            'data' => $courseContent
+        ], 200);
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return response()->json([
+            'status' => 'error',
+            'code' => 404,
+            'error' => 'Course content not found',
+            'message' => 'No course content found with the provided ID.'
+        ], 404);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'code' => 500,
+            'error' => 'Unable to update course content',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
+
     
     public function deleteCourseContent($id)
     {
