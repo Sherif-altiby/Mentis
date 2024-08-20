@@ -1,3 +1,5 @@
+import { useAppSelector } from '../../../redux/reduxHook';
+import { createQuize } from '../../../utils/teacher';
 import './TeacherQuize.scss';
 import { useState } from 'react';
 
@@ -37,7 +39,15 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({ index, question, 
 
 
 const TeacherQuizes: React.FC = () => {
+
+  const [courseTitle, setCourseTitle] = useState("");
+  const [gardeLevel, setGradeLevel] = useState("")
+
   const [questions, setQuestions] = useState<Question[]>([]);
+
+  const teacherID = useAppSelector((state) => state.userInfo.userInfo.user_id)
+  const teacherCourseId = useAppSelector((state) => state.teacher.teachers.find((item) => item.id === teacherID)?.courses[0].id)
+  const token = useAppSelector((state) => state.token.token)
 
   const addQuestion = () => {
     setQuestions([...questions, { question: '', answers: ['', '', '', ''] }]);
@@ -55,16 +65,18 @@ const TeacherQuizes: React.FC = () => {
     setQuestions(newQuestions);
   };
 
-  const saveQuiz = () => {
+  const saveQuiz = async () => {
     console.log(questions);
+    const mainQuiz = await createQuize(token, teacherCourseId, courseTitle, gardeLevel );
+    console.log(mainQuiz.data)
   };
 
   return (
     <>
         <div className="quize-header">
             <div className="input">
-               <input type="text" placeholder='إسم الإختبار' />
-               <select>
+               <input type="text" placeholder='إسم الإختبار' onChange={(e) => setCourseTitle(e.target.value)} />
+               <select onChange={(e) => setGradeLevel(e.target.value)} >
                   <option value="1"> الصف الأول الثانوي </option>
                   <option value="1"> الصف الثاني الثانوي </option>
                   <option value="1"> الصف الثالث الثانوي </option>

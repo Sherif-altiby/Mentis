@@ -4,7 +4,8 @@ import { useAppSelector } from "../../../redux/reduxHook";
 
 const AllQuizes = () => {
  
-  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme);
+  
 
   return (
     <div className={`all-quzes ${appMode}`} >

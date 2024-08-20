@@ -76,8 +76,8 @@ const Nav = () => {
      dispatch(setLoading(true))
     //  await logout(token)
      navigate("/");
-     window.location.reload()
      localStorage.clear()
+     window.location.reload()
      dispatch(setLoading(false))
   }
 

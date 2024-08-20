@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import './Courses.scss';
 import { GiCloudUpload } from "react-icons/gi";
-// import { MdDelete } from "react-icons/md";
 import CountUp from 'react-countup';
 import axios from 'axios';
 import { useAppSelector } from '../../../redux/reduxHook';
