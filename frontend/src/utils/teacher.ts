@@ -69,3 +69,13 @@ export const createQuizeQuestion = async (token: string | null, quiz_id: string,
 
     return response.data;
 };
+
+export const getSingleFile = async (token: string | null) => {
+    const response = await axios.get(`${api}/files/1`, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+        }
+    });
+
+    return response.data;
+}
