@@ -16,7 +16,7 @@ class QuizController extends Controller
             'is_published' => 'boolean',
             'start_time' => 'nullable|date',
             'end_time' => 'nullable|date',
-            'grade_level' => 'required|string|max:255', // Add validation for grade_level
+            'level' => 'required|string|in:first,second,third', // Add validation for grade_level
         ]);
 
         $quiz = Quiz::create($validatedData);
@@ -40,7 +40,7 @@ class QuizController extends Controller
             'is_published' => 'boolean',
             'start_time' => 'nullable|date',
             'end_time' => 'nullable|date',
-            'grade_level' => 'required|string|max:255', // Add validation for grade_level
+            'level' => 'required|string|in:first,second,third', // Add validation for grade_level
         ]);
 
         $quiz = Quiz::findOrFail($id);
