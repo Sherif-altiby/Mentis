@@ -11995,3 +11995,7 @@ Did you mean one of these?
 #53 C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('C:\\\\xampp\\\\htdocs...')
 #54 {main}
 "} 
+[2024-08-21 20:55:10] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php:12)
+[stacktrace]
+#0 {main}
+"} 

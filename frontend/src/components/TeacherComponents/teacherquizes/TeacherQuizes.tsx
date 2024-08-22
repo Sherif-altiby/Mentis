@@ -1,5 +1,7 @@
-import { useAppSelector } from '../../../redux/reduxHook';
-import { createQuize } from '../../../utils/teacher';
+import CustomLoading from '../../../pages/loading/CustomLoading';
+import { setLoading } from '../../../pages/loading/Loadingslice';
+import { useAppSelector, useAppDispatch } from '../../../redux/reduxHook';
+import { createQuize, createQuizeQuestion } from '../../../utils/teacher';
 import './TeacherQuize.scss';
 import { useState } from 'react';
 
@@ -40,6 +42,8 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({ index, question, 
 
 const TeacherQuizes: React.FC = () => {
 
+  const dispatch = useAppDispatch()
+
   const [courseTitle, setCourseTitle] = useState("");
   const [gardeLevel, setGradeLevel] = useState("")
 
@@ -47,7 +51,8 @@ const TeacherQuizes: React.FC = () => {
 
   const teacherID = useAppSelector((state) => state.userInfo.userInfo.user_id)
   const teacherCourseId = useAppSelector((state) => state.teacher.teachers.find((item) => item.id === teacherID)?.courses[0].id)
-  const token = useAppSelector((state) => state.token.token)
+  const token = useAppSelector((state) => state.token.token);
+  const loading = useAppSelector((state) => state.loading.isLoading);
 
   const addQuestion = () => {
     setQuestions([...questions, { question: '', answers: ['', '', '', ''] }]);
@@ -66,14 +71,30 @@ const TeacherQuizes: React.FC = () => {
   };
 
   const saveQuiz = async () => {
+    dispatch(setLoading(true))
     console.log(questions);
     const mainQuiz = await createQuize(token, teacherCourseId, courseTitle, gardeLevel );
-    console.log(mainQuiz.data);
+    console.log(mainQuiz);
+
+    if(mainQuiz && questions.length > 0){
+      const quizeId = mainQuiz.id;
+      
+      questions.forEach( async (question) => {
+        const sendQuestion = await createQuizeQuestion(token, quizeId, question.question, question.answers[0], question.answers[1], question.answers[2], question.answers[3])
+        
+        console.log(sendQuestion)
+      })
+      dispatch(setLoading(false))
+    }else{
+      dispatch(setLoading(false))
+      console.log("error")
+    }
 
   };
 
   return (
-    <>
+    <div className='teacher-quizzes-container'>
+      {loading && (<CustomLoading />) }
         <div className="quize-header">
             <div className="input">
                <input type="text" placeholder='إسم الإختبار' onChange={(e) => setCourseTitle(e.target.value)} />
@@ -101,7 +122,7 @@ const TeacherQuizes: React.FC = () => {
               {questions.length > 0 && (<button className='btn-send-quize' onClick={saveQuiz}> حفظ  </button>)}
           </div>
         </div>
-    </>
+    </div>
   );
 };
 

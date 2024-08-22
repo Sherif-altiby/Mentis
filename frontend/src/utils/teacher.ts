@@ -12,13 +12,13 @@ export  const getTeacherAllCourses = async (teacherId: string | null, token: str
     return response.data
 }
 
-export const createQuize = async (token: string | null, course_id: string | undefined, title: string, grade_level: string) => { 
+export const createQuize = async (token: string | null, course_id: string | undefined, title: string, level: string) => { 
     const response = await axios.post(`${api}/quizzes`, 
         {
             course_id: course_id,
             title: title,
             type: "multiple_choice",
-            grade_level: grade_level
+            level
         },
         {
             headers: {
@@ -31,7 +31,7 @@ export const createQuize = async (token: string | null, course_id: string | unde
 
 
 export const createQuizeQuestion = async (token: string | null, quiz_id: string, question: string, a: string, b:string, c: string, d: string) => { 
-    const response = await axios.post(`${api}/quizzes`, 
+    const response = await axios.post(`${api}/quiz-questions`, 
         {
             quiz_id: quiz_id,
             question: question,
