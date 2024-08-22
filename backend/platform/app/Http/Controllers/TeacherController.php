@@ -181,8 +181,6 @@ class TeacherController extends Controller
     }
 }
 
-
-
 public function storeFileAndContent(Request $request)
 {
     try {
@@ -220,6 +218,10 @@ public function storeFileAndContent(Request $request)
             'file_data' => $path,
         ]);
 
+        // Determine the order if not provided
+        $maxOrder = CourseContent::where('course_id', $validatedData['course_id'])->max('order');
+        $order = $validatedData['order'] ?? ($maxOrder + 1);
+
         // Store the course content
         $courseContent = CourseContent::create([
             'course_id' => $validatedData['course_id'],
@@ -228,12 +230,13 @@ public function storeFileAndContent(Request $request)
             'title' => $validatedData['title'],
             'file_path' => $path,
             'content' => $validatedData['content'] ?? null,
-            'order' => $validatedData['order'] ?? 0,
+            'order' => $order,
             'level' => $validatedData['level'],
         ]);
 
         // Return a success response with the course content details
         return response()->json($courseContent, 201);
+
     } catch (\Illuminate\Validation\ValidationException $e) {
         // Handle validation errors
         return response()->json([
