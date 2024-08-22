@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 
 class QuizController extends Controller
 {
+
+    public function index()
+    {
+        $quizzes = Quiz::all();
+        return response()->json($quizzes);
+    }
     public function store(Request $request)
     {
         $validatedData = $request->validate([

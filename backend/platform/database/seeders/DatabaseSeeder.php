@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -28,14 +27,6 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        $student1 = User::create([
-            'name' => 'محمد أحمد',
-            'email' => '234567@Menyis.com',
-            'password' => Hash::make('password123'),
-            'phone_number' => '01098765432',
-            'role' => 'student',
-        ]);
-
         $teacher = User::create([
             'name' => 'أحمد علي',
             'email' => '345678@Menyis.com',
@@ -44,12 +35,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'teacher',
         ]);
 
-        $parent = User::create([
-            'name' => 'خالد عبد الله',
-            'email' => '456789@Menyis.com',
+        $student1 = User::create([
+            'name' => 'محمد أحمد',
+            'email' => '234567@Menyis.com',
             'password' => Hash::make('password123'),
-            'phone_number' => '01234567890',
-            'role' => 'parent',
+            'phone_number' => '01098765432',
+            'role' => 'student',
         ]);
 
         $student2 = User::create([
@@ -60,122 +51,99 @@ class DatabaseSeeder extends Seeder
             'role' => 'student',
         ]);
 
-        $student1 = User::where('email', '234567@Menyis.com')->first();
-
-        // Now you can access the ID
-        $student1Id = $student1->id;
-
-                // Fetch the user based on specific criteria, e.g., role or email
-        $student2 = User::where('email', '567890@Menyis.com')->first();
-
-        // Now you can access the ID
-        $student2Id = $student2->id;
-
         Student::create([
-            'user_id' => $student1Id,  // This returns a User object, not an ID
+            'user_id' => $student1->id,
             'grade_level' => 'first',
         ]);
+
         Student::create([
-            'user_id' => $student2Id,  // This returns a User object, not an ID
+            'user_id' => $student2->id,
             'grade_level' => 'first',
         ]);
-        // Insert specific records for courses
-        $course = Course::create([
-            'teacher_id' => $teacher->id,
-            'title' => 'مقدمة في الرياضيات',
-            'description' => 'دورة تعلم أساسيات الرياضيات باللغة العربية.',
-            'price' => 99.99,
-            'image' => 'https://example.com/images/math_intro.jpg',
-        ]);
 
-        // Insert specific records for assignments
-        $assignment = Assignment::create([
-            'course_id' => $course->id,
-            'title' => 'تمارين على أساسيات الرياضيات',
-            'description' => 'حل التمارين المعطاة في الدرس.',
-            'due_date' => now()->addWeek(),
-            'is_published' => true,
-        ]);
+        // Insert specific records for courses in Arabic
+        $courses = [
+            [
+                'title' => 'الكيمياء',
+                'description' => 'دورة شاملة في علم الكيمياء تغطي أساسيات العناصر والتفاعلات الكيميائية.',
+                'price' => 120.00,
+                'image' => 'https://example.com/images/chemistry.jpg',
+                'levels' => ['first', 'second', 'third'],
+            ],
+            [
+                'title' => 'الفيزياء',
+                'description' => 'تعلم المبادئ الأساسية للفيزياء بما في ذلك الحركة، الطاقة، والموجات.',
+                'price' => 130.00,
+                'image' => 'https://example.com/images/physics.jpg',
+                'levels' => ['first', 'second', 'third'],
+            ],
+            [
+                'title' => 'اللغة العربية',
+                'description' => 'دورة متكاملة لتعلم اللغة العربية من النحو إلى الأدب.',
+                'price' => 100.00,
+                'image' => 'https://example.com/images/arabic.jpg',
+                'levels' => ['first', 'second', 'third'],
+            ],
+            [
+                'title' => 'الفنون',
+                'description' => 'استكشاف الفنون الجميلة، الرسم، والنحت في دورة شاملة.',
+                'price' => 150.00,
+                'image' => 'https://example.com/images/arts.jpg',
+                'levels' => ['first', 'second', 'third'],
+            ],
+        ];
 
-        // Insert specific records for course contents
-        $file = File::create([
-            'user_id' => $teacher->id,
-            'file_name' => 'course_material.pdf',
-            'file_type' => 'application/pdf',
-            'file_data' => 'sample binary data',
-        ]);
+        foreach ($courses as $courseData) {
+            $course = Course::create([
+                'teacher_id' => $teacher->id,
+                'title' => $courseData['title'],
+                'description' => $courseData['description'],
+                'price' => $courseData['price'],
+                'image' => $courseData['image'],
+            ]);
 
-        CourseContent::create([
-            'course_id' => $course->id,
-            'content_type' => 'video',
-            'title' => 'فيديو مقدمة في الرياضيات',
-            'image' => 'https://example.com/images/math_video.jpg',
-            'file_id' => $file->id,
-            'file_path' => 'https://www.youtube.com/watch?v=OmJ-4B-mS-Y',
-            'content' => 'هذا الفيديو يقدم أساسيات الرياضيات.',
-            'order' => 1,
-            'level' => 'first',
-        ]);
+            foreach ($courseData['levels'] as $level) {
+                // Insert specific records for course contents
+                CourseContent::create([
+                    'course_id' => $course->id,
+                    'content_type' => 'video',
+                    'title' => 'فيديو ' . $courseData['title'] . ' - المستوى ' . $level,
+                    'image' => 'https://example.com/images/video_' . strtolower($courseData['title']) . '.jpg',
+                    'file_path' => 'https://www.youtube.com/watch?v=example_video',
+                    'content' => 'فيديو تعليمي عن ' . $courseData['title'] . ' - المستوى ' . $level,
+                    'order' => 1,
+                    'level' => $level,
+                ]);
 
-        CourseContent::create([
-            'course_id' => $course->id,
-            'content_type' => 'document',
-            'title' => 'مذكرة أساسيات الرياضيات',
-            'image' => 'https://example.com/images/math_notes.jpg',
-            'file_id' => $file->id,
-            'file_path' => 'https://www.youtube.com/watch?v=OmJ-4B-mS-Y',
-            'content' => 'مذكرة تغطي أساسيات الرياضيات.',
-            'order' => 2,
-            'level' => 'first',
-        ]);
+                CourseContent::create([
+                    'course_id' => $course->id,
+                    'content_type' => 'document',
+                    'title' => 'مذكرة ' . $courseData['title'] . ' - المستوى ' . $level,
+                    'image' => 'https://example.com/images/note_' . strtolower($courseData['title']) . '.jpg',
+                    'file_path' => 'https://example.com/documents/note_' . strtolower($courseData['title']) . '.pdf',
+                    'content' => 'مذكرة تغطي موضوعات ' . $courseData['title'] . ' - المستوى ' . $level,
+                    'order' => 2,
+                    'level' => $level,
+                ]);
 
-        CourseContent::create([
-            'course_id' => $course->id,
-            'content_type' => 'quiz',
-            'file_id' => $file->id,
-            'title' => 'اختبار الرياضيات ١',
-            'image' => 'https://example.com/images/math_quiz.jpg',
-            'file_path' => 'https://www.youtube.com/watch?v=OmJ-4B-mS-Y',
-            'content' => 'اختبار لتقييم معرفتك بأساسيات الرياضيات.',
-            'order' => 3,
-            'level' => 'first',
-        ]);
+                $quiz = Quiz::create([
+                    'course_id' => $course->id,
+                    'title' => 'اختبار ' . $courseData['title'] . ' - المستوى ' . $level,
+                    'description' => 'اختبار لتقييم معرفتك بـ' . $courseData['title'] . ' - المستوى ' . $level,
+                    'type' => 'multiple_choice',
+                    'is_published' => true,
+                    'start_time' => now(),
+                    'end_time' => now()->addDays(7),
+                    'level' => $level,
+                ]);
 
-        // Insert specific records for quizzes
-        $quiz = Quiz::create([
-            'course_id' => $course->id,
-            'title' => 'اختبار أساسيات الرياضيات',
-            'description' => 'اختبار لمعرفة مدى فهمك لأساسيات الرياضيات.',
-            'type' => 'multiple_choice',
-            'is_published' => true,
-            'start_time' => now(),
-            'end_time' => now()->addDays(7),
-            'level' => 'first',
-        ]);
-
-        // Insert specific records for quiz questions
-        $quizQuestion = QuizQuestion::create([
-            'quiz_id' => $quiz->id,
-            'question' => 'ما هو العدد 2 + 2؟',
-            'options' => json_encode(['3', '4', '5', '6']),
-            'correct_answer' => '4',
-        ]);
-
-        // Insert specific records for quiz responses
-        QuizResponse::create([
-            'quiz_question_id' => $quizQuestion->id,
-            'student_id' => $student1->id,
-            'answer' => '4',
-            'is_correct' => true,
-        ]);
-
-        // Insert specific records for assignment submissions
-        AssignmentSubmission::create([
-            'assignment_id' => $assignment->id,
-            'student_id' => $student1->id,
-            'file_id' => $file->id,
-            'grade' => 90,
-            'submission_date' => now(),
-        ]);
+                QuizQuestion::create([
+                    'quiz_id' => $quiz->id,
+                    'question' => 'ما هو العنصر الكيميائي للماء؟',
+                    'options' => json_encode(['H2O', 'O2', 'CO2', 'N2']),
+                    'correct_answer' => 'H2O',
+                ]);
+            }
+        }
     }
 }
