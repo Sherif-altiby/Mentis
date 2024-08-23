@@ -4286,3 +4286,7 @@ startxref
 [stacktrace]
 #0 {main}
 "} 
+[2024-08-23 18:57:05] local.ERROR: Maximum execution time of 30 seconds exceeded {"userId":4,"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\Translator.php:15)
+[stacktrace]
+#0 {main}
+"} 

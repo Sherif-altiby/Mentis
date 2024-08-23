@@ -4,7 +4,7 @@ import './Courses.scss';
 import { useSearchParams } from 'react-router-dom';
 import Nav from '../../Navbar/Nav';
 import Footer from '../../footer/Footer';
-import { getTeacherAllCourses } from '../../../utils/teacher';
+import { deleteTeacherCourse, getTeacherAllCourses, updateTeacherCourse } from '../../../utils/teacher';
 import { setLoading } from '../../../pages/loading/Loadingslice';
 import Loading from '../../../pages/loading/Loading';
 import { courseProps } from '../../../types/index.types';
@@ -20,7 +20,7 @@ const UpdateCourse = () => {
     const token = useAppSelector((state) => state.token.token);
     const loading = useAppSelector((state) => state.loading.isLoading);
 
-    const [teacherCourses, setTeacherCourses] = useState<any>(null); // Fixed variable name
+    const [teacherCourses, setTeacherCourses] = useState<courseProps[]>([]); // Fixed variable name
 
     const [searchParams] = useSearchParams(); // Removed unnecessary `setSearchParams`
    
@@ -48,6 +48,16 @@ const UpdateCourse = () => {
         getCourses();
     }, [userId, token, level]);  
 
+    const deleteCourse = async (id: string | number) => {
+        setTeacherCourses(teacherCourses?.filter((course) => course.id != id))
+
+        await deleteTeacherCourse(token, id);
+    }
+
+    // const updateCourse = async (id: string | number) => {
+    //     const response = await updateTeacherCourse(token, id,  )
+    // }
+
     return (
         <>
             <Nav />
@@ -64,7 +74,7 @@ const UpdateCourse = () => {
                                        <p> {course.title} </p>
 
                                        <div className="icons">
-                                           <div className="icon">
+                                           <div className="icon" onClick={() => deleteCourse(course.id)} >
                                                <p> حذف </p>
                                                <div className="btn-icon"> <MdDelete /> </div>
                                            </div>
@@ -77,7 +87,7 @@ const UpdateCourse = () => {
                                 </>
                             ))
                           )}
-                          {!teacherCourses && ( <h3> لا يوجد دروس </h3> ) }
+                          {teacherCourses.length === 0 && ( <h3> لا يوجد دروس </h3> ) }
                     </div>
                 </div>
             )}

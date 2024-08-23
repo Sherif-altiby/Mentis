@@ -83,11 +83,9 @@ export const getSingleFile = async (token: string | null) => {
 }
 
 // create course 
-
 export const createTeacherCourse = async (token: string | null, courseName: string, courseLevel: string, courseId: string | number, courseLink: string) => {
     const response = await axios.post(
-        "http://127.0.0.1:8000/api/teachers/courses/contents",
-        {
+        `${api}/teachers/courses/contents`,{
             title: courseName, 
             content_type: "video",
             level: courseLevel,
@@ -103,4 +101,33 @@ export const createTeacherCourse = async (token: string | null, courseName: stri
       );
 
       return response.data
+}
+
+// teacher deete the lesson
+export const deleteTeacherCourse = async (token: string | null, id: string | number) => {
+    const response = await axios.delete(`${api}/teachers/courses/contents/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    return response.data;
+}
+
+// teacher update the lesson
+export const updateTeacherCourse = async (token: string | null, id: string | number, courseName: string, courseLink: string, courseLevel: string) => {
+    const response = await axios.put(`${api}/teachers/courses/contents/${id}`,{
+        title: courseName, 
+        content_type: "video",
+        level: courseLevel,
+        file_path: courseLink
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json"
+      }
+    });
+
+    return response.data
 }
