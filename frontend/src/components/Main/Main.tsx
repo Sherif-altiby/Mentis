@@ -67,7 +67,6 @@ const Main = () => {
                 <h2> <span> <Cursor /> </span> <span> { text } </span> </h2>
                 <p> منصة تعليمية مبتكرة تهدف إلى توفير تجربة تعليمية متكاملة وشاملة للمستخدمين من جميع الأعمار والخلفيات. تعتمد "منتس" على أحدث التقنيات التعليمية لخلق بيئة تعلم تفاعلية وجذابة، حيث يمكن للمتعلمين الوصول إلى مجموعة متنوعة من الموارد والدورات التدريبية المصممة بعناية لتلبية احتياجاتهم التعليمية. </p>
                 <div className="btns">
-                   <div className="btn"> <a href='#all-mentis-materials' > المواد الدراسية </a> </div>
                    <div className="btn"> <a href='#all-mentis-teachers' >  المدرسين </a> </div>
                    <div className="btn"> <Link to='/signup' >  انضم الي منتس </Link> </div>
                 </div>

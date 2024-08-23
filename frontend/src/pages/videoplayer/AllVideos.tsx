@@ -25,7 +25,7 @@ const AllVideos = () => {
 
     const id = query.get('id');
 
-
+   const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
 
     let  grade_level = "first";
 
@@ -61,14 +61,12 @@ const AllVideos = () => {
       };
       
       fetchCourses();
-     
-  
     }, [token]);
 
   return (
     <div>
          <Nav />
-         <div className="all-courses">
+         <div className={`all-courses ${appMode} `}>
           {courses && courses.map((course) => (
             <Link to="/user/user-subjects/video-play" key={course.id} className="course" onClick={() => dispatch(setVideoId(course.file_path))} >
               <h3>{course.title}</h3>

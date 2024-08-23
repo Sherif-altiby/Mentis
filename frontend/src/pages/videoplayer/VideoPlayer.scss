@@ -65,6 +65,16 @@
 
 .all-courses {
   min-height: 500px;
+  padding-top: 30px;
+  margin-top: -40px;
+
+  &.dark{
+    background-color: var(--input-dark-bg);
+
+    h3{
+      background-color: var(--main-dark-color);
+    }
+  }
 
   h3 {
     background: var(--primary-color);

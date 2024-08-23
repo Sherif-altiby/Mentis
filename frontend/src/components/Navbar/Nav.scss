@@ -6,8 +6,6 @@ nav {
   z-index: 999999;
   position: relative;
 
-
-
   .nav {
     height: 80px;
     display: flex;
@@ -19,6 +17,15 @@ nav {
 
     &.dark{
       background-color: var(--nav-bg-dark);
+
+      .nav-user{
+        background-color: var(--main-dark-color);
+      }
+      .user-menu{
+        background-color: var(--main-dark-color);
+        box-shadow: 0 0 5px #fff;
+        color: #fff;
+      }
     }
 
     @include screen(lg) {

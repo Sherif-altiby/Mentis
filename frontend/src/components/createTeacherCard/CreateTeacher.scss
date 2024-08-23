@@ -9,6 +9,19 @@
     cursor: pointer;
     transition: 0.3s;
     position: relative;
+
+    &.dark{
+      background-color: var(--main-dark-color);
+      border: none;
+
+       h2{
+        color: #fff;
+      }
+
+      &:hover{
+        background-color: var(--card-hover-bg);
+      }
+    }
     
     .content-info{
       display: flex;
@@ -78,5 +91,6 @@
       font-weight: bold;
       color: var(--primary-color);
       font-size: 18px;
+      margin-bottom: 10px;
     }
   }
