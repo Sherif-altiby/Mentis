@@ -29,4 +29,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Course::class, 'teacher_id');
     }
+        // In User model (app/Models/User.php)
+    public function getRoleAttribute()
+    {
+        return $this->attributes['role'];
+    }
+
 }
