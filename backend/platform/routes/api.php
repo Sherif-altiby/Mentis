@@ -18,14 +18,12 @@ Route::post('login', [AuthController::class, 'login']);
 
 // ---------------------------- Public Routes --------------------------------
 Route::get('/courses', [CourseController::class, 'index']);
+Route::get('/teachers', [TeacherController::class, 'index']);
+
 
 // -------------------------- Admin Routes -----------------------------------
 Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin'])->group(function () {
-    // Admin-specific course routes
-    Route::post('/courses', [CourseController::class, 'store']);
-    Route::get('/courses/{id}', [CourseController::class, 'show']);
-    Route::put('/courses/{course}', [CourseController::class, 'update']);
-    Route::delete('/courses/{course}', [CourseController::class, 'destroy']);
+   
 
     // Additional admin routes can be added here
 });
@@ -33,15 +31,20 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin'])->group(fun
 // ------------------------- Teacher Routes ----------------------------------
 Route::middleware(['auth:sanctum', RoleMiddleware::class . ':teacher'])->group(function () {
     // Teacher-specific routes
-    Route::get('/teachers/{id}', [TeacherController::class, 'show']);
+   
     Route::post('/teachers/courses/contents', [TeacherController::class, 'storeCourseContent']);
     Route::put('/teachers/courses/contents/{id}', [TeacherController::class, 'updateCourseContent']);
     Route::delete('/teachers/courses/contents/{id}', [TeacherController::class, 'deleteCourseContent']);
-    Route::get('/course-contents', [TeacherController::class, 'getAllCourseContents']);
+   
     Route::post('/course-content/store', [TeacherController::class, 'storeFileAndContent']);
-    Route::get('/course-contents/teacher/{teacherId}/level/{level}', [TeacherController::class, 'getCourseContentsByTeacherAndLevel']);
+   
 
     // Additional teacher routes can be added here
+     // Admin-specific course routes
+     Route::post('/courses', [CourseController::class, 'store']);
+    
+     Route::put('/courses/{course}', [CourseController::class, 'update']);
+     Route::delete('/courses/{course}', [CourseController::class, 'destroy']);
 });
 
 
@@ -51,7 +54,10 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin|teacher|stude
     // Routes accessible by admin, teacher, student, and parent
     Route::get('/course-contents/{id}', [TeacherController::class, 'showCourseContent']);
     Route::get('/user-from-token/{token}', [AuthController::class, 'getUserFromToken']);
-
+    Route::get('/course-contents', [TeacherController::class, 'getAllCourseContents']);
+    Route::get('/teachers/{id}', [TeacherController::class, 'show']);
+    Route::get('/course-contents/teacher/{teacherId}/level/{level}', [TeacherController::class, 'getCourseContentsByTeacherAndLevel']);
+    Route::get('/courses/{id}', [CourseController::class, 'show']);
     // Additional routes for multiple roles can be added here
 });
 
