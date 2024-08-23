@@ -57,3 +57,11 @@ export type QuestionProps = {
 }
 
 export type allQuestionsProps = QuestionProps[]
+
+export type courseProps = {
+    course_id: string | number;
+    id: string | number;
+    file_path: string;
+    title: string;
+    level: string;
+}

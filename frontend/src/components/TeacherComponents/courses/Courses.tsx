@@ -7,6 +7,7 @@ import { useAppSelector } from '../../../redux/reduxHook';
 import { useEffect, useState } from 'react';
 import CustomLoading from '../../../pages/loading/CustomLoading';
 import Message from '../../message/Message';
+import { createTeacherCourse } from '../../../utils/teacher';
 
 
 const Courses = () => {
@@ -41,24 +42,12 @@ const Courses = () => {
 
   const createCourse = async () => {
     setLoading(true)
-    const response = await axios.post(
-        "http://127.0.0.1:8000/api/teachers/courses/contents",
-        {
-            title: courseName, 
-            content_type: "video",
-            level: "second",
-            course_id: courseId,
-            file_path: courseLink
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json"
-          }
-        }
-      );
+     
+    const course = await createTeacherCourse(token, courseName, courseLevel, courseId, courseLink)
 
-    if(response.data){
+      console.log(course)
+
+    if(course){
         setLoading(false)
         setMsg(true)
         setCourseName("");
@@ -84,9 +73,9 @@ const Courses = () => {
                 <p><span> درس </span> <span className='counter-up-number'> <CountUp start={0} end={100} duration={2} /> </span>  </p>
             </div>
             <div className="courses-levels">
-                <Link to='#'> <p> أولى ثانوي  </p> <p> <span> درس </span> <span className='counter-up-number'> <CountUp start={0} end={100} duration={2} /> </span> </p> </Link>
-                <Link to='#'> <p> ثانية ثانوي </p> <p> <span> درس </span> <span className='counter-up-number'> <CountUp start={0} end={100} duration={2} /> </span> </p> </Link>
-                <Link to='#'> <p> ثالثة ثانوي </p> <p> <span> درس </span> <span className='counter-up-number'> <CountUp start={0} end={100} duration={2} /> </span> </p> </Link>
+                <Link to={`/teacher/courses/teacher-courses?query=course&level=first`}> <p> أولى ثانوي  </p> <p> <span> درس </span> <span className='counter-up-number'> <CountUp start={0} end={100} duration={2} /> </span> </p> </Link>
+                <Link to={`/teacher/courses/teacher-courses?query=course&level=second`}> <p> ثانية ثانوي </p> <p> <span> درس </span> <span className='counter-up-number'> <CountUp start={0} end={100} duration={2} /> </span> </p> </Link>
+                <Link to={`/teacher/courses/teacher-courses?query=course&level=third`}> <p> ثالثة ثانوي </p> <p> <span> درس </span> <span className='counter-up-number'> <CountUp start={0} end={100} duration={2} /> </span> </p> </Link>
             </div>
             <div className="add-course-card">
                 {loading && (<CustomLoading />)}

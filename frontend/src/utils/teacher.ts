@@ -1,8 +1,9 @@
 import axios from "axios";
 
-const api = "http://127.0.0.1:8000/api"
+const api = "http://127.0.0.1:8000/api";
 
-export  const getTeacherAllCourses = async (teacherId: string | null, token: string | null, level: string | null) => {
+//  get teacher courses by level and teacher id
+export  const getTeacherAllCourses = async (teacherId: string | null | number, token: string | null, level: string | null) => {
     const response = await axios.get(`${api}/course-contents/teacher/${teacherId}/level/${level}`,{
         headers: {
             Authorization: `Bearer ${token}`
@@ -11,6 +12,7 @@ export  const getTeacherAllCourses = async (teacherId: string | null, token: str
 
     return response.data
 }
+
 
 export const createQuize = async (token: string | null, course_id: string | undefined, title: string, level: string) => { 
     const response = await axios.post(`${api}/quizzes`, 
@@ -78,4 +80,27 @@ export const getSingleFile = async (token: string | null) => {
     });
 
     return response.data;
+}
+
+// create course 
+
+export const createTeacherCourse = async (token: string | null, courseName: string, courseLevel: string, courseId: string | number, courseLink: string) => {
+    const response = await axios.post(
+        "http://127.0.0.1:8000/api/teachers/courses/contents",
+        {
+            title: courseName, 
+            content_type: "video",
+            level: courseLevel,
+            course_id: courseId,
+            file_path: courseLink
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json"
+          }
+        }
+      );
+
+      return response.data
 }

@@ -31,6 +31,7 @@ import AllQuizes from './components/TeacherComponents/teacherquizes/AllQuizes';
 import AllVideos from './pages/videoplayer/AllVideos';
 import QuizzesView from './pages/quizzes-view/QuizzesView';
 import NotesView from './pages/notes-vew/NotesView';
+import UpdateCourse from './components/TeacherComponents/courses/UpdateCourse';
 
   
 const App = () => {
@@ -81,6 +82,8 @@ const App = () => {
                 <Route path='settings' element={<Setting />} />
                 <Route path='notifications' element={<Notifications />} />
         </Route>
+
+        <Route path='/teacher/courses/teacher-courses' element={<UpdateCourse/>} />
 
         {/* VIDEO PLAYER ROUTE */}
         <Route path='/user/user-subjects/videos' element={< AllVideos />} />
