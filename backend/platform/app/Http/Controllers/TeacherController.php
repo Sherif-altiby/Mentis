@@ -7,6 +7,10 @@ use App\Models\Course;
 use App\Models\CourseContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\File;
+
+use Illuminate\Support\Facades\Http;
+
 
 class TeacherController extends Controller
 {
@@ -88,6 +92,13 @@ class TeacherController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Unable to update course', 'message' => $e->getMessage()], 500);
         }
+        $responseData = [
+            'message' => 'File uploaded successfully!',
+            // other data
+        ];
+    
+        // Ensure UTF-8 encoding
+        return response()->json($responseData, 200, [], JSON_UNESCAPED_UNICODE | JSON_PARTIAL_OUTPUT_ON_ERROR);
     }
 
     // Delete a specific course
@@ -169,6 +180,82 @@ class TeacherController extends Controller
         ], 500);
     }
 }
+
+public function storeFileAndContent(Request $request)
+{
+    try {
+        // Log the request data for debugging
+        \Log::info('Request data:', $request->all());
+
+        // Validate the request data
+        $validatedData = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'course_id' => 'required|exists:courses,id',
+            'file_name' => 'required|string|max:255',
+            'file_type' => 'required|string|max:255',
+            'file_data' => 'required|file|mimes:pdf,docx,txt,jpg,png',
+            'content_type' => 'required|in:video,document,quiz',
+            'title' => 'required|string|max:255',
+            'level' => 'required|in:first,second,third',
+            'content' => 'nullable|string',
+            'order' => 'nullable|integer',
+        ]);
+
+        // Handle the uploaded file
+        $file = $request->file('file_data');
+        if (!$file->isValid()) {
+            throw new \Exception('The file upload failed. Please try again.');
+        }
+
+        // Store the file
+        $path = $file->store('files', 'public');
+
+        // Create a record in the files table
+        $fileRecord = File::create([
+            'user_id' => $validatedData['user_id'],
+            'file_name' => $validatedData['file_name'],
+            'file_type' => $validatedData['file_type'],
+            'file_data' => $path,
+        ]);
+
+        // Determine the order if not provided
+        $maxOrder = CourseContent::where('course_id', $validatedData['course_id'])->max('order');
+        $order = $validatedData['order'] ?? ($maxOrder + 1);
+
+        // Store the course content
+        $courseContent = CourseContent::create([
+            'course_id' => $validatedData['course_id'],
+            'file_id' => $fileRecord->id,
+            'content_type' => $validatedData['content_type'],
+            'title' => $validatedData['title'],
+            'file_path' => $path,
+            'content' => $validatedData['content'] ?? null,
+            'order' => $order,
+            'level' => $validatedData['level'],
+        ]);
+
+        // Return a success response with the course content details
+        return response()->json($courseContent, 201);
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        // Handle validation errors
+        return response()->json([
+            'error' => 'Validation failed.',
+            'messages' => $e->errors(),
+        ], 422);
+    } catch (\Exception $e) {
+        // Handle general errors
+        \Log::error('Error storing file and course content:', ['message' => $e->getMessage()]);
+        return response()->json([
+            'error' => 'An error occurred while storing the file and course content.',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+
+
+
 
 public function updateCourseContent(Request $request, $id)
 {
