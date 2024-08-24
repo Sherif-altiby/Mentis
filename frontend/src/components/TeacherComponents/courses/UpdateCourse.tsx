@@ -20,30 +20,31 @@ const UpdateCourse = () => {
     const token = useAppSelector((state) => state.token.token);
     const loading = useAppSelector((state) => state.loading.isLoading);
 
-    const [teacherCourses, setTeacherCourses] = useState<courseProps[]>([]); // Fixed variable name
-
-    const [searchParams] = useSearchParams(); // Removed unnecessary `setSearchParams`
+    const [teacherCourses, setTeacherCourses] = useState<courseProps[]>([]); 
+    const [searchParams] = useSearchParams();  
+    const [showCard, setShowCard] = useState(false)
+    const [updatedTitle, setUodatedTitle] = useState('');
+    const [updatedLevel, setUodatedLevel] = useState('');
+    const [updatedFilePath, setUodatedFilePath] = useState('');
+    const [lessonId, setLessonId] = useState<string | number>('');
    
     const level = searchParams.get("level");
-
     const headerText = level === "first" ? "الأول" : level === "second" ? "الثاني" : "الثالث";
 
+    const getCourses = async () => {
+        dispatch(setLoading(true));
+        try {
+            const response = await getTeacherAllCourses(userId, token, level);
+            setTeacherCourses(response.data);  
+        } catch (error) {
+            dispatch(setLoading(false));
+        } finally {
+            dispatch(setLoading(false));
+        }
+    };
+
     useEffect(() => {
-        const getCourses = async () => {
-            dispatch(setLoading(true));
-            try {
-                const response = await getTeacherAllCourses(userId, token, level);
-
-                console.log(response);
-
-                setTeacherCourses(response.data);  
-            } catch (error) {
-                console.error('Error fetching courses:', error);
-                dispatch(setLoading(false));
-            } finally {
-                dispatch(setLoading(false));
-            }
-        };
+       
 
         getCourses();
     }, [userId, token, level]);  
@@ -54,9 +55,23 @@ const UpdateCourse = () => {
         await deleteTeacherCourse(token, id);
     }
 
-    // const updateCourse = async (id: string | number) => {
-    //     const response = await updateTeacherCourse(token, id,  )
-    // }
+    const handleShowCard =  (title: string, level: string, filePath: string, id: string | number) => {
+       setShowCard(true)
+       setUodatedTitle(title);
+       setUodatedLevel(level);
+       setUodatedFilePath(filePath)
+       setLessonId(id)
+    }
+
+
+    const updateCourse = async () => {
+        const response = await updateTeacherCourse(token, lessonId, updatedTitle, updatedFilePath, updatedLevel )
+        
+        if(response){
+            window.location.reload()
+        }
+    }
+
 
     return (
         <>
@@ -78,7 +93,7 @@ const UpdateCourse = () => {
                                                <p> حذف </p>
                                                <div className="btn-icon"> <MdDelete /> </div>
                                            </div>
-                                           <div className="icon">
+                                           <div className="icon" onClick={() => handleShowCard(course.title, course.level, course.file_path, course.id)} >
                                                <p> تعديل </p>
                                                <div className="btn-icon"> <FaPen /> </div>
                                            </div>
@@ -92,6 +107,33 @@ const UpdateCourse = () => {
                 </div>
             )}
             <Footer />
+            <div className={`update-video-card ${showCard && 'show' }`}>
+                <div className="card">
+                    <div className="close" onClick={() => setShowCard(false)} > X </div>
+                     <div className="input">
+                          <input type="text" placeholder='لينك الدرس'
+                            value={updatedFilePath}
+                            onChange={(e) => setUodatedFilePath(e.target.value)}
+                          />
+                          <input type="text" placeholder='اسم الدرس' 
+                            value={updatedTitle}
+                            onChange={(e) => setUodatedTitle(e.target.value)}
+                          />
+                     </div>
+                     <div className="input">
+                        <label htmlFor="level"> الصف </label>
+                         <select name="level" id="level"
+                           value={updatedLevel}
+                           onChange={(e) => setUodatedLevel(e.target.value)}
+                         >
+                             <option value="first"> الصف الاول الثانوي </option>
+                             <option value="second"> الصف الثاني الثانوي </option>
+                             <option value="third"> الصف الثالث الثانوي </option>
+                         </select>
+                     </div>
+                     <div className="btn" onClick={() => updateCourse()} > تعديل </div>
+                </div>
+            </div>
         </>
     );
 }
