@@ -254,6 +254,41 @@ public function storeFileAndContent(Request $request)
 }
 
 
+public function getFilesTeacher($teacherId)
+{
+    try {
+        // // Log the request for debugging
+        // \Log::info('Fetching files for teacher:', ['teacher_id' => $teacherId]);
+
+        // Validate the teacher ID
+        $validatedData = \Validator::make(['teacher_id' => $teacherId], [
+            'teacher_id' => 'required|exists:users,id',
+        ])->validate();
+
+        // Retrieve all files uploaded by the teacher
+        $files = File::where('user_id', $teacherId)->get();
+
+        // // Log the files retrieved
+        // \Log::info('Files retrieved:', $files->toArray());
+
+        // Retrieve all course content associated with the files
+        $courseContents = CourseContent::whereIn('file_id', $files->pluck('id'))->with('file')->get();
+
+        // // Log the course contents retrieved
+        // \Log::info('Course contents retrieved:', $courseContents->toArray());
+
+        // Return a success response with the course contents and their associated files
+        return response()->json($courseContents, 200);
+
+    } catch (\Exception $e) {
+        // Handle general errors
+        \Log::error('Error fetching files and course content for teacher:', ['message' => $e->getMessage()]);
+        return response()->json([
+            'error' => 'An error occurred while fetching files and course content for the teacher.',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+}
 
 
 

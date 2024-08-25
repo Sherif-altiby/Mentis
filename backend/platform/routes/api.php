@@ -45,6 +45,16 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':teacher'])->group(f
     
      Route::put('/courses/{course}', [CourseController::class, 'update']);
      Route::delete('/courses/{course}', [CourseController::class, 'destroy']);
+     // Route to store a file
+    Route::post('/files', [FileController::class, 'store']);
+
+    // Route to show a specific file by its ID
+    Route::get('/files/{id}', [FileController::class, 'show']);
+
+    // Route to delete a specific file by its ID
+    Route::delete('/files/{id}', [FileController::class, 'destroy']);
+    Route::get('/teacher/{id}/files', [TeacherController::class, 'getFilesTeacher']);
+
 });
 
 
