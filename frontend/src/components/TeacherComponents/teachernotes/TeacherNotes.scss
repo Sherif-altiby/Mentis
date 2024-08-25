@@ -1,4 +1,61 @@
 .teacher-notes {
+ 
+  &.dark{
+    .all-teacher-notes{
+      background-color: var(--main-dark-color);
+      color: #fff;
+    }
+
+    .notes-levels{
+      a{
+        background-color: var(--main-dark-color);
+        
+        p{
+          color: #fff;
+        }
+      }
+    }
+
+    .add-note{
+      background-color: var(--main-dark-color);
+      
+      h3{
+        color: #fff;
+        border-bottom-color: #fff;
+      }
+      label{
+        color: #fff;
+      }
+      select{
+        background-color: var(--input-dark-bg);
+        border-color: var(--input-dark-border);
+        color: #fff;
+
+        option{
+          color: #fff;
+        }
+      }
+      .inputs{
+        .input{
+          label{
+            color: #fff;
+          }
+
+          input{
+            background-color: var(--input-dark-bg);
+            border-color: var(--input-dark-border);
+            color: #fff;
+          }
+        }
+      }
+
+      .btn{
+        background-color: #FFF;
+        color: #000;
+      }
+    }
+  }
+
   .all-teacher-notes {
     box-shadow: 0 0 10px var(--box-shadow-color);
     padding: 30px 10px;
@@ -98,6 +155,7 @@
         flex: 1;
         display: flex;
         flex-direction: column;
+        width: 100%;
 
         label {
           color: var(--green-color);
@@ -113,10 +171,29 @@
           border-radius: 5px;
           text-align: right;
           outline: none;
-          color: var(--primary-color);
           font-size: 18px;
         }
+
       }
+    }
+
+    label {
+      color: var(--green-color);
+      margin-bottom: 10px;
+      font-size: 20px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    select {
+      width: 100%;
+      border: 2px solid var(--border-color);
+      padding: 10px;
+      border-radius: 5px;
+      text-align: right;
+      outline: none;
+      color: var(--primary-color);
+      font-size: 18px;
     }
 
     .btn{

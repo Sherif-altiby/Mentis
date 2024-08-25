@@ -131,3 +131,29 @@ export const updateTeacherCourse = async (token: string | null, id: string | num
 
     return response.data
 }
+
+
+
+export const uploadNote = async ( token: string | null, id: string | number, courseId: string | number | undefined, fileName: string, fileType: string, fileData: File | Blob, contentType: string, title: string, level: string
+) => {
+
+    const formData = new FormData();
+  formData.append('user_id', id.toString());
+  formData.append('course_id', courseId?.toString() || '');
+  formData.append('file_name', fileName);
+  formData.append('file_type', fileType);
+  formData.append('file_data', fileData); 
+  formData.append('content_type', contentType);
+  formData.append('title', title);
+  formData.append('level', level);
+
+
+  const response = await axios.post(`${api}/course-content/store`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data', 
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return response.data;
+};

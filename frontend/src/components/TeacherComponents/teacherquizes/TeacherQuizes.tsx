@@ -19,6 +19,9 @@ interface Question {
 }
 
 const QuestionComponent: React.FC<QuestionComponentProps> = ({ index, question, answers, onQuestionChange, onAnswerChange }) => {
+ 
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
+
   const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onQuestionChange(index, e.target.value);
   };
@@ -28,7 +31,7 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({ index, question, 
   };
 
   return (
-    <div className='question-container' >
+    <div className={`question-container ${appMode}`} >
       <input type="text" placeholder="السؤال" value={question} onChange={handleQuestionChange} />
        <div className="answers">
          {answers.map((answer, i) => (
@@ -53,6 +56,7 @@ const TeacherQuizes: React.FC = () => {
   const teacherCourseId = useAppSelector((state) => state.teacher.teachers.find((item) => item.id === teacherID)?.courses[0].id)
   const token = useAppSelector((state) => state.token.token);
   const loading = useAppSelector((state) => state.loading.isLoading);
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme);
 
   const addQuestion = () => {
     setQuestions([...questions, { question: '', answers: ['', '', '', ''] }]);
@@ -80,20 +84,17 @@ const TeacherQuizes: React.FC = () => {
       const quizeId = mainQuiz.id;
       
       questions.forEach( async (question) => {
-        const sendQuestion = await createQuizeQuestion(token, quizeId, question.question, question.answers[0], question.answers[1], question.answers[2], question.answers[3])
-        
-        console.log(sendQuestion)
-      })
+         await createQuizeQuestion(token, quizeId, question.question, question.answers[0], question.answers[1], question.answers[2], question.answers[3])
+     })
       dispatch(setLoading(false))
     }else{
       dispatch(setLoading(false))
-      console.log("error")
     }
 
   };
 
   return (
-    <div className='teacher-quizzes-container'>
+    <div className={`teacher-quizzes-container ${appMode}`}>
       {loading && (<CustomLoading />) }
         <div className="quize-header">
             <div className="input">

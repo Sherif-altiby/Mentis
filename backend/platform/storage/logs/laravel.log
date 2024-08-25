@@ -1339,3 +1339,28 @@
 "} 
 [2024-08-24 16:02:57] local.INFO: Request data:  
 >>>>>>> aba52dffca174c06edc5e6422a2569bc8b7b0fa8
+[2024-08-24 20:08:54] local.INFO: Request data: {"user_id":5,"course_id":1,"file_name":"تدريبات","file_type":"pdf","file_data":[],"content_type":"text","title":"تدريبات","level":"second"} 
+[2024-08-24 20:08:58] local.INFO: Request data: {"user_id":5,"course_id":1,"file_name":"تدريبات","file_type":"pdf","file_data":[],"content_type":"text","title":"تدريبات","level":"second"} 
+[2024-08-24 20:10:44] local.INFO: Request data: {"user_id":5,"course_id":1,"file_name":"تدريبات","file_type":"pdf","file_data":[],"content_type":"pdf","title":"تدريبات","level":"second"} 
+[2024-08-25 16:28:04] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\composer\\ClassLoader.php:429)
+[stacktrace]
+#0 {main}
+"} 
+[2024-08-25 16:28:04] local.ERROR: Class "Symfony\Component\HttpFoundation\Response" not found {"exception":"[object] (Error(code: 0): Class \"Symfony\\Component\\HttpFoundation\\Response\" not found at D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php:819)
+[stacktrace]
+#0 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(799): Illuminate\\Foundation\\Exceptions\\Handler->convertExceptionToResponse()
+#1 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(698): Illuminate\\Foundation\\Exceptions\\Handler->prepareResponse()
+#2 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(587): Illuminate\\Foundation\\Exceptions\\Handler->renderExceptionResponse()
+#3 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(219): Illuminate\\Foundation\\Exceptions\\Handler->render()
+#4 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(196): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->renderHttpResponse()
+#5 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(232): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleException()
+#6 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#7 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}()
+#8 {main}
+"} 
+[2024-08-25 16:59:44] local.INFO: Request data: {"user_id":5,"course_id":1,"file_name":"العضوية","file_type":"video","file_data":[],"content_type":"pdf","title":"العضوية","level":"second"} 
+[2024-08-25 17:03:03] local.INFO: Request data: {"user_id":5,"course_id":1,"file_name":"تدريبات","file_type":"video","file_data":[],"content_type":"pdf","title":"تدريبات","level":"second"} 
+[2024-08-25 17:09:16] local.INFO: Request data: {"user_id":5,"course_id":1,"file_name":"تدريبات","file_type":"pdf","file_data":[],"content_type":"video","title":"تدريبات","level":"second"} 
+[2024-08-25 17:10:24] local.INFO: Request data: {"user_id":5,"course_id":1,"file_name":"تدريبات","file_type":"pdf","file_data":[],"content_type":"video","title":"تدريبات","level":"second"} 
+[2024-08-25 17:14:07] local.INFO: Request data: {"user_id":5,"course_id":1,"file_name":"تدريبات","file_type":"pdf","file_data":[],"content_type":"video","title":"تدريبات","level":"second"} 
+[2024-08-25 17:16:39] local.INFO: Request data: {"user_id":"5","course_id":"1","file_name":"تدريبات","file_type":"pdf","content_type":"video","title":"تدريبات","level":"second","file_data":{"Illuminate\\Http\\UploadedFile":"C:\\Users\\Sherif altiby\\AppData\\Local\\Temp\\php3C16.tmp"}} 

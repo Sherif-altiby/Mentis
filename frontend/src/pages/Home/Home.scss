@@ -4,7 +4,7 @@
 .home-container{
 
   &.dark{
-    background-color: var(--input-dark-bg);
+    background-color: #000000e3;
   }
 }
 
@@ -16,6 +16,10 @@
 
   &.dark{
     background-color: var(--input-dark-bg);
+
+    .wave{
+      filter: brightness(0.11);
+    }
   }
 
   .intro-section {
@@ -334,7 +338,7 @@
 .all-teachers {
 
   &.dark{
-    background-color: var(--input-dark-bg);
+    // background-color: #000000e3;
 
     h1{
       color: #fff;

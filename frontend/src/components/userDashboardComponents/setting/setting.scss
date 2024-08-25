@@ -26,12 +26,12 @@
 
             .input{
                 label{
-                    color: #999;
+                    color: var(--input-dark-border);
                 }
 
                 input{
                     background-color: var(--input-dark-bg);
-                    border-color: #999;
+                    border-color: var(--input-dark-border);
                     color: #fff;
                 }
             }
@@ -42,13 +42,17 @@
 
             .input{
                 label{
-                    color: #999;
+                    color: var(--input-dark-border);
                 }
 
                 input{
-                    background-color: #333;
-                    border-color: #999;
+                    background-color: var(--input-dark-bg);
+                    border-color: var(--input-dark-border);
                     color: #fff;
+                    
+                    &::placeholder{
+                        color: #fff;
+                    }
                 }
             }
         }

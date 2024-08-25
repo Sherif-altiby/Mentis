@@ -1,7 +1,25 @@
-@import '../../../App.scss';
+@import "../../../App.scss";
 
-.teacher-quizzes-container{
+.teacher-quizzes-container {
   position: relative;
+
+  &.dark {
+    
+    .quize-header {
+      background-color: var(--main-dark-color);
+
+      input,
+      select {
+        background-color: var(--input-dark-bg);
+        border-color: var(--input-dark-border);
+        color: #fff;
+
+        &::placeholder{
+          color: #fff;
+        }
+      }
+    }
+  }
 }
 
 .question-container {
@@ -9,6 +27,20 @@
   padding: 20px;
   border-radius: 5px;
   margin-bottom: 20px;
+
+  &.dark{
+    background-color: var(--main-dark-color);
+    
+    input{
+      background-color: var(--input-dark-bg);
+      border-color: var(--input-dark-border);
+      color: #fff;
+
+      &::placeholder{
+        color: #fff;
+      }
+    }
+  }
 
   input {
     border: 2px solid var(--border-color);
@@ -30,7 +62,7 @@
     margin-top: 20px;
     gap: 20px;
 
-    @include screen(md){
+    @include screen(md) {
       flex-direction: column;
     }
   }
@@ -81,12 +113,12 @@
     color: var(--primary-color);
     transition: 0.3s;
 
-    @include screen(md){
-        width: calc(100% / 2 - 20px);
+    @include screen(md) {
+      width: calc(100% / 2 - 20px);
     }
 
-    @include screen(sm){
-        width: 100%;
+    @include screen(sm) {
+      width: 100%;
     }
 
     &:hover {
@@ -96,37 +128,38 @@
   }
 }
 
-.add-quize-link{
-    background-color: var(--green-color);
-    color: #fff;
-    padding: 10px;
+.add-quize-link {
+  background-color: var(--green-color);
+  color: #fff;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  font-size: 25px;
+
+  @include screen(sm) {
     width: 100%;
-    text-align: center;
-    border-radius: 5px;
-    cursor: pointer;
-    display: block;
-    font-size: 25px;  
-    
-    @include screen(sm){
-        width: 100%;
-        font-size: 18px;
-    }
+    font-size: 18px;
+  }
 }
 
-.quize-header{
+.quize-header {
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
   margin-bottom: 30px;
 
-  .input{
+  .input {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 20px;
   }
-  
-  input, select{
+
+  input,
+  select {
     border: 1px solid var(--border-color);
     padding: 10px;
     border-radius: 5px;
@@ -134,20 +167,16 @@
   }
 }
 
-
-.all-quzes{
-
-  &.dark{
-
-    .all-three-qizes{
-
-      a{
+.all-quzes {
+  &.dark {
+    .all-three-qizes {
+      a {
         background-color: var(--main-dark-color);
         color: #fff;
       }
     }
 
-    .add-quize-link{
+    .add-quize-link {
       background-color: var(--main-dark-color);
     }
   }

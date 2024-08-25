@@ -15,7 +15,6 @@
     border-radius: 50%;
     position: absolute;
     left: 5%;
-    animation: animate 10s linear infinite;
 
     &:nth-child(1) {
       left: 5%;
@@ -71,11 +70,4 @@
   }
 }
 
-//  @keyframes animate {
-//     0% {
-//         transform: translateY(100%); /* Start from bottom */
-//     }
-//     100% {
-//         transform: translateY(0); /* Move to top */
-//     }
-// }
+ 

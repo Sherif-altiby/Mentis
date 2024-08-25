@@ -49,7 +49,7 @@
       .btns {
         .btn {
           background-color: #fff;
-          color: var(--primary-color);
+          color:#000;
         }
       }
     }
@@ -264,6 +264,19 @@
 .update-course-page {
   min-height: 500px;
   padding: 50px;
+
+  &.dark{
+    background-color: var(--section-card-color);
+
+    h1{
+      color: #fff;
+    }
+
+    h3{
+      background-color: #000;
+      color: #fff;
+    }
+  }
 
   @include screen(lg) {
     padding: 50px 20px;
