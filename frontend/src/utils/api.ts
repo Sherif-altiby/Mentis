@@ -1,6 +1,7 @@
 import axios from "axios";
 import { RegisterProps } from "../types/index.types";
- 
+
+const api = 'http://127.0.0.1:8000/api'
 
 export const register = async ({
   userName,
@@ -22,6 +23,7 @@ export const register = async ({
     });
 
     const data = await response.data;
+    console.log(data)
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -80,7 +82,15 @@ export const logout = async (token: string | null) => {
    })
 
    const data = response.data
-   console.log('first')
-   console.log(data)
    localStorage.clear()
+}
+
+export const getAllQuizzes = async (token: string | null) => {
+  const response = await axios.get(`${api}/quizzes`,{
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  return response.data;
 }

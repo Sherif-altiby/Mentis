@@ -29,9 +29,10 @@ import Notifications from './components/notificationscomponent/Notifications';
 import VideoPlayer from './pages/videoplayer/VideoPlayer';
 import AllQuizes from './components/TeacherComponents/teacherquizes/AllQuizes';
 import AllVideos from './pages/videoplayer/AllVideos';
-import QuizzesView from './pages/quizzes-view/QuizzesView';
+import QuizzesViewQuestions from './pages/quizzes-view/QuizzesViewQuestions';
 import NotesView from './pages/notes-vew/NotesView';
 import UpdateCourse from './components/TeacherComponents/courses/UpdateCourse';
+import QuizzesView from './pages/quizzes-view/QuizzesView';
 
   
 const App = () => {

@@ -65,3 +65,13 @@ export type courseProps = {
     title: string;
     level: string;
 }
+
+export type quizeProps = {
+    id: number;
+    course_id: number,
+    title: string,
+    description: string,
+    type: string,
+    is_published: number,
+    level: string,
+}
