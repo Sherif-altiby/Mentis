@@ -90,7 +90,7 @@ const App = () => {
         <Route path='/user/user-subjects/videos' element={< AllVideos />} />
         <Route path='/user/user-subjects/video-play' element={< VideoPlayer />} />
  
-        <Route path='/user/user-subjects/quizzes' element={< QuizzesView />} />
+        <Route path='/user/user-subjects/quizzes' element={< QuizzesViewQuestions />} />
 
         <Route path='/user/user-subjects/notes' element={< NotesView />} />
 
