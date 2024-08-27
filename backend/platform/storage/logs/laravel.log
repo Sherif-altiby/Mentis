@@ -1,5 +1,6 @@
 [2024-08-25 22:51:47] local.INFO: Request data: {"course_id":"1","content_type":"video","title":"arabic course","file_path":"https/alo/fdld/fd","order":"1","level":"third","user_id":"1","file_name":"11s","file_type":"video","file_data":{"Illuminate\\Http\\UploadedFile":"C:\\xampp\\tmp\\phpAB87.tmp"}} 
 [2024-08-25 22:51:47] local.INFO: File record created: {"user_id":"1","file_name":"11s","file_type":"video","file_data":"files/8sE6tNIwCdX3iEVKRZirEGA0FCVoDUJtDafK3zkB.pdf","updated_at":"2024-08-25T22:51:47.000000Z","created_at":"2024-08-25T22:51:47.000000Z","id":6} 
+<<<<<<< HEAD
 [2024-08-26 08:44:11] local.INFO: Request data: {"user_id":"3","course_id":"1","file_name":"lllllllllllllllll","file_type":"pdf","content_type":"video","title":"lllllllllllllllll","level":"second","file_data":{"Illuminate\\Http\\UploadedFile":"C:\\xampp\\tmp\\php9DF.tmp"}} 
 [2024-08-26 08:44:17] local.INFO: Request data: {"user_id":"3","course_id":"1","file_name":"lllllllllllllllll","file_type":"pdf","content_type":"video","title":"lllllllllllllllll","level":"second","file_data":{"Illuminate\\Http\\UploadedFile":"C:\\xampp\\tmp\\php218E.tmp"}} 
 [2024-08-26 08:44:18] local.INFO: Request data: {"user_id":"3","course_id":"1","file_name":"lllllllllllllllll","file_type":"pdf","content_type":"video","title":"lllllllllllllllll","level":"second","file_data":{"Illuminate\\Http\\UploadedFile":"C:\\xampp\\tmp\\php23C2.tmp"}} 
@@ -7,3 +8,17 @@
 [2024-08-26 08:44:19] local.INFO: Request data: {"user_id":"3","course_id":"1","file_name":"lllllllllllllllll","file_type":"pdf","content_type":"video","title":"lllllllllllllllll","level":"second","file_data":{"Illuminate\\Http\\UploadedFile":"C:\\xampp\\tmp\\php26B2.tmp"}} 
 [2024-08-26 08:44:19] local.INFO: Request data: {"user_id":"3","course_id":"1","file_name":"lllllllllllllllll","file_type":"pdf","content_type":"video","title":"lllllllllllllllll","level":"second","file_data":{"Illuminate\\Http\\UploadedFile":"C:\\xampp\\tmp\\php277E.tmp"}} 
 [2024-08-26 08:44:19] local.INFO: Request data: {"user_id":"3","course_id":"1","file_name":"lllllllllllllllll","file_type":"pdf","content_type":"video","title":"lllllllllllllllll","level":"second","file_data":{"Illuminate\\Http\\UploadedFile":"C:\\xampp\\tmp\\php28A8.tmp"}} 
+=======
+[2024-08-26 06:33:44] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php:44)
+[stacktrace]
+#0 {main}
+"} 
+[2024-08-26 06:40:39] local.ERROR: Maximum execution time of 30 seconds exceeded {"userId":5,"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php:8)
+[stacktrace]
+#0 {main}
+"} 
+[2024-08-26 07:36:48] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\nesbot\\carbon\\lazy\\Carbon\\MessageFormatter\\MessageFormatterMapperStrongType.php:16)
+[stacktrace]
+#0 {main}
+"} 
+>>>>>>> 5da8b610054edfd1cdcc1c18b55ece229e8e3bfc

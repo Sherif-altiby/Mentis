@@ -29,9 +29,10 @@ import Notifications from './components/notificationscomponent/Notifications';
 import VideoPlayer from './pages/videoplayer/VideoPlayer';
 import AllQuizes from './components/TeacherComponents/teacherquizes/AllQuizes';
 import AllVideos from './pages/videoplayer/AllVideos';
-import QuizzesView from './pages/quizzes-view/QuizzesView';
+import QuizzesViewQuestions from './pages/quizzes-view/QuizzesViewQuestions';
 import NotesView from './pages/notes-vew/NotesView';
 import UpdateCourse from './components/TeacherComponents/courses/UpdateCourse';
+import QuizzesView from './pages/quizzes-view/QuizzesView';
 
   
 const App = () => {
@@ -89,7 +90,7 @@ const App = () => {
         <Route path='/user/user-subjects/videos' element={< AllVideos />} />
         <Route path='/user/user-subjects/video-play' element={< VideoPlayer />} />
  
-        <Route path='/user/user-subjects/quizzes' element={< QuizzesView />} />
+        <Route path='/user/user-subjects/quizzes' element={< QuizzesViewQuestions />} />
 
         <Route path='/user/user-subjects/notes' element={< NotesView />} />
 

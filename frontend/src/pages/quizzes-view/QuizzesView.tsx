@@ -1,57 +1,56 @@
-import { useEffect, useRef, useState } from 'react';
-import ReactConfetti from 'react-confetti';
-import sound from '../../assets/clap.mp3';
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/reduxHook"
+import { getAllQuizzes } from "../../utils/api";
+import { setLoading } from "../loading/Loadingslice";
+import Nav from "../../components/Navbar/Nav";
+import Footer from "../../components/footer/Footer";
+import Loading from "../loading/Loading";
+import { quizeProps } from "../../types/index.types";
+import './QuizzesView.scss'
 
 const QuizzesView = () => {
-  const [windowDimension, setDimension] = useState({ width: window.innerWidth, height: window.innerHeight,});
-  const [showFireworks, setShowFireworks] = useState(false);
-  const [confettiPieces, setConfettiPieces] = useState(100); 
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+    const dispatch = useAppDispatch()
+ 
+    const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme);
+    const loading = useAppSelector((state) => state.loading.isLoading);
+    const token   = useAppSelector((state) => state.token.token);
 
+    const [allQuizzes, setAllQuizzes] = useState<quizeProps[]>([])
 
-  const detectSize = () => {
-    setDimension({ width: window.innerWidth, height: window.innerHeight });
-  };
+    const getQuizzes = async (token: string | null) => {
+       dispatch(setLoading(true))
+       const response = await getAllQuizzes(token);
 
-  useEffect(() => {
-    window.addEventListener('resize', detectSize);
-    return () => {
-      window.removeEventListener('resize', detectSize);
-    };  
-  }, [windowDimension]);
-
-  useEffect(() => {
-    if (showFireworks) {
-
-      audioRef.current?.play();
-      
-      const interval = setInterval(() => {
-        setConfettiPieces((pieces) => Math.max(0, pieces - 100)); 
-      }, 3000); 
-      
-
-      setTimeout(() => {
-        clearInterval(interval);
-        setShowFireworks(false);
-        setConfettiPieces(200); 
-      }, 10000); 
+       if(response){
+         setAllQuizzes(response);
+         dispatch(setLoading(false))
+       }else{
+        dispatch(setLoading(false))
+        console.log("error")
+       }
     }
-  }, [showFireworks]);
+
+    useEffect(() => {
+        getQuizzes(token)
+    }, [token])
 
   return (
     <div>
-      <button onClick={() => setShowFireworks(true)}>FIREWORKS</button>
-      {showFireworks && (
-        <ReactConfetti
-          width={windowDimension.width}
-          height={windowDimension.height}
-          numberOfPieces={confettiPieces}
-          tweenDuration={1000}
-        />
+     <Nav />
+     {loading ? (<Loading />) : (
+        <div  className={`all-qizzes-section ${appMode}`} >
+            {allQuizzes.length > 0 ? (
+                allQuizzes.map((quize) => (
+                    <div className="quize" key={quize.id} >
+                        {quize.title}
+                    </div>
+                ))
+            ) : (<h3> no </h3>)}
+        </div>
       )}
-      <audio ref={audioRef} src={sound} />
+     <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default QuizzesView;
+export default QuizzesView

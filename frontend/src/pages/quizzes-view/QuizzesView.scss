@@ -1,0 +1,46 @@
+@import '../../App.scss';
+
+.all-qizzes-section{
+    display: flex;
+    align-items: start;
+    justify-content: end;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 50px;
+    min-height: 500px;
+
+    @include screen(md){
+        padding:50px 20px;
+    }
+
+    .quize{
+        width: calc(100% / 4 - 15px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        height: 120px;
+        box-shadow: 0 0 5px var(--box-shadow-color);
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 22px;
+
+        &:hover{
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        @include screen(lg){
+            width: calc(100% / 3 - 15px);
+        }
+
+        @include screen(md){
+            width: calc(100% / 2 - 15px);
+        }
+
+
+        @include screen(xsm){
+            width: 100%;
+        }
+    }
+}

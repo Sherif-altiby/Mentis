@@ -11,6 +11,7 @@ interface QuestionComponentProps {
   answers: string[];
   onQuestionChange: (index: number, question: string) => void;
   onAnswerChange: (index: number, answerIndex: number, answer: string) => void;
+  hasError: boolean;
 }
 
 interface Question {
@@ -18,9 +19,8 @@ interface Question {
   answers: string[];
 }
 
-const QuestionComponent: React.FC<QuestionComponentProps> = ({ index, question, answers, onQuestionChange, onAnswerChange }) => {
- 
-  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
+const QuestionComponent: React.FC<QuestionComponentProps> = ({ index, question, answers, onQuestionChange, onAnswerChange, hasError }) => {
+  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme);
 
   const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onQuestionChange(index, e.target.value);
@@ -31,29 +31,40 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({ index, question, 
   };
 
   return (
-    <div className={`question-container ${appMode}`} >
-      <input type="text" placeholder="السؤال" value={question} onChange={handleQuestionChange} />
-       <div className="answers">
-         {answers.map((answer, i) => (
-           <input key={i} type="text" placeholder={`الإجابة ${i === 0 ? 'الأولي' : i === 1 ? 'الثانية' : i ===2 ?'الثالثة' : 'الصحيحة' } `} value={answer} onChange={(e) => handleAnswerChange(i, e)} />
-           ))}
-       </div>
+    <div className={`question-container ${appMode}`}>
+      <input
+        type="text"
+        placeholder="السؤال"
+        value={question}
+        onChange={handleQuestionChange}
+        className={hasError && !question ? 'error' : ''}
+      />
+      <div className="answers">
+        {answers.map((answer, i) => (
+          <input
+            key={i}
+            type="text"
+            placeholder={`الإجابة ${i === 0 ? 'الأولي' : i === 1 ? 'الثانية' : i === 2 ? 'الثالثة' : 'الصحيحة'}`}
+            value={answer}
+            onChange={(e) => handleAnswerChange(i, e)}
+            className={hasError && !answer ? 'error' : ''}
+          />
+        ))}
+      </div>
     </div>
   );
 };
 
-
 const TeacherQuizes: React.FC = () => {
+  const dispatch = useAppDispatch();
 
-  const dispatch = useAppDispatch()
-
-  const [courseTitle, setCourseTitle] = useState("");
-  const [gardeLevel, setGradeLevel] = useState("")
-
+  const [courseTitle, setCourseTitle] = useState('');
+  const [gardeLevel, setGradeLevel] = useState('');
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [hasError, setHasError] = useState(false);
 
-  const teacherID = useAppSelector((state) => state.userInfo.userInfo.user_id)
-  const teacherCourseId = useAppSelector((state) => state.teacher.teachers.find((item) => item.id === teacherID)?.courses[0].id)
+  const teacherID = useAppSelector((state) => state.userInfo.userInfo.user_id);
+  const teacherCourseId = useAppSelector((state) => state.teacher.teachers.find((item) => item.id === teacherID)?.courses[0].id);
   const token = useAppSelector((state) => state.token.token);
   const loading = useAppSelector((state) => state.loading.isLoading);
   const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme);
@@ -75,57 +86,74 @@ const TeacherQuizes: React.FC = () => {
   };
 
   const saveQuiz = async () => {
-    dispatch(setLoading(true))
-    console.log(questions);
-    const mainQuiz = await createQuize(token, teacherCourseId, courseTitle, gardeLevel );
-    console.log(mainQuiz);
+    const hasEmptyFields = questions.some(
+      (question) => !question.question || question.answers.some((answer) => !answer)
+    );
 
-    if(mainQuiz && questions.length > 0){
-      const quizeId = mainQuiz.id;
-      
-      questions.forEach( async (question) => {
-         await createQuizeQuestion(token, quizeId, question.question, question.answers[0], question.answers[1], question.answers[2], question.answers[3])
-     })
-      dispatch(setLoading(false))
-    }else{
-      dispatch(setLoading(false))
+    if (hasEmptyFields) {
+      setHasError(true);
+      return;
     }
 
+    dispatch(setLoading(true));
+    const mainQuiz = await createQuize(token, teacherCourseId, courseTitle, gardeLevel);
+
+    if (mainQuiz && questions.length > 0) {
+      const quizeId = mainQuiz.id;
+
+      questions.forEach(async (question) => {
+       const result = await createQuizeQuestion(token, quizeId, question.question, question.answers[0], question.answers[1], question.answers[2], question.answers[3]);
+       console.log(result)
+       setQuestions([])
+      });
+
+      dispatch(setLoading(false));
+    } else { 
+      dispatch(setLoading(false));
+    }
   };
 
   return (
     <div className={`teacher-quizzes-container ${appMode}`}>
-      {loading && (<CustomLoading />) }
-        <div className="quize-header">
-            <div className="input">
-               <input type="text" placeholder='إسم الإختبار' onChange={(e) => setCourseTitle(e.target.value)} />
-               <label className='none' htmlFor="select"> df </label>
-               <select id="select" onChange={(e) => setGradeLevel(e.target.value)} >
-                  <option value="first"> الصف الأول الثانوي </option>
-                  <option value="second"> الصف الثاني الثانوي </option>
-                  <option value="third"> الصف الثالث الثانوي </option>
-               </select>
-            </div>
+      {loading && <CustomLoading />}
+      <div className="quize-header">
+        <div className="input">
+          <input type="text" placeholder="إسم الإختبار" onChange={(e) => setCourseTitle(e.target.value)} />
+          <label className="none" htmlFor="select">
+            df
+          </label>
+          <select id="select" onChange={(e) => setGradeLevel(e.target.value)}>
+            <option value="first">الصف الأول الثانوي</option>
+            <option value="second">الصف الثاني الثانوي</option>
+            <option value="third">الصف الثالث الثانوي</option>
+          </select>
         </div>
-        <div>
-          {questions.map((question, index) => (
-            <QuestionComponent
-              key={index}
-              index={index}
-              question={question.question}
-              answers={question.answers}
-              onQuestionChange={handleQuestionChange}
-              onAnswerChange={handleAnswerChange}
-            />
-          ))}
-          <div className='btn-quize-container' >
-              <button className='add-question-btn' onClick={addQuestion}> إضافة سؤال  </button>
-              {questions.length > 0 && (<button className='btn-send-quize' onClick={saveQuiz}> حفظ  </button>)}
-          </div>
+      </div>
+      <div>
+        {questions.map((question, index) => (
+          <QuestionComponent
+            key={index}
+            index={index}
+            question={question.question}
+            answers={question.answers}
+            onQuestionChange={handleQuestionChange}
+            onAnswerChange={handleAnswerChange}
+            hasError={hasError}
+          />
+        ))}
+        <div className="btn-quize-container">
+          <button className="add-question-btn" onClick={addQuestion}>
+            إضافة سؤال
+          </button>
+          {questions.length > 0 && (
+            <button className="btn-send-quize" onClick={saveQuiz}>
+              حفظ
+            </button>
+          )}
         </div>
+      </div>
     </div>
   );
 };
 
 export default TeacherQuizes;
-

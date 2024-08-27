@@ -37,6 +37,10 @@ select {
 input, select{
   font-size: 18px;
   outline: none;
+
+  &.error{
+    border-color: var(--danger-color);
+  }
 }
 
 .none{
