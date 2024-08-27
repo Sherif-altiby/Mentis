@@ -54,6 +54,14 @@ class QuizController extends Controller
 
         return response()->json($quiz);
     }
+    public function getQuizQuestions($quizId)
+{
+    $quiz = Quiz::findOrFail($quizId);
+
+    $questions = $quiz->getAllQuestions();
+
+    return response()->json($questions);
+}
 
     public function destroy($id)
     {

@@ -95,6 +95,7 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':teacher'])->group(f
     Route::post('/quizzes', [QuizController::class, 'store']);
     Route::get('/quizzes/{id}', [QuizController::class, 'show']);
     Route::put('/quizzes/{id}', [QuizController::class, 'update']);
+    Route::get('/quiz/{id}/questions', [QuizController::class, 'getQuizQuestions']);
     Route::delete('/quizzes/{id}', [QuizController::class, 'destroy']);
 
     // Quiz Questions Management
@@ -123,6 +124,9 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':teacher'])->group(f
     Route::get('/assignment-submissions/{id}', [AssignmentSubmissionController::class, 'show']);
     Route::put('/assignment-submissions/{id}', [AssignmentSubmissionController::class, 'update']);
     Route::delete('/assignment-submissions/{id}', [AssignmentSubmissionController::class, 'destroy']);
+
+
+    
 });
 
 /*

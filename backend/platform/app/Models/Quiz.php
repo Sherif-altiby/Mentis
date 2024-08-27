@@ -19,4 +19,8 @@ class Quiz extends Model
     {
         return $this->hasMany(QuizQuestion::class);
     }
+    public function getAllQuestions()
+    {
+        return $this->questions()->get();
+    }
 }
