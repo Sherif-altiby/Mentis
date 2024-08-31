@@ -97,6 +97,9 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':teacher'])->group(f
     Route::put('/quizzes/{id}', [QuizController::class, 'update']);
     Route::get('/quiz/{id}/questions', [QuizController::class, 'getQuizQuestions']);
     Route::delete('/quizzes/{id}', [QuizController::class, 'destroy']);
+    Route::get('/quizzes-with-teacher-id', [QuizController::class, 'getAllQuizzesWithTeacherId']);
+    
+
 
     // Quiz Questions Management
     Route::get('/quiz-questions', [QuizQuestionController::class, 'index']);
@@ -112,7 +115,7 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':teacher'])->group(f
     Route::put('/quiz-responses/{id}', [QuizResponseController::class, 'update']);
     Route::delete('/quiz-responses/{id}', [QuizResponseController::class, 'destroy']);
     Route::get('/student-results/{studentId}/quiz/{quizId}', [QuizResponseController::class, 'getStudentResult']);
-
+   
     // Assignment Management
     Route::post('/assignments', [AssignmentController::class, 'store']);
     Route::get('/assignments/{id}', [AssignmentController::class, 'show']);

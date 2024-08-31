@@ -23,4 +23,11 @@ class Quiz extends Model
     {
         return $this->questions()->get();
     }
+    public static function getAllWithTeacherId()
+    {
+        return self::with(['course' => function($query) {
+            $query->select('id', 'teacher_id');
+        }])->get();
+    }
+    
 }
