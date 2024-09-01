@@ -11,9 +11,9 @@ const AllQuizes = () => {
     <div className={`all-quzes ${appMode}`} >
       <h1> الإختبارات </h1>
          <div className="all-three-qizes">
-             <Link to={'specific-garde-quizes'} > الصف الأول الثانوي </Link>
-             <Link to={'specific-garde-quizes'} > الصف الثاني الثانوي </Link>
-             <Link to={'specific-garde-quizes'} > الصف الثالث الثانوي </Link>
+             <Link to={'specific-garde-quizes?query=level&level=first'}  > الصف الأول الثانوي   </Link>
+             <Link to={'specific-garde-quizes?query=level&level=second'} > الصف الثاني الثانوي </Link>
+             <Link to={'specific-garde-quizes?query=level&level=third'}  > الصف الثالث الثانوي </Link>
          </div>
 
          

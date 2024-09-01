@@ -1,46 +1,80 @@
-@import '../../App.scss';
+@import "../../App.scss";
 
-.all-qizzes-section{
+.all-quizzes-section {
+  display: flex;
+  align-items: start;
+  justify-content: end;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 50px;
+  min-height: 500px;
+
+  @include screen(md) {
+    padding: 50px 20px;
+  }
+
+  .quize {
+    width: calc(100% / 4 - 15px);
     display: flex;
-    align-items: start;
-    justify-content: end;
-    gap: 20px;
-    flex-wrap: wrap;
-    padding: 50px;
-    min-height: 500px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    height: 120px;
+    box-shadow: 0 0 5px var(--box-shadow-color);
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 22px;
 
-    @include screen(md){
-        padding:50px 20px;
+    &:hover {
+      background-color: var(--primary-color);
+      color: #fff;
     }
 
-    .quize{
-        width: calc(100% / 4 - 15px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 5px;
-        height: 120px;
-        box-shadow: 0 0 5px var(--box-shadow-color);
-        cursor: pointer;
-        transition: 0.3s;
-        font-size: 22px;
-
-        &:hover{
-            background-color: var(--primary-color);
-            color: #fff;
-        }
-
-        @include screen(lg){
-            width: calc(100% / 3 - 15px);
-        }
-
-        @include screen(md){
-            width: calc(100% / 2 - 15px);
-        }
-
-
-        @include screen(xsm){
-            width: 100%;
-        }
+    @include screen(lg) {
+      width: calc(100% / 3 - 15px);
     }
+
+    @include screen(md) {
+      width: calc(100% / 2 - 15px);
+    }
+
+    @include screen(xsm) {
+      width: 100%;
+    }
+  }
+}
+
+.student-questions {
+
+  h2 {
+    text-align: center;
+    margin-top: 50px;
+    padding: 10px;
+    max-width: 300px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 5px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .question{
+    margin: 20px auto;
+    padding: 0 50px;
+    text-align: right;
+    background-color: var(--border-color);
+    width: 90%;
+    border-radius: 5px;
+    padding: 20px;
+
+    h3{
+        border-bottom: 2px solid var(--primary-color);
+        margin-bottom: 10px;
+    }
+
+    label{
+        margin-right: 10px;
+        font-size: 18px;
+    }
+  }
 }

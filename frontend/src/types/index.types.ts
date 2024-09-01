@@ -74,4 +74,5 @@ export type quizeProps = {
     type: string,
     is_published: number,
     level: string,
+    teacher_id: number;
 }

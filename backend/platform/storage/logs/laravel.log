@@ -1,0 +1,28 @@
+[2024-08-31 10:44:59] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\symfony\\translation\\IdentityTranslator.php:23)
+[stacktrace]
+#0 {main}
+"} 
+[2024-08-31 10:51:10] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\doctrine\\inflector\\lib\\Doctrine\\Inflector\\Rules\\Transformation.php:11)
+[stacktrace]
+#0 {main}
+"} 
+[2024-08-31 10:52:07] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\HtmlDumper.php:12)
+[stacktrace]
+#0 {main}
+"} 
+[2024-09-01 05:23:44] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\symfony\\http-foundation\\Response.php:15)
+[stacktrace]
+#0 {main}
+"} 
+[2024-09-01 05:23:44] local.ERROR: Class "Symfony\Component\HttpFoundation\Response" not found {"exception":"[object] (Error(code: 0): Class \"Symfony\\Component\\HttpFoundation\\Response\" not found at D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php:819)
+[stacktrace]
+#0 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(799): Illuminate\\Foundation\\Exceptions\\Handler->convertExceptionToResponse()
+#1 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(698): Illuminate\\Foundation\\Exceptions\\Handler->prepareResponse()
+#2 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(587): Illuminate\\Foundation\\Exceptions\\Handler->renderExceptionResponse()
+#3 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(219): Illuminate\\Foundation\\Exceptions\\Handler->render()
+#4 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(196): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->renderHttpResponse()
+#5 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(232): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleException()
+#6 D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#7 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}()
+#8 {main}
+"} 
