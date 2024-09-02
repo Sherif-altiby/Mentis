@@ -157,3 +157,24 @@ export const uploadNote = async ( token: string | null, id: string | number, cou
 
   return response.data;
 };
+
+
+export const getAllTeacherQuizzes = async (token: string | null) => {
+    const response = await axios.get(`${api}/quizzes-with-teacher-id`,{
+        headers: {
+            Authorization: `Bearer ${token}`
+          }
+    });
+
+    return response.data
+}
+
+export const getQuizQuestions = async (token: string | null, id: string | number) => {
+    const response = await axios.get(`${api}/quiz/${id}/questions`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+          }
+    });
+
+    return response.data
+}
