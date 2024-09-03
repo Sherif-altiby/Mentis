@@ -28,9 +28,7 @@ const QuizzesView = () => {
         if(response && response.length > 0) {
             const filtered = response.filter((quize: quizeProps) => quize.teacher_id === Number(teacherId));
             setFilteredQuizzes(filtered);
-        } else {
-            console.log("Error: No quizzes found or an error occurred");
-        }
+        }  
 
         dispatch(setLoading(false));
     }
@@ -39,6 +37,9 @@ const QuizzesView = () => {
         if (token) {
             getQuizzes(token);
         }
+
+        console.log(filteredQuizzes)
+
     }, [token, teacherId]);
 
   return (

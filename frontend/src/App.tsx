@@ -33,6 +33,7 @@ import QuizzesViewQuestions from './pages/quizzes-view/QuizzesViewQuestions';
 import NotesView from './pages/notes-vew/NotesView';
 import UpdateCourse from './components/TeacherComponents/courses/UpdateCourse';
 import QuizzesView from './pages/quizzes-view/QuizzesView';
+import LevelQuizzes from './components/TeacherComponents/teacherquizes/LevelQuizzes';
 
   
 const App = () => {
@@ -92,6 +93,7 @@ const App = () => {
  
         <Route path='/user/user-subjects/quizzes' element={< QuizzesView />} />
         <Route path='/user/user-subjects/quizzes/questions' element={< QuizzesViewQuestions />} />
+        <Route path='/teacher/dashboard/controle/quizes/specific-garde-quizes' element={<LevelQuizzes />} />
 
         <Route path='/user/user-subjects/notes' element={< NotesView />} />
 

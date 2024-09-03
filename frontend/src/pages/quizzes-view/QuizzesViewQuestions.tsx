@@ -3,10 +3,12 @@ import ReactConfetti from 'react-confetti';
 import sound from '../../assets/clap.mp3';
 import { useSearchParams } from 'react-router-dom';
 import { getQuizQuestions } from '../../utils/teacher';
-import { useAppSelector } from '../../redux/reduxHook';
+import { useAppSelector, useAppDispatch } from '../../redux/reduxHook';
 import Nav from '../../components/Navbar/Nav';
 import Footer from '../../components/footer/Footer';
 import './QuizzesView.scss'
+import { setLoading } from '../loading/Loadingslice';
+import Loading from '../loading/Loading';
 
 interface QuestionProps {
   correct_answer: string;
@@ -18,6 +20,7 @@ interface QuestionProps {
 
 const QuizzesViewQuestions = () => {
   const [searchParams] = useSearchParams();
+  const dispatch =  useAppDispatch()
 
   const quizId = Number(searchParams.get('id')); 
   const quizTitle = searchParams.get("name")
@@ -28,6 +31,7 @@ const QuizzesViewQuestions = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const token = useAppSelector((state) => state.token.token);
+  const loading = useAppSelector((state) => state.loading.isLoading);
 
   const [questions, setQuestions] = useState<QuestionProps[]>([]);
 
@@ -60,9 +64,13 @@ const QuizzesViewQuestions = () => {
 
   const getQuestions = async (token: string | null, id: number) => {
     if (token) {
+      dispatch(setLoading(true))
       const fetchedQuestions = await getQuizQuestions(token, id);
       setQuestions(fetchedQuestions);
     }
+
+    dispatch(setLoading(false))
+
   };
 
   useEffect(() => {
@@ -87,7 +95,8 @@ const QuizzesViewQuestions = () => {
     <div className="quiz-questions-container">
     <h2> {quizTitle} </h2>
 
-      {questions.length > 0 ? (
+     {loading ? (<Loading />) : (
+       questions.length > 0 ? (
         questions.map((question) => {
           const options = JSON.parse(question.options) as {
             a: string;
@@ -101,19 +110,19 @@ const QuizzesViewQuestions = () => {
               <h3>{question.question}</h3>
               <div className="answers">
                 <div className="answer">
-                  <label htmlFor={`${question.id}-a`}>{options.a}</label>
+                  <label htmlFor={`${question.id}-a`}> <span></span> {options.a}</label>
                   <input type="radio" name={`${question.id}`} id={`${question.id}-a`} />
                 </div>
                 <div className="answer">
-                  <label htmlFor={`${question.id}-b`}>{options.b}</label>
+                  <label htmlFor={`${question.id}-b`}> <span></span> {options.b}</label>
                   <input type="radio" name={`${question.id}`} id={`${question.id}-b`} />
                 </div>
                 <div className="answer">
-                  <label htmlFor={`${question.id}-c`}>{options.c}</label>
+                  <label htmlFor={`${question.id}-c`}> <span></span> {options.c}</label>
                   <input type="radio" name={`${question.id}`} id={`${question.id}-c`} />
                 </div>
                 <div className="answer">
-                  <label htmlFor={`${question.id}-d`}>{options.d}</label>
+                  <label htmlFor={`${question.id}-d`}> <span></span> {options.d}</label>
                   <input type="radio" name={`${question.id}`} id={`${question.id}-d`} />
                 </div>
               </div>
@@ -122,7 +131,8 @@ const QuizzesViewQuestions = () => {
         })
       ) : (
         <h1>لا يوجد أسئلة</h1>
-      )}
+      )
+     )}
     </div>
     <Footer />
   </div>
