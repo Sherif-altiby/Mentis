@@ -37,7 +37,7 @@ const Login = () => {
         if(data){ 
           dispatch(setToken(data.token))
 
-          console.log(data);
+          console.log(data.token);
 
           const loginData = await getUserInfo(data.token)
 

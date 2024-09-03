@@ -23,13 +23,18 @@ const QuizzesView = () => {
 
     const getQuizzes = async (token: string | null) => {
         dispatch(setLoading(true));
-        const response = await getAllTeacherQuizzes(token);
+        
+        try{
+            const response = await getAllTeacherQuizzes(token);
+            if(response && response.length > 0) {
+                const filtered = response.filter((quize: quizeProps) => quize.teacher_id === Number(teacherId));
+                setFilteredQuizzes(filtered);
+            }  
+        }catch(err){
+            console.log("errorr")
+            dispatch(setLoading(false));
 
-        if(response && response.length > 0) {
-            const filtered = response.filter((quize: quizeProps) => quize.teacher_id === Number(teacherId));
-            setFilteredQuizzes(filtered);
         }  
-
         dispatch(setLoading(false));
     }
 
