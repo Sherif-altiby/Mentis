@@ -82,8 +82,7 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':teacher'])->group(f
     Route::post('/course-content/store', [TeacherController::class, 'storeFileAndContent']);
     
 
-    // File Management
-    Route::post('/files', [FileController::class, 'store']);
+    
     
     Route::delete('/files/{id}', [FileController::class, 'destroy']);
    
@@ -108,7 +107,7 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':teacher'])->group(f
 
     // Quiz Responses Management
     
-    Route::post('/quiz-responses', [QuizResponseController::class, 'store']);
+    
    
     Route::put('/quiz-responses/{id}', [QuizResponseController::class, 'update']);
     Route::delete('/quiz-responses/{id}', [QuizResponseController::class, 'destroy']);
@@ -120,8 +119,7 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':teacher'])->group(f
     Route::put('/assignments/{id}', [AssignmentController::class, 'update']);
     Route::delete('/assignments/{id}', [AssignmentController::class, 'destroy']);
 
-    // Assignment Submission Management
-    Route::post('/assignment-submissions', [AssignmentSubmissionController::class, 'store']);
+    
    
     Route::put('/assignment-submissions/{id}', [AssignmentSubmissionController::class, 'update']);
     Route::delete('/assignment-submissions/{id}', [AssignmentSubmissionController::class, 'destroy']);
@@ -177,6 +175,16 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin|teacher|stude
     Route::get('/quizzes/{id}', [QuizController::class, 'show']);
     Route::get('/quiz/{id}/questions', [QuizController::class, 'getQuizQuestions']);
     Route::get('/quizzes-with-teacher-id', [QuizController::class, 'getAllQuizzesWithTeacherId']);
+
+
+
+    // Assignment Submission Management
+    Route::post('/assignment-submissions', [AssignmentSubmissionController::class, 'store']);
+    Route::post('/quiz-responses', [QuizResponseController::class, 'store']);
+    // File Management
+    Route::post('/files', [FileController::class, 'store']);
+
+    
 
 
 });
