@@ -80,51 +80,49 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':teacher'])->group(f
 
     // Course Content Files Management
     Route::post('/course-content/store', [TeacherController::class, 'storeFileAndContent']);
-    Route::get('/course-contents', [TeacherController::class, 'getAllCourseContents']);
-    Route::get('/course-contents/{id}', [TeacherController::class, 'showCourseContent']);
-    Route::get('/course-contents/teacher/{teacherId}/level/{level}', [TeacherController::class, 'getCourseContentsByTeacherAndLevel']);
+    
 
     // File Management
     Route::post('/files', [FileController::class, 'store']);
-    Route::get('/files/{id}', [FileController::class, 'show']);
+    
     Route::delete('/files/{id}', [FileController::class, 'destroy']);
-    Route::get('/teacher/{id}/files', [TeacherController::class, 'getFilesTeacher']);
+   
 
     // Quiz Management
-    Route::get('/quizzes', [QuizController::class, 'index']);
+    
     Route::post('/quizzes', [QuizController::class, 'store']);
-    Route::get('/quizzes/{id}', [QuizController::class, 'show']);
+   
     Route::put('/quizzes/{id}', [QuizController::class, 'update']);
-    Route::get('/quiz/{id}/questions', [QuizController::class, 'getQuizQuestions']);
+   
     Route::delete('/quizzes/{id}', [QuizController::class, 'destroy']);
-    Route::get('/quizzes-with-teacher-id', [QuizController::class, 'getAllQuizzesWithTeacherId']);
+    
     
 
 
     // Quiz Questions Management
-    Route::get('/quiz-questions', [QuizQuestionController::class, 'index']);
+   
     Route::post('/quiz-questions', [QuizQuestionController::class, 'store']);
-    Route::get('/quiz-questions/{id}', [QuizQuestionController::class, 'show']);
+    
     Route::put('/quiz-questions/{id}', [QuizQuestionController::class, 'update']);
     Route::delete('/quiz-questions/{id}', [QuizQuestionController::class, 'destroy']);
 
     // Quiz Responses Management
-    Route::get('/quiz-responses', [QuizResponseController::class, 'index']);
+    
     Route::post('/quiz-responses', [QuizResponseController::class, 'store']);
-    Route::get('/quiz-responses/{id}', [QuizResponseController::class, 'show']);
+   
     Route::put('/quiz-responses/{id}', [QuizResponseController::class, 'update']);
     Route::delete('/quiz-responses/{id}', [QuizResponseController::class, 'destroy']);
-    Route::get('/student-results/{studentId}/quiz/{quizId}', [QuizResponseController::class, 'getStudentResult']);
+   
    
     // Assignment Management
     Route::post('/assignments', [AssignmentController::class, 'store']);
-    Route::get('/assignments/{id}', [AssignmentController::class, 'show']);
+   
     Route::put('/assignments/{id}', [AssignmentController::class, 'update']);
     Route::delete('/assignments/{id}', [AssignmentController::class, 'destroy']);
 
     // Assignment Submission Management
     Route::post('/assignment-submissions', [AssignmentSubmissionController::class, 'store']);
-    Route::get('/assignment-submissions/{id}', [AssignmentSubmissionController::class, 'show']);
+   
     Route::put('/assignment-submissions/{id}', [AssignmentSubmissionController::class, 'update']);
     Route::delete('/assignment-submissions/{id}', [AssignmentSubmissionController::class, 'destroy']);
 
@@ -159,6 +157,28 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin|teacher|stude
     Route::get('/user-from-token/{token}', [AuthController::class, 'getUserFromToken']);
 
     // Additional routes for multiple roles can be added here
+
+
+    Route::get('/course-contents', [TeacherController::class, 'getAllCourseContents']);
+    Route::get('/course-contents/{id}', [TeacherController::class, 'showCourseContent']);
+    Route::get('/course-contents/teacher/{teacherId}/level/{level}', [TeacherController::class, 'getCourseContentsByTeacherAndLevel']);
+
+    Route::get('/files/{id}', [FileController::class, 'show']);
+
+    Route::get('/teacher/{id}/files', [TeacherController::class, 'getFilesTeacher']);
+    Route::get('/assignment-submissions/{id}', [AssignmentSubmissionController::class, 'show']);
+    Route::get('/assignments/{id}', [AssignmentController::class, 'show']);
+    Route::get('/student-results/{studentId}/quiz/{quizId}', [QuizResponseController::class, 'getStudentResult']);
+    Route::get('/quiz-responses', [QuizResponseController::class, 'index']);
+    Route::get('/quiz-responses/{id}', [QuizResponseController::class, 'show']);
+    Route::get('/quiz-questions', [QuizQuestionController::class, 'index']);
+    Route::get('/quiz-questions/{id}', [QuizQuestionController::class, 'show']);
+    Route::get('/quizzes', [QuizController::class, 'index']);
+    Route::get('/quizzes/{id}', [QuizController::class, 'show']);
+    Route::get('/quiz/{id}/questions', [QuizController::class, 'getQuizQuestions']);
+    Route::get('/quizzes-with-teacher-id', [QuizController::class, 'getAllQuizzesWithTeacherId']);
+
+
 });
 
 /*
