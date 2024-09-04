@@ -42,7 +42,6 @@ export const register = async ({
   }
 };
 
-
 export const getUserInfo = async (token: string) => {
 
  const api = `http://127.0.0.1:8000/api/user-from-token/${token}`
@@ -52,12 +51,11 @@ export const getUserInfo = async (token: string) => {
     }
   })
 
-  const data = await response.data;
-
+  const data =  response.data;
+  console.log(data)
   return data
 
 }
-
 
 export const login = async ( {email, password}: {email: string, password: string} ) => {
   const api = "http://127.0.0.1:8000/api/login";
@@ -93,4 +91,18 @@ export const getAllQuizzes = async (token: string | null) => {
   })
 
   return response.data;
+}
+
+export const sendStudentResponses = async (token: string | null, QuesId: number, answer: string, stdId: number) => {
+  const response = await axios.post(`${api}/quiz-responses`, {
+   quiz_question_id: QuesId,
+   student_id: stdId,
+   answer
+  },{
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  return response.data
 }

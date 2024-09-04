@@ -181,3 +181,54 @@
     }
   }
 }
+
+
+.level-quizzes{
+  padding: 50px 100px;
+
+  @include screen(lg){
+    padding: 50px;
+  }
+
+  @include screen(md){
+    padding: 50px  20px;
+  }
+
+  .level-title{
+    text-align: center;
+    font-size: 25px;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 20px;
+  }
+
+  .quizzes{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 50px 0;
+
+    .quiz{
+      width: calc(100% / 3 - 30px);
+      padding: 20px;
+      background-color: var(--primary-color);
+      color: #fff;
+      border-radius: 5px;
+      text-align: center;
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @include screen(md){
+        width: calc(100% / 2 - 20px);
+      }
+
+      @include screen(sm){
+        width:100%;
+      }
+    }
+  }
+}
