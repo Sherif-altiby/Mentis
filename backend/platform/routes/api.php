@@ -177,7 +177,7 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin|teacher|stude
     Route::get('/quizzes-with-teacher-id', [QuizController::class, 'getAllQuizzesWithTeacherId']);
 
 
-
+// ----------------------
     // Assignment Submission Management
     Route::post('/assignment-submissions', [AssignmentSubmissionController::class, 'store']);
     Route::post('/quiz-responses', [QuizResponseController::class, 'store']);
