@@ -207,3 +207,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Additional authenticated routes can be added here
 });
 
+
+// api pages
