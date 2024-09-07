@@ -9,6 +9,8 @@ import Footer from '../../components/footer/Footer';
 import './QuizzesView.scss';
 import { setLoading } from '../loading/Loadingslice';
 import Loading from '../loading/Loading';
+import { getUserQuizResponce, sendStudentResponses } from '../../utils/api';
+import CustomLoading from '../loading/CustomLoading';
 
 interface QuestionProps {
   correct_answer: string;
@@ -21,6 +23,10 @@ interface QuestionProps {
 interface QuestionAnswer {
   id: number;
   answer: string;
+}
+
+interface ShuffledQuestion extends QuestionProps {
+  shuffledOptions: Array<{ label: string; text: string }>;
 }
 
 const QuizzesViewQuestions = () => {
@@ -37,9 +43,12 @@ const QuizzesViewQuestions = () => {
 
   const token = useAppSelector((state) => state.token.token);
   const loading = useAppSelector((state) => state.loading.isLoading);
+  const userId = useAppSelector((state) => state.userInfo.userInfo.user_id);
 
-  const [questions, setQuestions] = useState<QuestionProps[]>([]);
+  const [questions, setQuestions] = useState<ShuffledQuestion[]>([]);
   const [selectedAnswers, setSelectedAnswers] = useState<QuestionAnswer[]>([]); 
+
+  const [customLoading, setCustomLoading] = useState(false);
 
   const detectSize = () => {
     setDimension({ width: window.innerWidth, height: window.innerHeight });
@@ -77,7 +86,16 @@ const QuizzesViewQuestions = () => {
     if (token) {
       dispatch(setLoading(true));
       const fetchedQuestions = await getQuizQuestions(token, id);
-      setQuestions(fetchedQuestions);
+
+      // Shuffle the options when the questions are fetched
+      const shuffledQuestions = fetchedQuestions.map((question: QuestionProps) => {
+        return {
+          ...question,
+          shuffledOptions: shuffleOptions(question)
+        };
+      });
+
+      setQuestions(shuffledQuestions);
       dispatch(setLoading(false));
     }
   };
@@ -93,8 +111,44 @@ const QuizzesViewQuestions = () => {
     });
   };
 
-  const handleSend = () => {
-    console.log(selectedAnswers);
+  const sendAnswer = async (token: string | null, QuesId: number, answer: string, stdId: number) => {
+    const response = await sendStudentResponses(token, QuesId, answer, stdId);
+    console.log(response);
+  };
+
+  const handleSend = async () => {
+    if (selectedAnswers.length === questions.length) {
+      setCustomLoading(true);
+      console.log(selectedAnswers);
+      await selectedAnswers.map((answer) => {
+        sendAnswer(token, answer.id, answer.answer, userId);
+      });
+      console.log("start");
+      const correctAnswers = await getUserQuizResponce(token, userId, quizId);
+      console.log('correctAnswers', correctAnswers);
+      console.log("end");
+      setCustomLoading(false);
+    } else {
+      console.log("error");
+    }
+  };
+
+  // Shuffle the options including the correct answer
+  const shuffleOptions = (question: QuestionProps) => {
+    const optionsArray = [
+      { label: 'a', text: JSON.parse(question.options).a },
+      { label: 'b', text: JSON.parse(question.options).b },
+      { label: 'c', text: JSON.parse(question.options).c },
+      { label: 'd', text: question.correct_answer }, 
+    ];
+
+    // Fisher-Yates shuffle
+    for (let i = optionsArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [optionsArray[i], optionsArray[j]] = [optionsArray[j], optionsArray[i]];
+    }
+
+    return optionsArray;
   };
 
   return (
@@ -112,70 +166,30 @@ const QuizzesViewQuestions = () => {
 
       <div className="quiz-questions-container">
         <h2>{quizTitle}</h2>
+        {customLoading && <CustomLoading />}
 
         {loading ? (
           <Loading />
         ) : questions.length > 0 ? (
           questions.map((question) => {
-            const options = JSON.parse(question.options) as {
-              a: string;
-              b: string;
-              c: string;
-              d: string;
-            };
-
             return (
               <div key={question.id} className="question">
                 <h3>{question.question}</h3>
                 <div className="answers">
-                  <div className="answer">
-                    <label htmlFor={`${question.id}-a`}>
-                      <span></span> {options.a}
-                    </label>
-                    <input
-                      type="radio"
-                      name={`${question.id}`}
-                      id={`${question.id}-a`}
-                      value={options.a}
-                      onChange={() => handleAnswerChange(question.id, 'a')}
-                    />
-                  </div>
-                  <div className="answer">
-                    <label htmlFor={`${question.id}-b`}>
-                      <span></span> {options.b}
-                    </label>
-                    <input
-                      type="radio"
-                      name={`${question.id}`}
-                      id={`${question.id}-b`}
-                      value={options.b}
-                      onChange={() => handleAnswerChange(question.id, 'b')}
-                    />
-                  </div>
-                  <div className="answer">
-                    <label htmlFor={`${question.id}-c`}>
-                      <span></span> {options.c}
-                    </label>
-                    <input
-                      type="radio"
-                      name={`${question.id}`}
-                      id={`${question.id}-c`}
-                      value={options.c}
-                      onChange={() => handleAnswerChange(question.id,  'c')}
-                    />
-                  </div>
-                  <div className="answer">
-                    <label htmlFor={`${question.id}-d`}>
-                      <span></span> {options.d}
-                    </label>
-                    <input
-                      type="radio"
-                      name={`${question.id}`}
-                      id={`${question.id}-d`}
-                      value={options.d}
-                      onChange={() => handleAnswerChange(question.id,  'd')}
-                    />
-                  </div>
+                  {question.shuffledOptions.map((option) => (
+                    <div key={option.label} className="answer">
+                      <label htmlFor={`${question.id}-${option.label}`}>
+                        <span></span> {option.text}
+                      </label>
+                      <input
+                        type="radio"
+                        name={`${question.id}`}
+                        id={`${question.id}-${option.label}`}
+                        value={option.text}
+                        onChange={() => handleAnswerChange(question.id, option.text)}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             );
@@ -191,3 +205,6 @@ const QuizzesViewQuestions = () => {
 };
 
 export default QuizzesViewQuestions;
+
+// 376701@Mentis.com
+// Qb5YBWUB

@@ -23,7 +23,10 @@
     box-shadow: 0 0 5px var(--box-shadow-color);
     cursor: pointer;
     transition: 0.3s;
-    font-size: 22px;
+    font-size: 20px;
+    text-align: center;
+    height: 150px;
+    padding: 20px;
 
     &:hover {
       background-color: var(--primary-color);
@@ -44,18 +47,28 @@
   }
 }
 
+.quiz-questions-container{
+  direction: rtl;
+  position: relative;
+
+  .answer{
+    direction: ltr;
+  }
+}
+
 .student-questions {
 
   h2 {
     text-align: center;
     margin-top: 50px;
     padding: 10px;
-    max-width: 300px;
     background-color: var(--primary-color);
     color: #fff;
     border-radius: 5px;
-    margin-right: auto;
-    margin-left: auto;
+    display: inline-block;
+    direction: rtl;
+    margin-right: 50px; 
+    min-width: 250px;
   }
 
   .question{

@@ -59,7 +59,7 @@ const TeacherQuizes: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [courseTitle, setCourseTitle] = useState('');
-  const [gardeLevel, setGradeLevel] = useState('');
+  const [gardeLevel, setGradeLevel] = useState('first');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [hasError, setHasError] = useState(false);
 

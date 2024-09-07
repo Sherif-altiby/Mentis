@@ -79,8 +79,8 @@ export const logout = async (token: string | null) => {
     }
    })
 
-   const data = response.data
    localStorage.clear()
+   return response.data
 }
 
 export const getAllQuizzes = async (token: string | null) => {
@@ -105,4 +105,14 @@ export const sendStudentResponses = async (token: string | null, QuesId: number,
   })
 
   return response.data
+}
+
+export const getUserQuizResponce = async (token: string | null , studentId: number, quizId: number) => {
+  const response = await axios.get(`${api}/student-results/${studentId}/quiz/${quizId}`, {
+   headers: {
+    Authorization: `Bearer ${token}`
+   }
+  });
+  
+  return response.data;
 }
