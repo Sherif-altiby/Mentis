@@ -56,37 +56,55 @@ class QuizResponseController extends Controller
     }
 
     public function getStudentResult($studentId, $quizId)
-    {
-        $responses = QuizResponse::where('student_id', $studentId)
-            ->whereHas('question', function($query) use ($quizId) {
-                $query->where('quiz_id', $quizId);
-            })
-            ->get();
+{
+    // Get all quiz responses of the student for the specific quiz
+    $responses = QuizResponse::where('student_id', $studentId)
+        ->whereHas('question', function($query) use ($quizId) {
+            $query->where('quiz_id', $quizId);
+        })
+        ->get();
 
-        $totalQuestions = QuizQuestion::where('quiz_id', $quizId)->count();
-        $correctAnswersCount = 0;
+    // Get the total number of questions in the quiz
+    $totalQuestions = QuizQuestion::where('quiz_id', $quizId)->count();
+    $correctAnswersCount = 0;
+    $allResponses = [];
 
-        foreach ($responses as $response) {
-            $question = QuizQuestion::find($response->quiz_question_id);
+    foreach ($responses as $response) {
+        // Find the related question for each response
+        $question = QuizQuestion::find($response->quiz_question_id);
 
-            if ($question && $response->answer === $question->correct_answer) {
-                $correctAnswersCount++;
-                $response->is_correct = true;
-            } else {
-                $response->is_correct = false;
-            }
-            $response->save();
+        // Check if the response matches the correct answer
+        if ($question && $response->answer === $question->correct_answer) {
+            $correctAnswersCount++;
+            $response->is_correct = true;
+        } else {
+            $response->is_correct = false;
         }
 
-        $scorePercentage = ($totalQuestions > 0) ? ($correctAnswersCount / $totalQuestions) * 100 : 0;
+        // Save the response correctness
+        $response->save();
 
-        return response()->json([
-            'student_id' => $studentId,
-            'quiz_id' => $quizId,
-            'total_questions' => $totalQuestions,
-            'correct_answers' => $correctAnswersCount,
-            'score_percentage' => $scorePercentage,
-            'responses' => $responses
-        ]);
+        // Add the correct answer to the response array
+        $responseData = $response->toArray();
+        $responseData['correct_answer'] = $question ? $question->correct_answer : null;
+
+        $allResponses[] = $responseData;
     }
+
+    // Calculate the score percentage
+    $scorePercentage = ($totalQuestions > 0) ? ($correctAnswersCount / $totalQuestions) * 100 : 0;
+
+    // Return the result
+    return response()->json([
+        'student_id' => $studentId,
+        'quiz_id' => $quizId,
+        'total_questions' => $totalQuestions,
+        'correct_answers' => $correctAnswersCount,
+        'score_percentage' => $scorePercentage,
+        'responses' => $allResponses // Include responses with correct answers
+    ]);
+}
+
+    
+
 }
