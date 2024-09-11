@@ -80,6 +80,10 @@
     border-radius: 5px;
     padding: 20px;
 
+    &.error{
+      background-color: var(--danger-color);
+    }
+
     h3{
         border-bottom: 2px solid var(--primary-color);
         margin-bottom: 10px;

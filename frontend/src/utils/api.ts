@@ -116,3 +116,13 @@ export const getUserQuizResponce = async (token: string | null , studentId: numb
   
   return response.data;
 }
+
+export const getFiles = async (token: string | null, id: number) => {
+  const response = await axios.get(`${api}/files/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  return response.data;
+}

@@ -135,3 +135,7 @@
 [stacktrace]
 #0 {main}
 "} 
+[2024-09-08 16:31:48] local.INFO: Request data: {"user_id":"11","course_id":"7","file_name":"تدريبات","file_type":"pdf","content_type":"video","title":"تدريبات","level":"first","file_data":{"Illuminate\\Http\\UploadedFile":"C:\\Users\\Sherif altiby\\AppData\\Local\\Temp\\phpBFE2.tmp"}} 
+[2024-09-08 16:31:53] local.INFO: Request data: {"user_id":"11","course_id":"7","file_name":"تدريبات","file_type":"pdf","content_type":"video","title":"تدريبات","level":"first","file_data":{"Illuminate\\Http\\UploadedFile":"C:\\Users\\Sherif altiby\\AppData\\Local\\Temp\\phpED1D.tmp"}} 
+[2024-09-08 16:35:38] local.INFO: Request data: {"user_id":"11","course_id":"7","file_name":"sgdf","file_type":"pdf","content_type":"video","title":"sgdf","level":"first","file_data":{"Illuminate\\Http\\UploadedFile":"C:\\Users\\Sherif altiby\\AppData\\Local\\Temp\\php5213.tmp"}} 
+[2024-09-08 17:00:24] local.INFO: Request data: {"user_id":"11","course_id":"7","file_name":"تدريبات","file_type":"pdf","content_type":"pdf","title":"تدريبات","level":"first","file_data":{"Illuminate\\Http\\UploadedFile":"C:\\Users\\Sherif altiby\\AppData\\Local\\Temp\\php760.tmp"}} 

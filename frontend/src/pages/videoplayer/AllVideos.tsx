@@ -59,6 +59,8 @@ const AllVideos = () => {
           }
         }
       };
+
+      console.log(courses)
       
       fetchCourses();
     }, [token]);

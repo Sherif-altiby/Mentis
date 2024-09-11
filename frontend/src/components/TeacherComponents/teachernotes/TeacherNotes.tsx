@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import './TeacherNotes.scss';
 import { useState } from 'react';
 import { uploadNote } from '../../../utils/teacher';
+import CustomLoading from '../../../pages/loading/CustomLoading';
 
 const TeacherNotes = () => {
   const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme);
   const token = useAppSelector((state) => state.token.token);
   const userId = useAppSelector((state) => state.userInfo.userInfo.user_id);
+  const [loading, setLoading] = useState(false)
   const teacher = useAppSelector((state) => state.teacher.teachers.find((item) => item.id === userId));
   const courseId = teacher?.courses[0]?.id;
 
@@ -32,8 +34,10 @@ const TeacherNotes = () => {
     }
 
     try {
+      setLoading(true)
       const response = await uploadNote(token, userId, courseId, fileName, "pdf", selectedFile, 'video', fileName, level);
       console.log('File uploaded successfully:', response);
+      setLoading(false)
     } catch (error) {
       console.error('File upload failed:', error);
     }
@@ -82,6 +86,7 @@ const TeacherNotes = () => {
           </Link>
         </div>
         <div className="add-note">
+          {loading && <CustomLoading />}
           <h3> إضافة مذكرة </h3>
           <div className="inputs">
             <div className="input">

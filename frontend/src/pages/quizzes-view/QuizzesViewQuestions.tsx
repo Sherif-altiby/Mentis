@@ -1,33 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ReactConfetti from 'react-confetti';
 import sound from '../../assets/clap.mp3';
 import { useSearchParams } from 'react-router-dom';
-import { getQuizQuestions } from '../../utils/teacher';
+import { sendStudentResponses, getUserQuizResponce } from '../../utils/api';
 import { useAppSelector, useAppDispatch } from '../../redux/reduxHook';
 import Nav from '../../components/Navbar/Nav';
 import Footer from '../../components/footer/Footer';
 import './QuizzesView.scss';
 import { setLoading } from '../loading/Loadingslice';
 import Loading from '../loading/Loading';
-import { getUserQuizResponce, sendStudentResponses } from '../../utils/api';
-import CustomLoading from '../loading/CustomLoading';
+import { getQuizQuestions } from '../../utils/teacher';
+import { QuestionAnswer, QuestionPropsInterface, ShuffledQuestion } from '../../types/index.types';
 
-interface QuestionProps {
-  correct_answer: string;
-  id: number;
-  question: string;
-  options: string;
-  quiz_id: number;
-}
 
-interface QuestionAnswer {
-  id: number;
-  answer: string;
-}
-
-interface ShuffledQuestion extends QuestionProps {
-  shuffledOptions: Array<{ label: string; text: string }>;
-}
 
 const QuizzesViewQuestions = () => {
   const [searchParams] = useSearchParams();
@@ -47,8 +32,7 @@ const QuizzesViewQuestions = () => {
 
   const [questions, setQuestions] = useState<ShuffledQuestion[]>([]);
   const [selectedAnswers, setSelectedAnswers] = useState<QuestionAnswer[]>([]); 
-
-  const [customLoading, setCustomLoading] = useState(false);
+  const [errors, setErrors] = useState<number[]>([]);
 
   const detectSize = () => {
     setDimension({ width: window.innerWidth, height: window.innerHeight });
@@ -87,8 +71,7 @@ const QuizzesViewQuestions = () => {
       dispatch(setLoading(true));
       const fetchedQuestions = await getQuizQuestions(token, id);
 
-      // Shuffle the options when the questions are fetched
-      const shuffledQuestions = fetchedQuestions.map((question: QuestionProps) => {
+      const shuffledQuestions = fetchedQuestions.map((question: QuestionPropsInterface) => {
         return {
           ...question,
           shuffledOptions: shuffleOptions(question)
@@ -118,23 +101,38 @@ const QuizzesViewQuestions = () => {
 
   const handleSend = async () => {
     if (selectedAnswers.length === questions.length) {
-      setCustomLoading(true);
       console.log(selectedAnswers);
-      await selectedAnswers.map((answer) => {
+  
+      const newErrors: number[] = [];
+      let allAnswersCorrect = true; 
+  
+      selectedAnswers.forEach((answer) => {
         sendAnswer(token, answer.id, answer.answer, userId);
       });
-      console.log("start");
+  
+      selectedAnswers.forEach((answer) => {
+        const question = questions.find((q) => q.id === answer.id);
+        if (question && answer.answer !== question.correct_answer) {
+          newErrors.push(answer.id);
+          allAnswersCorrect = false; 
+        }
+      });
+  
+      setErrors(newErrors); 
+  
+      if (allAnswersCorrect) {
+        setShowFireworks(true);
+      }
+  
       const correctAnswers = await getUserQuizResponce(token, userId, quizId);
       console.log('correctAnswers', correctAnswers);
-      console.log("end");
-      setCustomLoading(false);
     } else {
       console.log("error");
     }
   };
+  
 
-  // Shuffle the options including the correct answer
-  const shuffleOptions = (question: QuestionProps) => {
+  const shuffleOptions = (question: QuestionPropsInterface) => {
     const optionsArray = [
       { label: 'a', text: JSON.parse(question.options).a },
       { label: 'b', text: JSON.parse(question.options).b },
@@ -142,7 +140,7 @@ const QuizzesViewQuestions = () => {
       { label: 'd', text: question.correct_answer }, 
     ];
 
-    // Fisher-Yates shuffle
+
     for (let i = optionsArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [optionsArray[i], optionsArray[j]] = [optionsArray[j], optionsArray[i]];
@@ -166,14 +164,14 @@ const QuizzesViewQuestions = () => {
 
       <div className="quiz-questions-container">
         <h2>{quizTitle}</h2>
-        {customLoading && <CustomLoading />}
 
         {loading ? (
           <Loading />
         ) : questions.length > 0 ? (
           questions.map((question) => {
+            const isError = errors.includes(question.id); 
             return (
-              <div key={question.id} className="question">
+              <div key={question.id} className={`question ${isError ? 'error' : ''}`}>
                 <h3>{question.question}</h3>
                 <div className="answers">
                   {question.shuffledOptions.map((option) => (
@@ -205,6 +203,8 @@ const QuizzesViewQuestions = () => {
 };
 
 export default QuizzesViewQuestions;
+
+
 
 // 376701@Mentis.com
 // Qb5YBWUB
