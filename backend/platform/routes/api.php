@@ -176,6 +176,9 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin|teacher|stude
     Route::get('/quiz/{id}/questions', [QuizController::class, 'getQuizQuestions']);
     Route::get('/quizzes-with-teacher-id', [QuizController::class, 'getAllQuizzesWithTeacherId']);
 
+    // Route in web.php or api.php (depending on your setup)
+    Route::get('/quiz/{id}/timer', [QuizController::class, 'getQuizTimer']);
+
 
 // ----------------------
     // Assignment Submission Management

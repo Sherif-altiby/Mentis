@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Quiz;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class QuizController extends Controller
 {
@@ -109,6 +110,106 @@ class QuizController extends Controller
             // Return a generic error message to the client
             return response()->json(['error' => 'An error occurred while retrieving the quizzes. Please try again later.'], 500);
         }
+    }
+   
+
+
+    public function isQuizActive($quizId)
+    {
+        $quiz = Quiz::findOrFail($quizId);
+
+        // Check if both start_time and end_time exist
+        if (!$quiz->start_time || !$quiz->end_time) {
+            return response()->json(['message' => 'The quiz does not have a defined start or end time.'], 400);
+        }
+
+        // Retrieve current time
+        $currentTime = Carbon::now();
+
+        $startTime = Carbon::parse($quiz->start_time);
+        $endTime = Carbon::parse($quiz->end_time);
+
+        // Check if the current time is within the start and end time
+        if ($currentTime->greaterThanOrEqualTo($startTime) && $currentTime->lessThanOrEqualTo($endTime)) {
+            return response()->json([
+                'is_active' => true,
+                'message' => 'The quiz is currently active and accepting answers.',
+                'start_time' => $quiz->start_time,
+                'end_time' => $quiz->end_time,
+            ]);
+        } elseif ($currentTime->lessThan($startTime)) {
+            return response()->json([
+                'is_active' => false,
+                'message' => 'The quiz has not started yet.',
+                'start_time' => $quiz->start_time,
+                'end_time' => $quiz->end_time,
+            ]);
+        } elseif ($currentTime->greaterThan($endTime)) {
+            return response()->json([
+                'is_active' => false,
+                'message' => 'The quiz has already ended.',
+                'start_time' => $quiz->start_time,
+                'end_time' => $quiz->end_time,
+            ]);
+        }
+    }
+    /**
+     * Get the remaining time for the quiz
+     *
+     * @param int $quizId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getQuizTimer($quizId)
+    {
+        // Try to fetch the quiz, if not found, handle the error
+        try {
+            $quiz = Quiz::findOrFail($quizId);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['message' => 'Quiz not found.'], 404);
+        }
+
+        // Retrieve current time
+        $currentTime = Carbon::now();
+
+        // Check if both start_time and end_time exist
+        if (!$quiz->start_time || !$quiz->end_time) {
+            return response()->json([
+                'message' => 'The quiz does not have a defined start or end time.',
+                'details' => [
+                    'start_time' => $quiz->start_time,
+                    'end_time' => $quiz->end_time,
+                ]
+            ], 400);
+        }
+
+        // Calculate remaining time
+        $endTime = Carbon::parse($quiz->end_time);
+
+        // If the current time is greater than the end time, return an error message
+        if ($currentTime->greaterThan($endTime)) {
+            return response()->json([
+                'message' => 'The quiz has already ended.',
+                'end_time' => $quiz->end_time,
+                'current_time' => $currentTime
+            ], 403);
+        }
+
+        // Calculate the remaining time in seconds
+        $remainingTimeInSeconds = $endTime->diffInSeconds($currentTime);
+
+        // Format the remaining time as minutes and seconds
+        $remainingMinutes = floor($remainingTimeInSeconds / 60);
+        $remainingSeconds = $remainingTimeInSeconds % 60;
+
+        return response()->json([
+            'message' => 'The quiz is still active.',
+            'start_time' => $quiz->start_time,
+            'end_time' => $quiz->end_time,
+            'remaining_time' => [
+                'minutes' => $remainingMinutes,
+                'seconds' => $remainingSeconds,
+            ]
+        ]);
     }
 
 }
