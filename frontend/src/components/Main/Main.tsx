@@ -13,6 +13,7 @@ import axios from "axios";
 import { useEffect } from "react";
 
 import { setAllTeachers} from "./teacherSlice";
+import CircularProgress from "../CircularProgress/CircularProgress ";
 
  
 const Main = () => {
@@ -98,6 +99,7 @@ const Main = () => {
             ))}
         </div>
       </div>
+      <CircularProgress initialTime={900} />
     </div>
   );
 };
