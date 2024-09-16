@@ -12,13 +12,12 @@ const CreateTeacherCard = ( {name, id, role, courses}: TeacherProps ) => {
 
   return (
     <>
-      <Link to={`/teacher/${name}?query=${role}&id=${id}`} className={`teacher-card ${appMode}`} >
+      <Link to={`/teacher/${name}?query=${role}&id=${id}&subject=${courses[0].title}`} className={`teacher-card ${appMode}`} >
         <div className='content-info' >
           <div className="img">
             <img src={phiscs} alt="" /> 
           </div>
           <h2>  {name} </h2>
-          <p> {courses[0]?.title} </p>
         </div>
       </Link>
     </>

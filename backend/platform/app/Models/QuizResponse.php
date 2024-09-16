@@ -21,4 +21,10 @@ class QuizResponse extends Model
     {
         return $this->belongsTo(User::class, 'student_id');
     }
+    public static function isDuplicate($quizQuestionId, $studentId)
+    {
+        return self::where('quiz_question_id', $quizQuestionId)
+            ->where('student_id', $studentId)
+            ->exists();
+    }
 }

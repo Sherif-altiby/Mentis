@@ -13,7 +13,6 @@ import axios from "axios";
 import { useEffect } from "react";
 
 import { setAllTeachers} from "./teacherSlice";
-import CircularProgress from "../CircularProgress/CircularProgress ";
 
  
 const Main = () => {
@@ -40,6 +39,8 @@ const Main = () => {
             Authorization: `Bearer ${token}`
           }
         })
+
+        console.log(response.data)
     
           dispatch(setAllTeachers(response.data))
   }
@@ -50,7 +51,7 @@ const Main = () => {
   return (
     <div>
       <div className={`main-section ${appMode}`}>
-        <Circles />
+        {/* <Circles /> */}
 
         <div className="intro-section">
            <motion.div className="img"
@@ -99,7 +100,6 @@ const Main = () => {
             ))}
         </div>
       </div>
-      <CircularProgress initialTime={900} />
     </div>
   );
 };

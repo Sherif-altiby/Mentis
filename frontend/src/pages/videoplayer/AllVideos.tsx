@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import Nav from "../../components/Navbar/Nav";
 import Footer from "../../components/footer/Footer";
 import './VideoPlayer.scss'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVideo } from "@fortawesome/free-solid-svg-icons";
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -69,9 +71,12 @@ const AllVideos = () => {
     <div>
          <Nav />
          <div className={`all-courses ${appMode} `}>
-          {courses && courses.map((course) => (
+          <h2 className="title"> الدروس </h2>
+          {courses && courses.map((course, index) => (
             <Link to="/user/user-subjects/video-play" key={course.id} className="course" onClick={() => dispatch(setVideoId(course.file_path))} >
+              <div className="num"> ({index + 1}) </div>
               <h3>{course.title}</h3>
+              <div className="icon"> <FontAwesomeIcon icon={faVideo} /> </div>
             </Link>
           ))}
           {noCourses && ( <h3> لا يوجد دروس الان </h3> ) }

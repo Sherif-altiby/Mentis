@@ -1,7 +1,8 @@
 @import "../../App.scss";
 
 .teacher-page {
-  min-height: calc(100vh - 80px);
+  padding-bottom: 50px;
+  padding-top: 50px;
 
   .all-levels-container {
     margin: 100px 0;
@@ -92,27 +93,45 @@
     margin-top: 50px;
     gap: 20px;
     flex-wrap: wrap;
-    padding: 0px 50px;
-
-    @include screen(lg){
-        padding:0 20px;
-    }
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;  
 
     a{
-        width: calc(100% / 3 - 15px);
+        width: 220px;
         box-shadow: 0 0 5px var(--box-shadow-color);
         display: flex;
         align-items: center;
         justify-content: center;
         color: var(--primary-color);
         border-radius: 5px;
-        height: 120px;
-        transition: 0.3s;
+        height: 100px;
+        transition: 0.4s;
         font-size: 20px;
+        gap: 20px;
 
         &:hover{
             background-color: var(--primary-color);
             color: #fff;
+            transform: translateY(-10px);
+
+            .icon{
+              background-color: #fff;
+              color: var(--primary-color);
+              transform: rotate(360deg);
+            }
+        }
+
+        .icon{
+          background-color: var(--primary-color);
+          color: #fff;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: 0.4s;
         }
 
         @include screen(md){
@@ -144,5 +163,44 @@
     @include screen(md) {
       width: 100%;
     }
+  }
+}
+
+
+.teaher__aboout{
+  width: 700px;
+  display: flex;
+  margin: 50px auto;
+  flex-direction: row-reverse;
+  background-color: var(--primary-color);
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff;
+  gap: 50px;
+
+  .img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 20px;
+
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .teacher__info{
+    p{
+      text-align: center;
+    }
+  }
+
+  .teacher__desc{
+    text-align: right;
+    font-size: 18px;
+    line-height: 2;
+    direction: rtl;
   }
 }

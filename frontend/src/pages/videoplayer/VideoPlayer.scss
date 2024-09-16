@@ -1,3 +1,13 @@
+
+
+h2.title{
+  margin-top: 50px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 30px;
+  color: var(--primary-color);
+}
+
 .video__player__content {
   display: flex;
   width: 100%;
@@ -67,6 +77,9 @@
   min-height: 500px;
   padding-top: 30px;
   margin-top: -40px;
+  direction: rtl;
+  padding-left: 50px;
+  padding-right: 50px;
 
   &.dark{
     background-color: var(--input-dark-bg);
@@ -76,13 +89,38 @@
     }
   }
 
-  h3 {
-    background: var(--primary-color);
-    width: 300px;
+  .course{
+    display: flex;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 0 5px var(--box-shadow-color);
     padding: 20px;
-    margin: 40px auto;
-    text-align: center;
-    border-radius: 5px;
-    color: #fff;
+    border-radius: 10px;
+    margin-right: 20px;
+    transition: 0.4s;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    &:hover{
+      background-color: var(--primary-color);
+      color: #fff;
+
+      .icon{
+        background-color: #fff;
+        color: var(--primary-color);
+      }
+    }
+
+    .icon{
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      color: #fff;
+      transition: 0.4s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }

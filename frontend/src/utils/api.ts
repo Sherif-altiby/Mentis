@@ -1,7 +1,7 @@
 import axios from "axios";
 import { RegisterProps } from "../types/index.types";
 
-const api = 'http://127.0.0.1:8000/api'
+export const api = 'http://127.0.0.1:8000/api'
 
 export const register = async ({
   userName,
@@ -11,9 +11,9 @@ export const register = async ({
   role,
   grade_level
 }: RegisterProps) => {
-  const api = "http://127.0.0.1:8000/api/register";
+  const apiUrl = `${api}/register`;
   try {
-    const response = await axios.post(api, {
+    const response = await axios.post(apiUrl, {
       name: userName,
       parent_name: parentName,
       phone: userPhone,
@@ -44,8 +44,8 @@ export const register = async ({
 
 export const getUserInfo = async (token: string) => {
 
- const api = `http://127.0.0.1:8000/api/user-from-token/${token}`
-  const response = await axios.get(api, {
+ const apiUrl = `${api}/user-from-token/${token}`
+  const response = await axios.get(apiUrl, {
     headers:{
       'Authorization': `Bearer ${token}`,
     }
@@ -58,9 +58,9 @@ export const getUserInfo = async (token: string) => {
 }
 
 export const login = async ( {email, password}: {email: string, password: string} ) => {
-  const api = "http://127.0.0.1:8000/api/login";
+  const apiUrl = `${api}/login`;
 
-  const response = await axios.post(api,{
+  const response = await axios.post(apiUrl,{
        email,
       password
   })
@@ -71,9 +71,9 @@ export const login = async ( {email, password}: {email: string, password: string
 }
 
 export const logout = async (token: string | null) => {
-   const api = "http://127.0.0.1:8000/api/logout";
+   const apiUrl = `${api}/logout`;
 
-   const response = await axios.post(api, {
+   const response = await axios.post(apiUrl, {
     headers:{
       'Authorization': `Bearer ${token}`,
     }
@@ -125,4 +125,14 @@ export const getFiles = async (token: string | null, id: number) => {
   })
 
   return response.data;
+}
+
+export const getQuizeTime = async (token: string | null, id: number) => {
+  const responce = await axios.get(`${api}/quiz/${id}/timer`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  return responce.data
 }

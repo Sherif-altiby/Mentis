@@ -3,9 +3,13 @@
 
 namespace App\Http\Controllers;
 
+
+
 use App\Models\QuizResponse;
 use App\Models\QuizQuestion;
+use App\Models\Quiz;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class QuizResponseController extends Controller
 {
@@ -15,18 +19,103 @@ class QuizResponseController extends Controller
         return response()->json($responses);
     }
 
+   /**
+     * Store a new quiz response and check the quiz's time window.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
+        // Validate the basic fields
         $validatedData = $request->validate([
             'quiz_question_id' => 'required|exists:quiz_questions,id',
             'student_id' => 'required|exists:users,id',
-            'answer' => 'required|string',
+            'answer' => 'required|string|max:255',
             'is_correct' => 'boolean',
+        ], [
+            'quiz_question_id.required' => 'The quiz question ID is required.',
+            'quiz_question_id.exists' => 'The selected quiz question does not exist.',
+            'student_id.required' => 'The student ID is required.',
+            'student_id.exists' => 'The selected student does not exist.',
+            'answer.required' => 'An answer is required.',
+            'answer.string' => 'The answer must be a string.',
+            'answer.max' => 'The answer must not exceed 255 characters.',
+            'is_correct.boolean' => 'The is_correct field must be true or false.',
         ]);
 
-        $response = QuizResponse::create($validatedData);
-        return response()->json($response, 201);
+        // Fetch the quiz associated with the question
+        $quizQuestion = QuizQuestion::findOrFail($validatedData['quiz_question_id']);
+        $quiz = $quizQuestion->quiz;
+
+        // Check if the quiz is active based on time
+        $quizStatus = $this->isQuizActive($quiz);
+
+        if (!$quizStatus['is_active']) {
+            return response()->json(['message' => $quizStatus['message']], 403);
+        }
+
+        // Check for duplicate quiz question for the same student
+        if (QuizResponse::isDuplicate($validatedData['quiz_question_id'], $validatedData['student_id'])) {
+            return response()->json([
+                'message' => 'The quiz question has already been answered by this student.'
+            ], 422);
+        }
+
+        // Create the quiz response
+        try {
+            $response = QuizResponse::create($validatedData);
+            return response()->json($response, 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'There was an error saving the quiz response.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
+
+    /**
+     * Check if the quiz is currently active based on the current time.
+     *
+     * @param Quiz $quiz
+     * @return array
+     */
+    protected function isQuizActive(Quiz $quiz)
+    {
+        // Retrieve current time
+        $currentTime = Carbon::now();
+
+        // Check if both start_time and end_time exist
+        if (!$quiz->start_time || !$quiz->end_time) {
+            return [
+                'is_active' => false,
+                'message' => 'The quiz does not have a defined start or end time.'
+            ];
+        }
+
+        $startTime = Carbon::parse($quiz->start_time);
+        $endTime = Carbon::parse($quiz->end_time);
+
+        // Check if the current time is within the start and end time
+        if ($currentTime->greaterThanOrEqualTo($startTime) && $currentTime->lessThanOrEqualTo($endTime)) {
+            return [
+                'is_active' => true,
+                'message' => 'The quiz is currently active and accepting answers.'
+            ];
+        } elseif ($currentTime->lessThan($startTime)) {
+            return [
+                'is_active' => false,
+                'message' => 'The quiz has not started yet.'
+            ];
+        } elseif ($currentTime->greaterThan($endTime)) {
+            return [
+                'is_active' => false,
+                'message' => 'The quiz has already ended.'
+            ];
+        }
+    }
+
+
 
     public function show($id)
     {

@@ -8,6 +8,8 @@ import { quizeProps } from "../../types/index.types";
 import './QuizzesView.scss';
 import { getAllTeacherQuizzes } from "../../utils/teacher";
 import { useSearchParams, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClipboardQuestion } from "@fortawesome/free-solid-svg-icons";
 
 const QuizzesView = () => {
     const dispatch = useAppDispatch();
@@ -53,21 +55,26 @@ const QuizzesView = () => {
      {loading ? (
         <Loading />
      ) : (
+        <>
+        <h3 className="title"> الاختبارات </h3>
         <div className={`all-quizzes-section ${appMode}`}>
             {filteredQuizzes.length > 0 ? (
-                filteredQuizzes.map((quize) => (
+                filteredQuizzes.map((quize, index) => (
                     <Link 
                         to={`/user/user-subjects/quizzes/questions?query=questions&id=${quize.id}&name=${quize.title}`} 
                         className="quize" 
                         key={quize.id}
                     >
-                        {quize.title}
+                        <div className="num"> ( {index + 1} )</div>
+                        <p> {quize.title} </p>
+                         <div className="icon"> <FontAwesomeIcon icon={faClipboardQuestion} /> </div>
                     </Link>
                 ))
             ) : (
                 <h3>No quizzes available</h3>
             )}
         </div>
+        </>
       )}
      <Footer />
     </div>

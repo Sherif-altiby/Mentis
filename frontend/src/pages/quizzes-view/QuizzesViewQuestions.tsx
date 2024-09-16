@@ -11,6 +11,7 @@ import { setLoading } from '../loading/Loadingslice';
 import Loading from '../loading/Loading';
 import { getQuizQuestions } from '../../utils/teacher';
 import { QuestionAnswer, QuestionPropsInterface, ShuffledQuestion } from '../../types/index.types';
+import CircularProgress from '../../components/CircularProgress/CircularProgress ';
 
 
 
@@ -23,7 +24,7 @@ const QuizzesViewQuestions = () => {
 
   const [windowDimension, setDimension] = useState({ width: window.innerWidth, height: window.innerHeight });
   const [showFireworks, setShowFireworks] = useState(false);
-  const [confettiPieces, setConfettiPieces] = useState(100);
+  const [confettiPieces, setConfettiPieces] = useState(1000);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const token = useAppSelector((state) => state.token.token);
@@ -33,6 +34,8 @@ const QuizzesViewQuestions = () => {
   const [questions, setQuestions] = useState<ShuffledQuestion[]>([]);
   const [selectedAnswers, setSelectedAnswers] = useState<QuestionAnswer[]>([]); 
   const [errors, setErrors] = useState<number[]>([]);
+
+  const [startQuize, setStartQuize] = useState(false)
 
   const detectSize = () => {
     setDimension({ width: window.innerWidth, height: window.innerHeight });
@@ -162,41 +165,52 @@ const QuizzesViewQuestions = () => {
       )}
       <audio ref={audioRef} src={sound} />
 
-      <div className="quiz-questions-container">
-        <h2>{quizTitle}</h2>
+      {
+        startQuize ? (
+          <div className="quiz-questions-container">
 
-        {loading ? (
-          <Loading />
-        ) : questions.length > 0 ? (
-          questions.map((question) => {
-            const isError = errors.includes(question.id); 
-            return (
-              <div key={question.id} className={`question ${isError ? 'error' : ''}`}>
-                <h3>{question.question}</h3>
-                <div className="answers">
-                  {question.shuffledOptions.map((option) => (
-                    <div key={option.label} className="answer">
-                      <label htmlFor={`${question.id}-${option.label}`}>
-                        <span></span> {option.text}
-                      </label>
-                      <input
-                        type="radio"
-                        name={`${question.id}`}
-                        id={`${question.id}-${option.label}`}
-                        value={option.text}
-                        onChange={() => handleAnswerChange(question.id, option.text)}
-                      />
-                    </div>
-                  ))}
+          <h2>{quizTitle}</h2>
+          <CircularProgress initialTime={900} />
+          {loading ? (
+            <Loading />
+          ) : questions.length > 0 ? (
+            questions.map((question) => {
+              const isError = errors.includes(question.id); 
+              return (
+                <div key={question.id} className={`question ${isError ? 'error' : ''}`}>
+                  <h3>{question.question}</h3>
+                  <div className="answers">
+                    {question.shuffledOptions.map((option) => (
+                      <div key={option.label} className="answer">
+                        <input
+                          type="radio"
+                          name={`${question.id}`}
+                          id={`${question.id}-${option.label}`}
+                          value={option.text}
+                          onChange={() => handleAnswerChange(question.id, option.text)}
+                        />
+                        <label htmlFor={`${question.id}-${option.label}`}>  <span></span> {option.text}</label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            );
-          })
+              );
+            })
+          ) : (
+            <h1>لا يوجد أسئلة</h1>
+          )}
+          <div className="btn-send" onClick={handleSend}>إرسال</div>
+        </div>
         ) : (
-          <h1>لا يوجد أسئلة</h1>
-        )}
-        <div className="btn-send" onClick={handleSend}>إرسال</div>
-      </div>
+            <div className="quize__info">
+                 <div className="quize__name"> {quizTitle} </div>
+                 <div className="quize__time"> زمن الاختبار: 50 دقيقة </div>
+                 <div className="quize__length"> عدد الاسالة: 100 سؤال </div>
+                 <div className="start__quize" onClick={() => setStartQuize(true)} > ابدا الاختبار </div>
+            </div>
+        )
+      }       
+
       <Footer />
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import './CircularProgressbar.scss'
 
 interface CircularProgressProps {
   initialTime: number; // Time in seconds
@@ -40,7 +41,7 @@ const CircularProgress: React.FC<CircularProgressProps> = ({ initialTime }) => {
   };
 
   return (
-    <div style={{ width: 200, height: 200 }}>
+    <div className='main-timer'>
       <CircularProgressbar
         value={progress}
         text={formatTime(timeRemaining)} // Display the real-time HH:MM:SS format

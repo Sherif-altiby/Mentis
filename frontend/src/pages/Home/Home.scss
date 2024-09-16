@@ -1,9 +1,7 @@
 @import "../../App.scss";
 
-
-.home-container{
-
-  &.dark{
+.home-container {
+  &.dark {
     background-color: #000000e3;
   }
 }
@@ -14,10 +12,10 @@
   width: 100%;
   background-color: var(--primary-color);
 
-  &.dark{
+  &.dark {
     background-color: var(--input-dark-bg);
 
-    .wave{
+    .wave {
       filter: brightness(0.11);
     }
   }
@@ -32,6 +30,23 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 50px;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      background-image: url("../../assets/bg.png");
+      width: 100%;
+      top: 0;
+      left: 0;
+      position: absolute;
+      z-index: 0;
+      background-repeat: repeat;
+      background-size: contain;
+      display: block;
+      background-position: 0;
+      animation: bg 690s linear infinite;
+      height: 30000px;
+    }
 
     @include screen(lg) {
       padding: 0 20px;
@@ -72,11 +87,11 @@
         align-items: center;
       }
 
-      h1{
+      h1 {
         display: flex;
         gap: 10px;
 
-        span{
+        span {
           color: var(--danger-color);
         }
       }
@@ -118,11 +133,10 @@
         @include screen(sm) {
           font-size: 14px;
         }
-
       }
 
-      .student-intro-p{
-        text-align: center  ;
+      .student-intro-p {
+        text-align: center;
         width: 100%;
         margin-top: 30px;
         color: #fff;
@@ -244,8 +258,8 @@
 
 .all-materials {
   margin: 100px 0;
- 
-  h1{
+
+  h1 {
     color: var(--primary-color);
     margin-right: 150px;
     text-align: right;
@@ -259,20 +273,20 @@
     }
   }
 
-  a{
+  a {
     display: block;
     width: calc(100% / 4 - 15px);
 
-    @include screen(md){
+    @include screen(md) {
       width: calc(100% / 3 - 15px);
     }
 
-    @include screen(sm){
+    @include screen(sm) {
       width: calc(100% / 2 - 15px);
     }
 
-    @include screen(xsm){
-      width: 100% ;
+    @include screen(xsm) {
+      width: 100%;
     }
   }
   .material {
@@ -287,7 +301,6 @@
     padding-top: 20px;
     cursor: pointer;
     transition: 0.3s;
-    
 
     &:hover {
       background-color: var(--card-material-hover);
@@ -310,7 +323,7 @@
       cursor: pointer;
     }
 
-    p{
+    p {
       color: var(--primary-color);
       direction: rtl;
       font-size: 14px;
@@ -336,16 +349,13 @@
 }
 
 .all-teachers {
-
-  &.dark{
-    // background-color: #000000e3;
-
-    h1{
+  &.dark {
+    h1 {
       color: #fff;
     }
   }
- 
-  h1{
+
+  h1 {
     color: var(--primary-color);
     margin-right: 150px;
     text-align: right;
@@ -378,8 +388,6 @@
     @include screen(xsm) {
       justify-content: center;
     }
-
-   
   }
 }
 
@@ -425,5 +433,22 @@
   }
   100% {
     background-position-x: -1000px;
+  }
+}
+
+@keyframes bg {
+  0% {
+    background-position-y: 0;
+    opacity: 0.4;
+  }
+
+  50% {
+    background-position-y: -100%;
+    opacity: 1;
+  }
+
+  100% {
+    background-position-y: 0;
+    opacity: 0.4;
   }
 }
