@@ -54,11 +54,6 @@ nav {
         font-size: 30px;
         margin-top: 10px;
       }
-
-
-      &:hover {
-        transform: scale(0.9);
-      }
     }
 
     .user-menu {
@@ -125,7 +120,6 @@ nav {
 
         &:hover {
           background-color: var(--primary-color-alt);
-          transform: scale(0.9);
         }
       }
     }

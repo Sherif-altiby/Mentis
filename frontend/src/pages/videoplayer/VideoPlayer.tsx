@@ -3,8 +3,8 @@
     import 'video.js/dist/video-js.css';
 
     import VideoPlayerComponent from './VideoPlayerComponent';  
-import { useAppSelector , useAppDispatch} from "../../redux/reduxHook";
-import { setVideoId } from "./videoSlice";
+    import { useAppSelector , useAppDispatch} from "../../redux/reduxHook";
+    import { setVideoId } from "./videoSlice";
 
     const VideoPlayer = () => {   
  
@@ -21,17 +21,18 @@ import { setVideoId } from "./videoSlice";
             <Nav />
             <div className="video__player__content">
                 <div className="video__content">
-                    <div className="video">
-                    <VideoPlayerComponent />
+                    <div className="video__container">
+                       <VideoPlayerComponent />
                     </div>
                 </div>
                 <div className="video__list">
-                    {allVideos.map((video) => (
+                    {allVideos.map((video, index) => (
                         <div className={`subject__video ${video.file_path === videoId ? 'active' : ''} `} 
                            id={video.title}
                            onClick={() => dispatch(setVideoId(video.file_path))}
                          > 
                             <h2> {video.title} </h2> 
+                            <div className="num"> ({index + 1}) </div>
                         </div>
                     ))}
                 </div>

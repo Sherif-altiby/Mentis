@@ -1,4 +1,5 @@
 @import '../../App.scss';
+@import 'animate.css';
 
 .teacher-card {
     width:  250px;
@@ -6,7 +7,7 @@
     border-radius: 5px;
     border: 1px solid var(--border-color);
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.4s;
     position: relative;
 
     &.dark{
@@ -39,7 +40,12 @@
     }
 
     &:hover {
-      background-color: var(--card-material-hover);
+      background-color: var(--primary-color);
+
+      h2{
+        animation: swing 1s infinite;
+        color: #fff;
+      }
 
     }
 

@@ -16,6 +16,8 @@
     "@reduxjs/toolkit": "^2.2.7",
     "@types/react-router-dom": "^5.3.3",
     "@types/video.js": "^7.3.58",
+    "animate.css": "^4.1.1",
+    "aos": "^2.3.4",
     "axios": "^1.7.2",
     "fireworks-js": "^2.10.8",
     "framer": "^2.4.1",
@@ -36,6 +38,7 @@
     "videojs-youtube": "^3.0.1"
   },
   "devDependencies": {
+    "@types/aos": "^3.0.7",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.13.1",

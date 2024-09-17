@@ -8,6 +8,9 @@ import { setLoading } from '../../../pages/loading/Loadingslice';
 import Nav from '../../Navbar/Nav';
 import Footer from '../../footer/Footer';
 import Loading from '../../../pages/loading/Loading';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilePen, faTrash } from '@fortawesome/free-solid-svg-icons';
+
 
 const LevelQuizzes = () => {
 
@@ -53,9 +56,22 @@ const LevelQuizzes = () => {
                   {loading ? (<Loading />) : (
                     <div className="quizzes">
                          {filteredQuizzes.length > 0 ? (
-                            filteredQuizzes.map((quize) => (
+                            filteredQuizzes.map((quize, index) => (
                              <div className="quiz" key={quize.id} > 
-                                <h3> {quize.title} </h3> 
+                                 <div className="text">
+                                    <div className="num"> ({index + 1}) </div>
+                                   <h3> {quize.title} </h3>
+                                </div> 
+                                <div className="controle">
+                                      <div className="edite">
+                                           <p> تعديل </p>
+                                           <div className="icon"> <FontAwesomeIcon icon={faFilePen} /> </div>
+                                      </div>
+                                      <div className="edite">
+                                           <p> مسح </p>
+                                           <div className="icon"> <FontAwesomeIcon icon={faTrash} /> </div>
+                                      </div>
+                                </div>
                              </div>
                             ))
                          ) : ( <h1> لا يوجد الإختبارات </h1> )}

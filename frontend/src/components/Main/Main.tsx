@@ -5,7 +5,6 @@ import studentintroimg from '../../assets/student-intro-img-2.png'
 import teacherintroimg from '../../assets/teacher-intro.png';
 import { motion } from "framer-motion";
 
-import Circles from "../animation/Circles";
 import CreateTeacherCard from "../createTeacherCard/CreateTeacherCard";
 
 import { useAppSelector, useAppDispatch } from "../../redux/reduxHook";

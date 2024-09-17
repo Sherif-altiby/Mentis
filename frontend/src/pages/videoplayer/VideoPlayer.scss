@@ -1,4 +1,4 @@
-
+@import '../../App.scss';
 
 h2.title{
   margin-top: 50px;
@@ -30,6 +30,18 @@ h2.title{
     padding: 20px;
     overflow-y: scroll;
 
+    @include screen(lg){
+      position: fixed;
+      background: #fff;
+      width: 250px;
+      right: -250px;
+      transition: 0.4s;
+
+      &.show{
+        right: 0;
+      }
+    }
+
     &::-webkit-scrollbar {
       width: 4px;
     }
@@ -37,21 +49,26 @@ h2.title{
     .subject__video {
       width: 100%;
       box-shadow: 0 0 5px var(--box-shadow-color);
-      height: 150px;
+      height: 60px;
       padding: 10px;
       border-radius: 5px;
       transition: 0.3s;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: end;
+      gap: 10px;
       cursor: pointer;
       margin-bottom: 10px;
 
       &.active {
         background-color: var(--primary-color);
-        cursor: none;
+        pointer-events: none;
 
         h2 {
+          color: #fff;
+        }
+
+        .num{
           color: #fff;
         }
       }
@@ -62,12 +79,22 @@ h2.title{
         h2 {
           color: #fff;
         }
+
+        .num{
+          color: #fff;
+        }
       }
 
       h2 {
         color: var(--primary-color);
-        font-size: 24px;
+        font-size: 18px;
         font-weight: 400;
+      }
+
+      .num{
+        font-weight: 500;
+        font-size: 20px;
+        color: var(--primary-color);
       }
     }
   }
@@ -122,5 +149,31 @@ h2.title{
       align-items: center;
       justify-content: center;
     }
+
+    .num{
+      font-weight: 700;
+      font-size: 25px;
+    }
   }
+}
+
+.video__container{
+  width: 100%;
+  position: relative;
+  left: 15px;
+  top: -15px;
+
+  @include screen(lg){
+    width: 95%;
+    position: relative;
+    left: 0;
+    top: 20px;
+  }
+}
+
+.course__video{
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 500px;
 }

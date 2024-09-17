@@ -14,13 +14,13 @@ const VideoPlayerComponent = () => {
   }
 
   return (
-    <div>
+    <div className='course__video' >
       {videoId ? (
         <YouTube
           videoId={videoId}
           opts={{
-            height: '390',
-            width: '640',
+            height: '500px',
+            width: '100%',
             playerVars: {
               autoplay: 1,
               controls: 1,

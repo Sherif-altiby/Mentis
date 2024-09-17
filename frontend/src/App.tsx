@@ -34,9 +34,15 @@ import NotesView from './pages/notes-vew/NotesView';
 import UpdateCourse from './components/TeacherComponents/courses/UpdateCourse';
 import QuizzesView from './pages/quizzes-view/QuizzesView';
 import LevelQuizzes from './components/TeacherComponents/teacherquizes/LevelQuizzes';
-
+import { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
   
 const App = () => {
+
+  useEffect(() => { AOS.init({once: true,});}, []);
+
+
   return (
     <Router>
       <Routes>
