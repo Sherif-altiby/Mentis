@@ -76,6 +76,7 @@ h3.title{
 .quiz-questions-container{
   direction: rtl;
   position: relative;
+  min-height: 100vh;
 
   .answer{
     direction: ltr;
@@ -88,13 +89,6 @@ h3.title{
     text-align: center;
     margin-top: 50px;
     padding: 10px;
-    background-color: var(--primary-color);
-    color: #fff;
-    border-radius: 5px;
-    display: inline-block;
-    direction: rtl;
-    margin-right: 50px; 
-    min-width: 250px;
   }
 
   .question{
@@ -120,6 +114,7 @@ h3.title{
     h3{
         border-bottom: 2px solid var(--primary-color);
         margin-bottom: 10px;
+        padding-bottom: 20px;
     }
 
     input{

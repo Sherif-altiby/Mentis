@@ -15,17 +15,8 @@ nav {
     background-color: #fff;
     z-index: 999999999;
 
-    &.dark{
+    &.dark {
       background-color: var(--nav-bg-dark);
-
-      .nav-user{
-        background-color: var(--main-dark-color);
-      }
-      .user-menu{
-        background-color: var(--main-dark-color);
-        box-shadow: 0 0 5px #fff;
-        color: #fff;
-      }
     }
 
     @include screen(lg) {
@@ -41,59 +32,78 @@ nav {
       height: 100%;
       align-items: center;
       gap: 20px;
-      background: var(--primary-color);
-      color: #fff;
       height: 60px;
       border-radius: 5px;
       padding: 14px;
       font-size: 20px;
-      cursor: pointer;
       transition: 0.3s;
 
-      svg{
-        font-size: 30px;
-        margin-top: 10px;
-      }
-    }
-
-    .user-menu {
-      background-color: #fff;
-      position: absolute;
-      z-index: -1;
-      width: 220px;
-      border-radius: 5px;
-      box-shadow: 0 0 5px var(--primary-color-alt);
-      display: flex;
-      flex-direction: column;
-      top: -230px;
-      transition: 0.5s;
-
-      &.show{
-        top: 81px;
-      }
-
-      .user-menu-link{
+      .user-name-item {
+        width: 50px;
+        height: 50px;
         display: flex;
-        align-self: start;
-        justify-content: end;
         align-items: center;
-        padding: 5px 10px;
+        justify-content: center;
+        border: 3px solid var(--primary-color);
+        border-radius: 50%;
         cursor: pointer;
-        width: 100%;
-        gap: 10px;
-        font-size: 18px;
-        transition: 0.3s;
-        &:not(:last-child){
-          border-bottom: 1px solid var(--border-color);
+        position: relative;
+        transition: 0.4s;
+
+        &.user-name{
+          background-color: var(--primary-color);
         }
 
         &:hover{
-            color: var(--primary-color);
+          background-color: var(--primary-color);
+          
+          .icon{
+
+            svg{
+              color: #fff;
+            }
+          }
+
+          &.dark-mode{
+
+            svg{
+              color: #fff;
+            }
+          }
+
+          p, svg{
+            animation: rubberBand 1s infinite;
+          }
         }
 
-        .icon{
-            font-size: 20px;
-            margin-top: 10px;
+        span {
+          position: absolute;
+          top: 0;
+          right: 0;
+          font-size: 20px;
+        }
+
+        p {
+          font-weight: 500;
+          color: #fff;
+          font-size: 30px;
+        }
+
+        .icon {
+          font-size: 30px;
+          margin-top: 8px;
+        }
+
+        svg {
+          font-size: 30px;
+        }
+      }
+
+      .dark-mode {
+        svg {
+          width: 25px;
+          height: 25px;
+          margin-left: 5px;
         }
       }
     }

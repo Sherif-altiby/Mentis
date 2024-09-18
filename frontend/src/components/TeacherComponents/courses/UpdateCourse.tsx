@@ -8,8 +8,8 @@ import { deleteTeacherCourse, getTeacherAllCourses, updateTeacherCourse } from '
 import { setLoading } from '../../../pages/loading/Loadingslice';
 import Loading from '../../../pages/loading/Loading';
 import { courseProps } from '../../../types/index.types';
-import { MdDelete } from "react-icons/md";
-import { FaPen } from "react-icons/fa6";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilePen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 
 const UpdateCourse = () => {
@@ -83,19 +83,22 @@ const UpdateCourse = () => {
                     <h1> الصف {headerText} الثانووي </h1>
                     <div className="all-courses-container">
                           {teacherCourses &&  (
-                            teacherCourses.map((course: courseProps) => (
+                            teacherCourses.map((course: courseProps, index) => (
                                 <>
                                    <div key={course.course_id} className="course-card">
-                                       <p> {course.title} </p>
+                                       <p> 
+                                           <span> ({index + 1}) </span>
+                                           {course.title} 
+                                       </p>
 
                                        <div className="icons">
                                            <div className="icon" onClick={() => deleteCourse(course.id)} >
                                                <p> حذف </p>
-                                               <div className="btn-icon"> <MdDelete /> </div>
+                                               <div className="iconc"> <FontAwesomeIcon icon={faTrash} /> </div>
                                            </div>
                                            <div className="icon" onClick={() => handleShowCard(course.title, course.level, course.file_path, course.id)} >
                                                <p> تعديل </p>
-                                               <div className="btn-icon"> <FaPen /> </div>
+                                               <div className="iconc"> <FontAwesomeIcon icon={faFilePen} /> </div>
                                            </div>
                                        </div>
                                    </div>
