@@ -186,6 +186,8 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin|teacher|stude
     Route::post('/quiz-responses', [QuizResponseController::class, 'store']);
     // File Management
     Route::post('/files', [FileController::class, 'store']);
+    Route::get('/files/{id}/storage', [FileController::class, 'calculateUserStorage']);
+
 
     
 
