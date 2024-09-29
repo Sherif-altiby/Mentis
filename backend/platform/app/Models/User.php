@@ -34,5 +34,9 @@ class User extends Authenticatable
     {
         return $this->attributes['role'];
     }
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
 
 }

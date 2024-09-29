@@ -4,7 +4,10 @@ nav {
   box-shadow: 0 0 5px #999;
   background-color: #fff;
   z-index: 999999;
-  position: relative;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
 
   .nav {
     height: 80px;

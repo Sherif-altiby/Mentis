@@ -5,8 +5,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB; // Import the DB facade
+use Illuminate\Http\JsonResponse;
 
 class FileController extends Controller
 {
@@ -58,6 +63,50 @@ class FileController extends Controller
         ], 500);
     }
 }
+
+public function calculateUserStorage($userId)
+{
+    try {
+        // Check if the user exists using Eloquent
+        $user = User::findOrFail($userId);
+
+        // Calculate the total file size in bytes using Eloquent's sum method on the relationship
+        $totalStorage = $user->files()->sum(DB::raw('LENGTH(file_data)'));
+
+        // Handle the case where no files exist for the user
+        if ($totalStorage === 0) {
+            return response()->json([
+                'message' => 'User has no uploaded files',
+                'user_id' => $userId,
+                'total_storage_bytes' => 0 // Return 0 bytes if no files
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Storage calculation successful',
+            'user_id' => $userId,
+            'total_storage_bytes' => $totalStorage // Return the total storage in bytes
+        ], 200);
+
+    } catch (ModelNotFoundException $e) {
+        // If the user is not found, return a 404 error with a message
+        return response()->json([
+            'error' => 'User not found',
+            'user_id' => $userId
+        ], 404);
+        
+    } catch (\Exception $e) {
+        // General error handling for unexpected issues
+        return response()->json([
+            'error' => 'An unexpected error occurred',
+            'details' => $e->getMessage()
+        ], 500);
+    }
+}
+
+
+
+
 
 
     public function show($id)

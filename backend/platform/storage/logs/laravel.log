@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [2024-09-02 17:55:22] local.ERROR: Route [login] not defined. {"exception":"[object] (Symfony\\Component\\Routing\\Exception\\RouteNotFoundException(code: 0): Route [login] not defined. at C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:512)
 [stacktrace]
 #0 C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(838): Illuminate\\Routing\\UrlGenerator->route('login', Array, true)
@@ -544,3 +545,5 @@
 [stacktrace]
 #0 {main}
 "} 
+=======
+>>>>>>> dfcf9f2d2259e3e350dde90e8cac3613d51cc123
