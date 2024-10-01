@@ -1,36 +1,19 @@
-@import '../../App.scss';
-
-.user-profile-contianer{
-  &.dark{
-    background-color: var(--main-dark-color);
-    padding-bottom: 20px;
-
-    .student-profile{
-      h1{
-        color: #fff;
-      }
-
-      .dashborad-content{
-        background-color: #282727b3;
-      }
-    }
-  }
-}
+@import "../../App.scss";
 
 .student-profile {
   position: relative;
 
-  h1{
+  h1 {
     color: var(--primary-color);
     margin-bottom: 20px;
     font-size: 40px;
     font-weight: 700;
 
-    @include screen(md){
-        font-size: 25px;
-        text-align: center;
+    @include screen(md) {
+      font-size: 25px;
+      text-align: center;
     }
-}
+  }
 
   .dashborad-content {
     background-color: rgba(247, 247, 247, 0.51);
@@ -43,22 +26,19 @@
     width: calc(100% - 290px);
     min-height: calc(100vh - 125px);
 
-    @include screen(lg){
+    @include screen(lg) {
       width: calc(100% - 40px);
-     }
+    }
 
-     @include screen(sm){
+    @include screen(sm) {
       padding: 10px;
       width: 95%;
-      margin: 10px auto
-     }
+      margin: 10px auto;
+    }
   }
-
 }
 
-
-.student-dashboard-nav{
-
+.student-dashboard-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -69,20 +49,7 @@
   background: #fff;
   z-index: 99;
 
-  &.dark{
-    background-color: var(--nav-bg-dark);
-
-    .avatar{
-      color: #fff;
-
-      .img{
-        color: #fff;
-        border-color: var(--primary-color);
-      }
-    }
-  }
-
-  .avatar{
+  .avatar {
     display: flex;
     align-items: center;
     gap: 30px;
@@ -90,12 +57,11 @@
     cursor: pointer;
     font-size: 20px;
 
-
-    @include screen(md){
+    @include screen(md) {
       gap: 10px;
     }
 
-    .img{
+    .img {
       font-size: 30px;
       margin-top: 6px;
       transition: 0.3s;
@@ -110,7 +76,7 @@
       justify-content: center;
     }
 
-    .notifications{
+    .notifications {
       cursor: pointer;
       font-size: 20px;
       transition: 0.3s;
@@ -122,17 +88,16 @@
       border-radius: 50%;
       position: relative;
 
-      @include screen(md){
+      @include screen(md) {
         font-size: 17px;
       }
 
-      &:hover{
+      &:hover {
         background-color: var(--green-color);
         color: #fff;
       }
 
-
-      span{
+      span {
         font-size: 14px;
         top: -2px;
         position: absolute;
@@ -140,28 +105,7 @@
       }
     }
 
-    .dark-mode{
-      cursor: pointer;
-      font-size: 20px;
-      transition: 0.3s;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-
-      @include screen(md){
-        font-size: 17px;
-      }
-
-      &:hover{
-        background-color: var(--green-color);
-        color: #fff;
-      }
-    }
-
-    .icon{
+    .icon {
       background-color: var(--green-color);
       width: 30px;
       display: flex;
@@ -175,27 +119,24 @@
       display: none;
       font-size: 16px;
 
-      @include screen(lg){
+      @include screen(lg) {
         display: flex;
       }
-
     }
   }
 
-  .logo{
-
+  .logo {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 20px;
 
-    img{
+    img {
       width: 120px;
 
-  
-      @include screen(md){
+      @include screen(md) {
         width: 80px;
-       }
+      }
     }
   }
 }

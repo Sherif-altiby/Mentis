@@ -1,127 +1,93 @@
 @import "../../App.scss";
 
-.admin-page{
-     position: relative;
+.admin-page {
+  position: relative;
 
-     &.dark{
-        background-color: var(--main-dark-color);
-        padding-bottom: 100px;
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    bottom: -22px;
+    width: 100%;
+    background-color: rgba(189, 183, 183, 0.4705882353);
+    transition: 0.2s;
 
-        h1{
-            color: #fff;
-        }
+    &.show {
+      left: 0;
+    }
+  }
+  h1 {
+    text-align: right;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+  }
 
-        .admin-dashboard{
-            background-color: var(--section-card-color);
-        }
-     }
+  .admin-menu {
+    position: fixed;
+    right: 0;
+    top: 76px;
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: 0 0 10px #999;
+    width: 250px;
+    padding: 20px;
+    transition: 0.3s;
+    z-index: 99999;
 
-     .overlay{
-        position: absolute;
-        top: 0;
-        left: -100%;
-        bottom: -22px;
-        width: 100%;;
-        background-color: rgba(189, 183, 183, 0.4705882353);
-        transition: 0.2s;
-
-        &.show{
-            left: 0;
-        }
-     }
-    h1{
-        text-align: right;
-        color: var(--primary-color);
-        margin-bottom: 30px;
+    @include screen(lg) {
+      right: -250px;
     }
 
-    .admin-menu{
-        position: fixed;
-        right: 0;
-        top: 76px;
-        height: 100vh;
-        background-color: #fff;
-        box-shadow:  0 0 10px #999;
-        width: 250px;
-        padding: 20px;
-        transition: 0.3s;
-        z-index: 99999;
+    &.show {
+      right: 0;
+    }
 
-        &.dark{
-            background-color: var(--main-dark-color);
-            box-shadow: none;
-
-            .manu-link a{
-                color: #fff;
-                box-shadow: 0 0 2px #fff;
-
-                &:hover{
-                    background-color: #fff;
-                    color: #000;
-                }
-
-                &.active{
-                    background-color: #fff;
-                    color: #000;
-                }
-            }
-        }
-
-        @include screen(lg){
-            right: -250px;
-        }
-
-        &.show{
-            right: 0;
-        }
-
-        .manu-link{
-            a{
-                display: block;
-                width: 100%;
-                height: 50px;
-                 border-radius: 5px;
-                margin-top: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: end;
-                cursor: pointer;
-                gap: 10px;
-                padding: 0 10px;
-                color: var(--primary-color);
-                transition: 0.3s;
-                box-shadow: 0 0 5px var(--box-shadow-color);
-
-                &.active{
-                    background-color: var(--primary-color);
-                    color: #fff;
-                }
-
-                .icon{
-                    font-size: 20px;
-                }
-
-                &:hover{
-                    background-color: var(--primary-color);
-                    color: #fff;
-                }
-            }
-        }
-     }
-
-     .admin-dashboard{
-        background-color: rgba(247, 247, 247, 0.51);
-        width: calc(100% - 290px);
-        margin: 20px;
+    .manu-link {
+      a {
+        display: block;
+        width: 100%;
+        height: 50px;
         border-radius: 5px;
-        padding: 30px;
-        direction: rtl;
-        min-height: calc(100vh - 120px);
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        cursor: pointer;
+        gap: 10px;
+        padding: 0 10px;
+        color: var(--primary-color);
+        transition: 0.3s;
+        box-shadow: 0 0 5px var(--box-shadow-color);
 
-
-        @include screen(lg){
-            width: calc(100% - 40px);
-            padding: 20px;
+        &.active {
+          background-color: var(--primary-color);
+          color: #fff;
         }
-     }
+
+        .icon {
+          font-size: 20px;
+        }
+
+        &:hover {
+          background-color: var(--primary-color);
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  .admin-dashboard {
+    background-color: rgba(247, 247, 247, 0.51);
+    width: calc(100% - 290px);
+    margin: 20px;
+    border-radius: 5px;
+    padding: 30px;
+    direction: rtl;
+    min-height: calc(100vh - 120px);
+
+    @include screen(lg) {
+      width: calc(100% - 40px);
+      padding: 20px;
+    }
+  }
 }

@@ -1,64 +1,10 @@
 @import "../../../App.scss";
 
 .teacher-dashboard-courses {
-  &.dark {
-    .courses-amount {
-      background-color: var(--main-dark-color);
-      box-shadow: none;
-      color: #fff;
-    }
-
-    .courses-levels {
-      a {
-        background-color: var(--main-dark-color);
-
-        p {
-          color: #fff;
-        }
-      }
-    }
-
-    .add-course-card {
-      background-color: var(--main-dark-color);
-
-      h3 {
-        color: #fff;
-        border-color: #fff;
-      }
-
-      .input {
-        input {
-          background-color: var(--input-dark-bg);
-          border-color: #999;
-          color: #fff;
-        }
-
-        label {
-          color: #fff;
-        }
-
-        select {
-          background-color: var(--input-dark-bg);
-
-          option {
-            color: #fff;
-          }
-        }
-      }
-
-      .btns {
-        .btn {
-          background-color: #fff;
-          color: #000;
-        }
-      }
-    }
-  }
-
   span {
     &.counter-up-number {
       font-size: 26px;
-      width: 50px;
+      width: fit-content;
       height: 46px;
       display: flex;
       align-items: center;
@@ -91,13 +37,14 @@
       border-radius: 5px;
     }
 
-    &:hover{
-      &::after{
-        animation: lightSpeedInRight 1s ;
+    &:hover {
+      &::after {
+        animation: lightSpeedInRight 1s;
         opacity: 1;
       }
 
-      p, h3{
+      p,
+      h3 {
         color: #fff;
       }
     }
@@ -106,7 +53,7 @@
       margin-bottom: 10px;
       z-index: 1;
       position: relative;
-     
+
       @include screen(xsm) {
         font-size: 16px;
         font-weight: 7s00;
@@ -175,13 +122,13 @@
         border-radius: 5px;
       }
 
-      &:hover{
-        &::after{
-          animation: lightSpeedInRight 1s ;
+      &:hover {
+        &::after {
+          animation: lightSpeedInRight 1s;
           opacity: 1;
         }
 
-        p{
+        p {
           color: #fff;
         }
       }
@@ -312,19 +259,6 @@
   min-height: 500px;
   padding: 50px;
 
-  &.dark {
-    background-color: var(--section-card-color);
-
-    h1 {
-      color: #fff;
-    }
-
-    h3 {
-      background-color: #000;
-      color: #fff;
-    }
-  }
-
   @include screen(lg) {
     padding: 50px 20px;
   }
@@ -376,7 +310,7 @@
         flex-direction: row-reverse;
         gap: 25px;
 
-        span{
+        span {
           font-size: 25px;
         }
       }
@@ -399,28 +333,28 @@
           border: 3px solid var(--primary-color);
           transition: 0.4s;
 
-          &:nth-child(1){
+          &:nth-child(1) {
             background-color: var(--danger-color);
             border-color: var(--danger-color);
 
-            &:hover{
-               color: var(--danger-color);
-               
-               p{
-                 color: var(--danger-color);
-               }
+            &:hover {
+              color: var(--danger-color);
+
+              p {
+                color: var(--danger-color);
+              }
             }
           }
 
-          &:hover{
+          &:hover {
             background-color: transparent;
             color: var(--primary-color);
 
-            p{
+            p {
               color: var(--primary-color);
             }
 
-            .iconc{
+            .iconc {
               animation: rubberBand infinite 1s;
             }
           }

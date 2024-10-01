@@ -1,52 +1,7 @@
 @import "../../App.scss";
 
 .student-dashboard-menu {
-
-  &.dark{
-     ul{
-      background-color: var(--main-dark-color);
-
-      li{
-        a{
-          color: #fff;
-          box-shadow: 0 0 2px #fff;
-
-          &.active{
-            background-color: #fff;
-
-            p{
-              color: #000;
-            }
-
-            .icon{
-              color: #000;
-            }
-          }
-          &:hover{
-            background-color: #fff;
-
-            p{
-              color: #000;
-            }
-
-            .icon{
-              color: #000;
-            }
-          }
-
-          p{
-            color: #fff;
-          }
-
-          .icon{
-            color: #fff;
-          }
-        }
-      }
-     }
-  }
-
-  .overlay{
+  .overlay {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -55,7 +10,7 @@
     background-color: #bdb7b778;
     transition: 0.3s;
 
-    &.show{
+    &.show {
       left: 0;
     }
   }
@@ -78,7 +33,7 @@
     }
 
     &.show {
-      right: 0 ;
+      right: 0;
     }
 
     li {

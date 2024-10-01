@@ -1,252 +1,190 @@
-@import '../../../App.scss';
+@import "../../../App.scss";
 
-.setting-user{
+.setting-user {
+  width: 100%;
+
+  .sec-header {
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    color: var(--green-color);
+  }
+
+  .save-btn {
+    width: 200px;
+    height: 50px;
+    margin: auto;
+    background-color: var(--green-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: 0.3s;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .input {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    flex: 1;
+
+    input {
+      border: 2px solid var(--border-color);
+      border-radius: 5px;
+      padding: 10px;
+      outline: none;
+
+      &:focus {
+        border: 2px solid var(--primary-color);
+      }
+    }
+
+    label {
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+  }
+
+  .input-container {
+    display: flex;
+    gap: 10px;
+
+    @include screen(md) {
+      flex-direction: column;
+    }
+  }
+
+  .setting-user-img {
     width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
 
-    &.dark{
-        .setting-user-img{
-            background-color: var(--main-dark-color);
-        }
+    .img-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 20px;
 
-        .sec-header{
-            color: #fff;
-        }
-
-        .save-btn{
-            background-color: #fff;
-            color: #000;
-        }
-
-        .img-container .text{
-            color: #fff;
-        }
-
-        .change-password{
-            background-color: var(--main-dark-color);
-
-            .input{
-                label{
-                    color: var(--input-dark-border);
-                }
-
-                input{
-                    background-color: var(--input-dark-bg);
-                    border-color: var(--input-dark-border);
-                    color: #fff;
-                }
-            }
-        }
-        
-        .general-setting{
-            background-color: var(--main-dark-color);
-
-            .input{
-                label{
-                    color: var(--input-dark-border);
-                }
-
-                input{
-                    background-color: var(--input-dark-bg);
-                    border-color: var(--input-dark-border);
-                    color: #fff;
-                    
-                    &::placeholder{
-                        color: #fff;
-                    }
-                }
-            }
-        }
-
-        .theme{
-            background-color: var(--main-dark-color);
-        }
-    }
-
-    .sec-header{
+      @include screen(sm) {
+        flex-direction: column;
         text-align: center;
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 10px;
-        color: var(--green-color);
-    }
+      }
 
-    .save-btn{
-        width: 200px;
-        height: 50px;
-        margin: auto;
-        background-color: var(--green-color);
+      .img {
+        width: 120px;
+        height: 120px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #fff;
+        font-size: 100px;
+        color: var(--green-color);
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 4px solid var(--green-color);
+        }
+      }
+
+      .text {
+        p {
+          @include screen(md) {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+
+    .btns-img {
+      display: flex;
+      font-size: 23px;
+      gap: 20px;
+      margin-top: 20px;
+
+      .btn {
         transition: 0.3s;
-        border-radius: 5px;
         cursor: pointer;
-        margin-top: 10px;
-    }
+        color: var(--green-color);
+        position: relative;
+        width: 25px;
+        overflow: hidden;
 
-    .input{
-        display: flex;
-        flex-direction: column;
-        margin: 10px 0;
-        flex: 1;
-
-        input{
-            border: 2px solid var(--border-color);
-            border-radius: 5px;
-            padding: 10px;
-            outline: none;
-
-            &:focus{
-                border: 2px solid var(--primary-color);
-            }
+        &:hover {
+          color: var(--primary-color);
         }
 
-        label{
-            color: var(--primary-color);
-            margin-bottom: 10px;
+        label {
+          display: none;
         }
+
+        input {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          opacity: 0;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .change-password {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 50px;
+  }
+
+  .general-setting {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 50px;
+  }
+
+  .theme {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 50px;
+
+    h3 {
+      color: var(--green-color);
     }
 
-    .input-container{
-        display: flex;
-        gap: 10px;
+    .icons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      box-shadow: 0 0 5px var(--box-shadow-color);
+      width: 400px;
+      margin-top: 20px;
+      border-radius: 5px;
+      overflow: hidden;
 
-        @include screen(md){
-            flex-direction: column;
-        }
-    }
-
-    .setting-user-img{
+      .icon {
         width: 100%;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
+        text-align: center;
+        font-size: 30px;
+        color: #999;
+        cursor: pointer;
 
-        .img-container{
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-top: 20px;
-
-            @include screen(sm){
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .img{
-                width: 120px;
-                height: 120px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 100px;
-                color: var(--green-color);
-
-                img{
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 50%;
-                    object-fit: cover;
-                    border: 4px solid var(--green-color);
-                }
-            }
-   
-            .text{
-
-                p{
-
-                    @include screen(md){
-                        font-size: 12px;
-                    }
-                }
-            }
-
+        &.active {
+          background-color: var(--primary-color);
+          color: #fff;
         }
-
-        .btns-img{
-            display: flex;
-            font-size: 23px;
-            gap: 20px;
-            margin-top: 20px;
-            
-            .btn{
-                transition: 0.3s;
-                cursor: pointer;
-                color: var(--green-color);
-                position: relative;
-                width: 25px;
-                overflow: hidden;
- 
-                &:hover{
-                    color: var(--primary-color);
-                }
-
-                label{
-                    display: none;
-                }
-
-                input{
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    opacity: 0;
-                    cursor: pointer;
-                }
-            }
-        }
+      }
     }
-
-    .change-password{
-        width: 100%;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        margin-top: 50px;
-    }
-
-    .general-setting{
-        width: 100%;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        margin-top: 50px;
-    }
-
-    .theme{
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 5px;
-        margin-top: 50px;
-
-        h3{
-            color: var(--green-color);
-        }
-
-        .icons{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            box-shadow: 0 0 5px var(--box-shadow-color);
-            width: 400px;
-            margin-top: 20px;
-            border-radius: 5px;
-            overflow: hidden;
-
-            .icon{
-              width: 100%;
-              text-align: center;
-              font-size: 30px;
-              color: #999;
-              cursor: pointer;
-
-              &.active{
-                background-color: var(--primary-color);
-                color: #fff;
-              }
-            }
-        }
-    }
- }
+  }
+}

@@ -18,10 +18,6 @@ nav {
     background-color: #fff;
     z-index: 999999999;
 
-    &.dark {
-      background-color: var(--nav-bg-dark);
-    }
-
     @include screen(lg) {
       padding: 0 50px;
     }
@@ -53,28 +49,21 @@ nav {
         position: relative;
         transition: 0.4s;
 
-        &.user-name{
+        &.user-name {
           background-color: var(--primary-color);
         }
 
-        &:hover{
+        &:hover {
           background-color: var(--primary-color);
-          
-          .icon{
 
-            svg{
+          .icon {
+            svg {
               color: #fff;
             }
           }
 
-          &.dark-mode{
-
-            svg{
-              color: #fff;
-            }
-          }
-
-          p, svg{
+          p,
+          svg {
             animation: rubberBand 1s infinite;
           }
         }
@@ -99,14 +88,6 @@ nav {
 
         svg {
           font-size: 30px;
-        }
-      }
-
-      .dark-mode {
-        svg {
-          width: 25px;
-          height: 25px;
-          margin-left: 5px;
         }
       }
     }

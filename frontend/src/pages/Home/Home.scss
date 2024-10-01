@@ -1,24 +1,10 @@
 @import "../../App.scss";
 
-.home-container {
-  &.dark {
-    background-color: #000000e3;
-  }
-}
-
 .main-section {
   position: relative;
   height: 600px;
   width: 100%;
   background-color: var(--primary-color);
-
-  &.dark {
-    background-color: var(--input-dark-bg);
-
-    .wave {
-      filter: brightness(0.11);
-    }
-  }
 
   .intro-section {
     position: absolute;
@@ -348,12 +334,6 @@
 }
 
 .all-teachers {
-  &.dark {
-    h1 {
-      color: #fff;
-    }
-  }
-
   h1 {
     color: var(--primary-color);
     margin-right: 150px;

@@ -1,9 +1,9 @@
-import CustomLoading from '../../../pages/loading/CustomLoading';
-import { setLoading } from '../../../pages/loading/Loadingslice';
-import { useAppSelector, useAppDispatch } from '../../../redux/reduxHook';
-import { createQuize, createQuizeQuestion } from '../../../utils/teacher';
-import './TeacherQuize.scss';
-import { useState } from 'react';
+import CustomLoading from "../../../pages/loading/CustomLoading";
+import { setLoading } from "../../../pages/loading/Loadingslice";
+import { useAppSelector, useAppDispatch } from "../../../redux/reduxHook";
+import { createQuize, createQuizeQuestion } from "../../../utils/teacher";
+import "./TeacherQuize.scss";
+import { useState } from "react";
 
 interface QuestionComponentProps {
   index: number;
@@ -19,35 +19,51 @@ interface Question {
   answers: string[];
 }
 
-const QuestionComponent: React.FC<QuestionComponentProps> = ({ index, question, answers, onQuestionChange, onAnswerChange, hasError }) => {
-  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme);
-
+const QuestionComponent: React.FC<QuestionComponentProps> = ({
+  index,
+  question,
+  answers,
+  onQuestionChange,
+  onAnswerChange,
+  hasError,
+}) => {
   const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onQuestionChange(index, e.target.value);
   };
 
-  const handleAnswerChange = (answerIndex: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAnswerChange = (
+    answerIndex: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     onAnswerChange(index, answerIndex, e.target.value);
   };
 
   return (
-    <div className={`question-container ${appMode}`}>
+    <div className={`question-container`}>
       <input
         type="text"
         placeholder="السؤال"
         value={question}
         onChange={handleQuestionChange}
-        className={hasError && !question ? 'error' : ''}
+        className={hasError && !question ? "error" : ""}
       />
       <div className="answers">
         {answers.map((answer, i) => (
           <input
             key={i}
             type="text"
-            placeholder={`الإجابة ${i === 0 ? 'الأولي' : i === 1 ? 'الثانية' : i === 2 ? 'الثالثة' : 'الصحيحة'}`}
+            placeholder={`الإجابة ${
+              i === 0
+                ? "الأولي"
+                : i === 1
+                ? "الثانية"
+                : i === 2
+                ? "الثالثة"
+                : "الصحيحة"
+            }`}
             value={answer}
             onChange={(e) => handleAnswerChange(i, e)}
-            className={hasError && !answer ? 'error' : ''}
+            className={hasError && !answer ? "error" : ""}
           />
         ))}
       </div>
@@ -58,19 +74,22 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({ index, question, 
 const TeacherQuizes: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const [courseTitle, setCourseTitle] = useState('');
-  const [gardeLevel, setGradeLevel] = useState('first');
+  const [courseTitle, setCourseTitle] = useState("");
+  const [gardeLevel, setGradeLevel] = useState("first");
   const [questions, setQuestions] = useState<Question[]>([]);
   const [hasError, setHasError] = useState(false);
 
   const teacherID = useAppSelector((state) => state.userInfo.userInfo.user_id);
-  const teacherCourseId = useAppSelector((state) => state.teacher.teachers.find((item) => item.id === teacherID)?.courses[0].id);
+  const teacherCourseId = useAppSelector(
+    (state) =>
+      state.teacher.teachers.find((item) => item.id === teacherID)?.courses[0]
+        .id
+  );
   const token = useAppSelector((state) => state.token.token);
   const loading = useAppSelector((state) => state.loading.isLoading);
-  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme);
 
   const addQuestion = () => {
-    setQuestions([...questions, { question: '', answers: ['', '', '', ''] }]);
+    setQuestions([...questions, { question: "", answers: ["", "", "", ""] }]);
   };
 
   const handleQuestionChange = (index: number, question: string) => {
@@ -79,7 +98,11 @@ const TeacherQuizes: React.FC = () => {
     setQuestions(newQuestions);
   };
 
-  const handleAnswerChange = (questionIndex: number, answerIndex: number, answer: string) => {
+  const handleAnswerChange = (
+    questionIndex: number,
+    answerIndex: number,
+    answer: string
+  ) => {
     const newQuestions = [...questions];
     newQuestions[questionIndex].answers[answerIndex] = answer;
     setQuestions(newQuestions);
@@ -87,7 +110,8 @@ const TeacherQuizes: React.FC = () => {
 
   const saveQuiz = async () => {
     const hasEmptyFields = questions.some(
-      (question) => !question.question || question.answers.some((answer) => !answer)
+      (question) =>
+        !question.question || question.answers.some((answer) => !answer)
     );
 
     if (hasEmptyFields) {
@@ -96,29 +120,46 @@ const TeacherQuizes: React.FC = () => {
     }
 
     dispatch(setLoading(true));
-    const mainQuiz = await createQuize(token, teacherCourseId, courseTitle, gardeLevel);
+    const mainQuiz = await createQuize(
+      token,
+      teacherCourseId,
+      courseTitle,
+      gardeLevel
+    );
 
     if (mainQuiz && questions.length > 0) {
       const quizeId = mainQuiz.id;
 
       questions.forEach(async (question) => {
-       const result = await createQuizeQuestion(token, quizeId, question.question, question.answers[0], question.answers[1], question.answers[2], question.answers[3]);
-       console.log(result)
-       setQuestions([])
+        const result = await createQuizeQuestion(
+          token,
+          quizeId,
+          question.question,
+          question.answers[0],
+          question.answers[1],
+          question.answers[2],
+          question.answers[3]
+        );
+        console.log(result);
+        setQuestions([]);
       });
 
       dispatch(setLoading(false));
-    } else { 
+    } else {
       dispatch(setLoading(false));
     }
   };
 
   return (
-    <div className={`teacher-quizzes-container ${appMode}`}>
+    <div className={`teacher-quizzes-container `}>
       {loading && <CustomLoading />}
       <div className="quize-header">
         <div className="input">
-          <input type="text" placeholder="إسم الإختبار" onChange={(e) => setCourseTitle(e.target.value)} />
+          <input
+            type="text"
+            placeholder="إسم الإختبار"
+            onChange={(e) => setCourseTitle(e.target.value)}
+          />
           <label className="none" htmlFor="select">
             df
           </label>

@@ -1,20 +1,5 @@
 @import "../../App.scss";
 
-.teacher-dashboard-container {
-  &.dark {
-    background-color: var(--main-dark-color);
-    padding-bottom: 71px;
-
-    h1 {
-      color: #fff;
-    }
-
-    .teacher-dashboard-content {
-      background-color: var(--section-card-color);
-    }
-  }
-}
-
 .teacher-dashboard {
   position: relative;
 
@@ -49,26 +34,6 @@
   direction: rtl;
   transition: 0.3s;
   z-index: 1;
-
-  &.dark {
-    background-color: var(--main-dark-color);
-
-    a {
-      color: #fff;
-      box-shadow: 0 0 2px #fff;
-
-
-      &.active {
-        background-color: #fff;
-        color: #000;
-      }
-      
-      &:hover{
-        background-color: #fff;
-        color: #000;
-      }
-    }
-  }
 
   @include screen(lg) {
     right: -250px;

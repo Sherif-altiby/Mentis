@@ -1,24 +1,19 @@
 import "./setting.scss";
 
 import Loading from "../../../pages/loading/Loading";
-import { useAppSelector } from "../../../redux/reduxHook" ;
-
-
+import { useAppSelector } from "../../../redux/reduxHook";
 
 const Setting = () => {
-
-
   const loading = useAppSelector((state) => state.loading.isLoading);
-  const appMode = useAppSelector((state) => state.mentisusertheme.mentisUserTheme)
-  const userInfo = useAppSelector((state) => state.userInfo.userInfo)
-   
+
+  const userInfo = useAppSelector((state) => state.userInfo.userInfo);
 
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
-        <div className={`setting-user ${appMode === 'dark' ? 'dark' : ''} `}>
+        <div className={`setting-user `}>
           <h1> الإعدادات </h1>
 
           <div className="change-password">
@@ -35,7 +30,9 @@ const Setting = () => {
                 <input type="password" id="new-pass" />
               </div>
               <div className="input">
-                <label htmlFor="new-confirm-pass"> تأكيد كلمة المرور الجديدة</label>
+                <label htmlFor="new-confirm-pass">
+                  تأكيد كلمة المرور الجديدة
+                </label>
                 <input type="password" id="new-confirm-pass" />
               </div>
             </div>
@@ -60,7 +57,11 @@ const Setting = () => {
             <div className="input-container">
               <div className="input">
                 <label htmlFor="phone"> رقم الواتس اب </label>
-                <input type="number" id="phone" placeholder={userInfo?.phone_number} />
+                <input
+                  type="number"
+                  id="phone"
+                  placeholder={userInfo?.phone_number}
+                />
               </div>
             </div>
 
