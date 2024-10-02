@@ -214,3 +214,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 // api pages
+// we need to updates the api 
