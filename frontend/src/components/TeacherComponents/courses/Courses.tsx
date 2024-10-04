@@ -66,6 +66,7 @@ const Courses = () => {
     console.log(course);
 
     if (course) {
+      await getTeacherCourses();
       setLoading(false);
       setMsg(true);
       setCourseName("");
@@ -84,59 +85,51 @@ const Courses = () => {
     }
   };
 
+  const getTeacherCourses = async () => {
+    if (
+      firstLeveCourses.length === 0 &&
+      secondLeveCourses.length === 0 &&
+      thirdLeveCourses.length === 0
+    ) {
+      setFetchLoading(true);
+    }
+
+    // first level courses
+    const firstResponse = await getTeacherAllCourses(teacherId, token, "first");
+
+    if (firstResponse.data) {
+      distpatch(setFirstLevelCourses(firstResponse.data));
+    } else {
+      distpatch(setFirstLevelCourses([]));
+    }
+
+    // second level courses
+    const secondRespons = await getTeacherAllCourses(
+      teacherId,
+      token,
+      "second"
+    );
+
+    if (secondRespons.data) {
+      distpatch(setSecondLevelCourses(secondRespons.data));
+      console.log("true");
+    } else {
+      distpatch(setSecondLevelCourses([]));
+    }
+
+    // second level courses
+    const thirsdRequest = await getTeacherAllCourses(teacherId, token, "third");
+
+    if (thirsdRequest.data) {
+      distpatch(setThirdLevelCourses(thirsdRequest.data));
+    } else {
+      distpatch(setThirdLevelCourses([]));
+    }
+
+    setFetchLoading(false);
+  };
+
   useEffect(() => {
-    const getTeacherCourses = async () => {
-      if (
-        firstLeveCourses.length === 0 &&
-        secondLeveCourses.length === 0 &&
-        thirdLeveCourses.length === 0
-      ) {
-        setFetchLoading(true);
-      }
-
-      // first level courses
-      const firstResponse = await getTeacherAllCourses(
-        teacherId,
-        token,
-        "first"
-      );
-
-      if (firstResponse.data) {
-        distpatch(setFirstLevelCourses(firstResponse.data));
-      } else {
-        distpatch(setFirstLevelCourses([]));
-      }
-
-      // second level courses
-      const secondRespons = await getTeacherAllCourses(
-        teacherId,
-        token,
-        "second"
-      );
-
-      if (secondRespons.data) {
-        distpatch(setSecondLevelCourses(secondRespons.data));
-        console.log("true");
-      } else {
-        distpatch(setSecondLevelCourses([]));
-      }
-
-      // second level courses
-      const thirsdRequest = await getTeacherAllCourses(
-        teacherId,
-        token,
-        "third"
-      );
-
-      if (thirsdRequest.data) {
-        distpatch(setThirdLevelCourses(thirsdRequest.data));
-      } else {
-        distpatch(setThirdLevelCourses([]));
-      }
-
-      setFetchLoading(false);
-    };
-
     getTeacherCourses();
   }, []);
 

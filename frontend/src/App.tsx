@@ -39,6 +39,7 @@ import { useAppSelector } from "./redux/reduxHook";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import ScrollToTop from "./components/scrollTop/ScrollToTop";
+import UpdateNotes from "./components/TeacherComponents/teachernotes/UpdateNotes";
 
 const App = () => {
   useEffect(() => {
@@ -145,6 +146,10 @@ const App = () => {
           />
 
           <Route path="/user/user-subjects/notes" element={<NotesView />} />
+          <Route
+            path="/teacher/dashboard/controle/notes/update-notes"
+            element={<UpdateNotes />}
+          />
         </Routes>
       </Router>
     </div>

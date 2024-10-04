@@ -6,6 +6,7 @@ import userInfoReducer from "../components/Navbar/userInfo";
 import themeReducer from "../components/userDashboardComponents/setting/settingSlice";
 import videoReducer from "../pages/videoplayer/videoSlice";
 import courseLengthReducer from "../components/TeacherComponents/courses/coursesSlice";
+import teacherNoteReducer from "../components/TeacherComponents/teachernotes/NoteSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     mentisusertheme: themeReducer,
     videoId: videoReducer,
     coursesLevelsTeacher: courseLengthReducer,
+    notes: teacherNoteReducer,
   },
 });
 

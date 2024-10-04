@@ -1,0 +1,13 @@
+.all-notes {
+  min-height: 100vh;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  position: relative;
+
+  h1 {
+    text-align: center;
+    font-size: 30px;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+  }
+}

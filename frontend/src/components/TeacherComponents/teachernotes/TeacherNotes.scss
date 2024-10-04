@@ -57,7 +57,7 @@
 
       .counter-up-number {
         font-size: 26px;
-        width: 50px;
+        width: fit-content;
         height: 46px;
         display: flex;
         align-items: center;
@@ -131,7 +131,7 @@
 
         .counter-up-number {
           font-size: 26px;
-          width: 50px;
+          width: fit-content;
           height: 46px;
           display: flex;
           align-items: center;
@@ -224,6 +224,85 @@
       cursor: pointer;
       transition: 0.3s;
       margin: 30px auto;
+    }
+  }
+}
+
+.update-notes {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  min-height: 500px;
+  position: relative;
+
+  h1,
+  h2 {
+    text-align: center;
+    font-size: 30px;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    text-align: right;
+  }
+
+  .note {
+    width: 100%;
+    box-shadow: 0 0 5px var(--box-shadow-color);
+    padding: 10px;
+    border-radius: 5px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: 0.4s;
+
+    .num {
+      font-size: 25px;
+      color: var(--primary-color);
+      margin-left: 20px;
+    }
+
+    .title {
+      color: var(--primary-color);
+      font-size: 20px;
+    }
+
+    .icons {
+      display: flex;
+      flex: 1;
+      gap: 10px;
+
+      .icon-container {
+        display: flex;
+        align-items: center;
+        background-color: var(--primary-color);
+        color: #fff;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        justify-content: center;
+        gap: 10px;
+        border: 3px solid var(--primary-color);
+        transition: 0.4s;
+
+        &:hover {
+          background-color: transparent;
+          color: var(--primary-color);
+        }
+
+        &:first-child {
+          background-color: var(--danger-color);
+          border-color: var(--danger-color);
+
+          &:hover {
+            background-color: transparent;
+            color: var(--danger-color);
+          }
+        }
+      }
     }
   }
 }

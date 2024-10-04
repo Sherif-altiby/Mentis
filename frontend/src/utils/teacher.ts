@@ -253,3 +253,29 @@ export const getCourseId = async (
 
   return response.data;
 };
+
+export const getTeacherFiles = async (
+  token: string | null,
+  id: number | string
+) => {
+  const response = await axios.get(`${api}/teacher/${id}/files`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};
+
+export const deleteTeacherNote = async (
+  token: string | null,
+  id: number | string
+) => {
+  const response = await axios.delete(`${api}/files/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};

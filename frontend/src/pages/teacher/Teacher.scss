@@ -95,56 +95,58 @@
     flex-wrap: wrap;
     width: 700px;
     margin-left: auto;
-    margin-right: auto;  
+    margin-right: auto;
 
-    a{
-        width: 220px;
-        box-shadow: 0 0 5px var(--box-shadow-color);
+    @include screen(md) {
+      width: 100%;
+    }
+
+    a.link {
+      width: 220px;
+      box-shadow: 0 0 5px var(--box-shadow-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-color);
+      border-radius: 5px;
+      height: 100px;
+      transition: 0.4s;
+      font-size: 20px;
+      gap: 20px;
+
+      @include screen(md) {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      &:hover {
+        background-color: var(--primary-color);
+        color: #fff;
+        transform: translateY(-10px);
+
+        .icon {
+          background-color: #fff;
+          color: var(--primary-color);
+          transform: rotate(360deg);
+        }
+
+        p {
+          color: #fff;
+        }
+      }
+
+      .icon {
+        background-color: var(--primary-color);
+        color: #fff;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--primary-color);
-        border-radius: 5px;
-        height: 100px;
         transition: 0.4s;
-        font-size: 20px;
-        gap: 20px;
-
-        &:hover{
-            background-color: var(--primary-color);
-            color: #fff;
-            transform: translateY(-10px);
-
-            .icon{
-              background-color: #fff;
-              color: var(--primary-color);
-              transform: rotate(360deg);
-            }
-
-            p{
-              color: #fff;
-            }
-        }
-
-        .icon{
-          background-color: var(--primary-color);
-          color: #fff;
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: 0.4s;
-        }
-
-        @include screen(md){
-            width: calc(100% / 2 - 15px);
-        }
-
-        @include screen(xsm){
-            width: 100%;
-        }
+      }
     }
   }
 }
@@ -170,8 +172,7 @@
   }
 }
 
-
-.teaher__aboout{
+.teaher__aboout {
   width: 700px;
   display: flex;
   margin: 50px auto;
@@ -182,29 +183,77 @@
   color: #fff;
   gap: 50px;
 
-  .img{
-    width: 100px;
-    height: 100px;
+  @include screen(md) {
+    width: 90%;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .teacher__info {
+    width: 200px;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    border-left: 1px solid #fff;
+    padding: 10px;
+
+    @include screen(md) {
+      width: 100%;
+      border-left: none;
+      border-bottom: 1px solid #fff;
+      flex-direction: row-reverse;
+      justify-content: end;
+      gap: 20px;
+      align-items: center;
+    }
+
+    h3 {
+      width: 100%;
+      text-align: center;
+      font-size: 15px;
+      margin-bottom: 10px;
+
+      @include screen(md) {
+        width: fit-content;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .img {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     overflow: hidden;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 
-    img{
+    @include screen(md) {
+      width: 40px;
+      height: 40px;
+    }
+
+    img {
       width: 100%;
       height: 100%;
     }
   }
 
-  .teacher__info{
-    p{
+  .teacher__info {
+    p {
       text-align: center;
     }
   }
 
-  .teacher__desc{
+  .teacher__desc {
     text-align: right;
     font-size: 18px;
     line-height: 2;
     direction: rtl;
+
+    @include screen(md) {
+      font-size: 16px;
+      font-weight: 300;
+    }
   }
 }

@@ -89,6 +89,13 @@ h2.title {
         color: var(--primary-color);
         font-size: 18px;
         font-weight: 400;
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        line-clamp: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .num {

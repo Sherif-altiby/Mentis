@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import { useAppSelector, useAppDispatch } from "../../../redux/reduxHook";
+import { useAppSelector } from "../../../redux/reduxHook";
 import "./Courses.scss";
 import { useSearchParams } from "react-router-dom";
 import Nav from "../../Navbar/Nav";
 import Footer from "../../footer/Footer";
 import {
   deleteTeacherCourse,
-  getTeacherAllCourses,
   updateTeacherCourse,
 } from "../../../utils/teacher";
-import { setLoading } from "../../../pages/loading/Loadingslice";
 import Loading from "../../../pages/loading/Loading";
 import { courseProps } from "../../../types/index.types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,9 +15,6 @@ import { faFilePen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { CourseTypes } from "./coursesSlice";
 
 const UpdateCourse = () => {
-  const dispatch = useAppDispatch();
-
-  const userId = useAppSelector((state) => state.userInfo.userInfo.user_id);
   const token = useAppSelector((state) => state.token.token);
   const loading = useAppSelector((state) => state.loading.isLoading);
   const firstLevel = useAppSelector(
@@ -32,7 +27,6 @@ const UpdateCourse = () => {
     (state) => state.coursesLevelsTeacher.thirdCourseLevel
   );
 
-  // const [teacherCourses, setTeacherCourses] = useState<courseProps[]>([]);
   const [searchParams] = useSearchParams();
   const [showCard, setShowCard] = useState(false);
   const [updatedTitle, setUodatedTitle] = useState("");
@@ -44,18 +38,6 @@ const UpdateCourse = () => {
   const level = searchParams.get("level");
   const headerText =
     level === "first" ? "الأول" : level === "second" ? "الثاني" : "الثالث";
-
-  // const getCourses = async () => {
-  //   dispatch(setLoading(true));
-  //   try {
-  //     const response = await getTeacherAllCourses(userId, token, level);
-  //     setTeacherCourses(response.data);
-  //   } catch (error) {
-  //     dispatch(setLoading(false));
-  //   } finally {
-  //     dispatch(setLoading(false));
-  //   }
-  // };
 
   useEffect(() => {
     if (level === "first") {

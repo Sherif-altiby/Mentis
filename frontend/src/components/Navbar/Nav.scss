@@ -43,8 +43,8 @@ nav {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 3px solid var(--primary-color);
-        border-radius: 50%;
+        border: 2px solid var(--primary-color);
+        border-radius: 10px;
         cursor: pointer;
         position: relative;
         transition: 0.4s;
@@ -60,6 +60,10 @@ nav {
             svg {
               color: #fff;
             }
+          }
+
+          svg {
+            color: #fff;
           }
 
           p,

@@ -1,15 +1,29 @@
 import CountUp from "react-countup";
-import { useAppSelector } from "../../../redux/reduxHook";
+import { useAppSelector, useAppDispatch } from "../../../redux/reduxHook";
 import { Link } from "react-router-dom";
 import "./TeacherNotes.scss";
-import { useState } from "react";
-import { uploadNote } from "../../../utils/teacher";
+import { useEffect, useState } from "react";
+import { getTeacherFiles, uploadNote } from "../../../utils/teacher";
 import CustomLoading from "../../../pages/loading/CustomLoading";
+import Message from "../../message/Message";
+import { addNote, NoteInterface } from "./NoteSlice";
+import Loading from "../../../pages/loading/Loading";
+
+interface Note {
+  course_id: number;
+  file_id: number;
+  file_path: string;
+  level: string;
+  title: string;
+}
 
 const TeacherNotes = () => {
+  const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.token.token);
+  let allTeacherNotes = useAppSelector((state) => state.notes.allNotes);
   const userId = useAppSelector((state) => state.userInfo.userInfo.user_id);
   const [loading, setLoading] = useState(false);
+  const [fetchLoading, setFetchLoading] = useState(false);
   const teacher = useAppSelector((state) =>
     state.teacher.teachers.find((item) => item.id === userId)
   );
@@ -18,6 +32,13 @@ const TeacherNotes = () => {
   const [fileName, setFileName] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [level, setLevel] = useState("first");
+
+  const [showMsg, SetShowMsg] = useState(false);
+  const [msgText, setMsgText] = useState("");
+
+  const [firstLeveNote, setFirstLeveNote] = useState<NoteInterface[]>([]);
+  const [secondLeveNote, setSecondLeveNote] = useState<NoteInterface[]>([]);
+  const [thirdLeveNote, setThirdLeveNote] = useState<NoteInterface[]>([]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -36,26 +57,61 @@ const TeacherNotes = () => {
 
     try {
       setLoading(true);
-      const response = await uploadNote(
+      await uploadNote(
         token,
         userId,
         courseId,
         fileName,
         "pdf",
         selectedFile,
-        "video",
+        "document",
         fileName,
         level
       );
-      console.log("File uploaded successfully:", response);
+      setSelectedFile(null);
+      setFileName("");
+      setLevel("first");
+      getFiles();
       setLoading(false);
+      SetShowMsg(true);
+      setMsgText("تم إضافة المذكرو بنجاح");
     } catch (error) {
-      console.error("File upload failed:", error);
+      setLoading(false);
+      SetShowMsg(true);
+      setSelectedFile(null);
+      setFileName("");
+      setLevel("first");
+      setMsgText("  حدث خطا اثناء التحميل");
     }
   };
 
+  const getFiles = async () => {
+    if (allTeacherNotes.length === 0) {
+      setFetchLoading(true);
+    }
+    const res = await getTeacherFiles(token, userId);
+    allTeacherNotes = res;
+    dispatch(addNote(res));
+    setFirstLeveNote(
+      allTeacherNotes.filter((item: Note) => item.level === "first")
+    );
+    setSecondLeveNote(
+      allTeacherNotes.filter((item: Note) => item.level === "second")
+    );
+    setThirdLeveNote(
+      allTeacherNotes.filter((item: Note) => item.level === "third")
+    );
+    setFetchLoading(false);
+  };
+
+  useEffect(() => {
+    getFiles();
+  }, []);
+
   return (
     <div>
+      <Message show={showMsg} message={msgText} closeMsg={SetShowMsg} />
+      {fetchLoading && <Loading />}
       <h1> المذكرات </h1>
       <div className={`teacher-notes `}>
         <div className="all-teacher-notes">
@@ -63,35 +119,35 @@ const TeacherNotes = () => {
           <p>
             <span> مذكرة </span>
             <span className="counter-up-number">
-              <CountUp start={0} end={100} duration={2} />
+              <CountUp start={0} end={allTeacherNotes.length} duration={2} />
             </span>
           </p>
         </div>
         <div className="notes-levels">
-          <Link to="#">
+          <Link to="/teacher/dashboard/controle/notes/update-notes?level=first">
             <p> أولى ثانوي </p>
             <p>
               <span> مذكرة </span>
               <span className="counter-up-number">
-                <CountUp start={0} end={100} duration={2} />
+                <CountUp start={0} end={firstLeveNote.length} duration={2} />
               </span>
             </p>
           </Link>
-          <Link to="#">
+          <Link to="/teacher/dashboard/controle/notes/update-notes?level=second">
             <p> ثانية ثانوي </p>
             <p>
               <span> مذكرة </span>
               <span className="counter-up-number">
-                <CountUp start={0} end={100} duration={2} />
+                <CountUp start={0} end={secondLeveNote.length} duration={2} />
               </span>
             </p>
           </Link>
-          <Link to="#">
+          <Link to="/teacher/dashboard/controle/notes/update-notes?level=third">
             <p> ثالثة ثانوي </p>
             <p>
               <span> مذكرة </span>
               <span className="counter-up-number">
-                <CountUp start={0} end={100} duration={2} />
+                <CountUp start={0} end={thirdLeveNote.length} duration={2} />
               </span>
             </p>
           </Link>

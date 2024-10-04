@@ -68,12 +68,14 @@ const Nav = () => {
                   className="user-name user-name-item"
                   onClick={() => handleNavigate()}
                 >
-                  <p> {userInfo?.name[0].toUpperCase()} </p>
+                  <p>
+                    {userInfo?.name[0].toUpperCase()}
+                    {userInfo?.name[1].toUpperCase()}{" "}
+                  </p>
                 </div>
                 <div className="user-notification user-name-item">
                   <div className="icon">
-                    {" "}
-                    <IoIosNotificationsOutline />{" "}
+                    <IoIosNotificationsOutline />
                   </div>
                 </div>
                 <div className="dark-mode user-name-item">
