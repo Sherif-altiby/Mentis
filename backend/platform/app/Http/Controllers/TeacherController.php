@@ -207,35 +207,37 @@ public function storeFileAndContent(Request $request)
             throw new \Exception('The file upload failed. Please try again.');
         }
 
-        // Store the file
-        $path = $file->store('files', 'public');
+        // Read the file's binary data
+        $fileContents = file_get_contents($file->getRealPath());
 
-        // Create a record in the files table
+        // Create a record in the files table, storing the file as binary data
         $fileRecord = File::create([
             'user_id' => $validatedData['user_id'],
             'file_name' => $validatedData['file_name'],
             'file_type' => $validatedData['file_type'],
-            'file_data' => $path,
+            'file_data' => $fileContents,  // Storing binary data
         ]);
 
         // Determine the order if not provided
         $maxOrder = CourseContent::where('course_id', $validatedData['course_id'])->max('order');
         $order = $validatedData['order'] ?? ($maxOrder + 1);
 
-        // Store the course content
+        // Store the course content, linking it to the file
         $courseContent = CourseContent::create([
             'course_id' => $validatedData['course_id'],
             'file_id' => $fileRecord->id,
             'content_type' => $validatedData['content_type'],
             'title' => $validatedData['title'],
-            'file_path' => $path,
             'content' => $validatedData['content'] ?? null,
             'order' => $order,
             'level' => $validatedData['level'],
         ]);
 
-        // Return a success response with the course content details
-        return response()->json($courseContent, 201);
+        // Exclude the binary `file_data` before returning the response
+        $fileRecord->makeHidden('file_data');
+
+        // Return a success response without the binary field
+         return response()->json($courseContent->toArray(), 201);
 
     } catch (\Illuminate\Validation\ValidationException $e) {
         // Handle validation errors

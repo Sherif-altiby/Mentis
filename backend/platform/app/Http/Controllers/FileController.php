@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB; // Import the DB facade
 use Illuminate\Http\JsonResponse;
+use PDF; // Import the PDF facade
 
 class FileController extends Controller
 {
@@ -35,15 +36,15 @@ class FileController extends Controller
             throw new \Exception('The file upload failed. Please try again.');
         }
 
-        // Store the file
-        $path = $file->store('files', 'public');
+        // Read the file's binary data
+        $fileContents = file_get_contents($file->getRealPath());
 
         // Create a record in the database
         $fileRecord = File::create([
             'user_id' => $validatedData['user_id'],
             'file_name' => $validatedData['file_name'],
             'file_type' => $validatedData['file_type'],
-            'file_data' => $path,
+            'file_data' => $fileContents,  // Store binary data
         ]);
 
         // Return a success response
@@ -63,6 +64,7 @@ class FileController extends Controller
         ], 500);
     }
 }
+
 
 public function calculateUserStorage($userId)
 {
@@ -107,13 +109,82 @@ public function calculateUserStorage($userId)
 
 
 
-
-
-    public function show($id)
-    {
+public function show($id)
+{
+    try {
+        // Retrieve the file record
         $file = File::findOrFail($id);
-        return response()->json($file);
+
+        // Ensure file data exists
+        if (empty($file->file_data)) {
+            throw new \Exception('File data is missing.');
+        }
+
+        // Get the file's binary data and file name
+        $fileData = $file->file_data;
+        $fileName = $file->file_name;
+
+        // Load the PDF data directly from the binary content
+        // Make sure to set the correct MIME type
+        return response($fileData)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        \Log::error('File not found:', ['id' => $id, 'message' => $e->getMessage()]);
+        return response()->json([
+            'error' => 'File not found.',
+            'message' => "File with ID $id does not exist."
+        ], 404);
+
+    } catch (\Exception $e) {
+        \Log::error('Error retrieving file:', ['message' => $e->getMessage()]);
+        return response()->json([
+            'error' => 'An error occurred while retrieving the file.',
+            'message' => $e->getMessage(),
+        ], 500);
     }
+}
+
+
+public function downloadFile($id)
+{
+    try {
+        // Retrieve the file record
+        $file = File::findOrFail($id);
+
+        // Ensure file data exists
+        if (empty($file->file_data)) {
+            throw new \Exception('File data is missing.');
+        }
+
+        // Get the binary data, MIME type, and file name
+        $fileContents = $file->file_data;
+        $mimeType = $file->file_type;
+        $fileName = $file->file_name;
+
+        // Return the file as a download response
+        return response($fileContents)
+            ->header('Content-Type', $mimeType)
+            ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        // Log and return specific error for file not found
+        \Log::error('File not found for download:', ['id' => $id, 'message' => $e->getMessage()]);
+        return response()->json([
+            'error' => 'File not found.',
+            'message' => "File with ID $id does not exist."
+        ], 404);
+
+    } catch (\Exception $e) {
+        // Log any general error
+        \Log::error('Error downloading file:', ['message' => $e->getMessage()]);
+        return response()->json([
+            'error' => 'An error occurred while downloading the file.',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+}
 
     public function destroy($id)
     {
