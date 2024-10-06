@@ -1,6 +1,6 @@
-@import '../../App.scss';
+@import "../../App.scss";
 
-h2.title{
+h2.title {
   margin-top: 50px;
   margin-bottom: 30px;
   text-align: center;
@@ -30,14 +30,14 @@ h2.title{
     padding: 20px;
     overflow-y: scroll;
 
-    @include screen(lg){
+    @include screen(lg) {
       position: fixed;
       background: #fff;
       width: 250px;
       right: -250px;
       transition: 0.4s;
 
-      &.show{
+      &.show {
         right: 0;
       }
     }
@@ -68,7 +68,7 @@ h2.title{
           color: #fff;
         }
 
-        .num{
+        .num {
           color: #fff;
         }
       }
@@ -80,7 +80,7 @@ h2.title{
           color: #fff;
         }
 
-        .num{
+        .num {
           color: #fff;
         }
       }
@@ -89,9 +89,16 @@ h2.title{
         color: var(--primary-color);
         font-size: 18px;
         font-weight: 400;
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        line-clamp: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
-      .num{
+      .num {
         font-weight: 500;
         font-size: 20px;
         color: var(--primary-color);
@@ -101,44 +108,46 @@ h2.title{
 }
 
 .all-courses {
-  min-height: 500px;
+  min-height: 600px;
   padding-top: 30px;
   margin-top: -40px;
   direction: rtl;
   padding-left: 50px;
   padding-right: 50px;
 
-  &.dark{
-    background-color: var(--input-dark-bg);
-
-    h3{
-      background-color: var(--main-dark-color);
-    }
-  }
-
-  .course{
+  .course {
+    height: 70px;
     display: flex;
     justify-content: space-between;
     min-width: 250px;
     box-shadow: 0 0 5px var(--box-shadow-color);
-    padding: 20px;
     border-radius: 10px;
     margin-right: 20px;
     transition: 0.4s;
     gap: 20px;
     margin-bottom: 20px;
+    align-items: center;
+    padding: 20px;
 
-    &:hover{
+    &:hover {
       background-color: var(--primary-color);
       color: #fff;
 
-      .icon{
+      .icon {
         background-color: #fff;
         color: var(--primary-color);
       }
+
+      h3 {
+        color: #fff;
+      }
+
+      .num {
+        color: #fff;
+      }
     }
 
-    .icon{
+    .icon {
       width: 35px;
       height: 35px;
       border-radius: 50%;
@@ -150,20 +159,20 @@ h2.title{
       justify-content: center;
     }
 
-    .num{
+    .num {
       font-weight: 700;
       font-size: 25px;
     }
   }
 }
 
-.video__container{
+.video__container {
   width: 100%;
   position: relative;
   left: 15px;
   top: -15px;
 
-  @include screen(lg){
+  @include screen(lg) {
     width: 95%;
     position: relative;
     left: 0;
@@ -171,7 +180,7 @@ h2.title{
   }
 }
 
-.course__video{
+.course__video {
   width: 100%;
   border-radius: 10px;
   overflow: hidden;

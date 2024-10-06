@@ -1,153 +1,129 @@
-@import '../../../App.scss';
+@import "../../../App.scss";
 
-.admin-add-teacher{
+.admin-add-teacher {
+  width: 100%;
+  padding: 30px;
 
-    width: 100%;
+  .card-add {
+    background-color: #fff;
+    border-radius: 5px;
     padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px var(--box-shadow-color);
+    position: relative;
 
-    .card-add{
-        background-color: #fff;
+    .input {
+      display: flex;
+      flex-direction: column;
+      align-items: end;
+
+      input,
+      select {
+        flex: 1;
+        width: 100%;
+        border: 2px solid var(--border-color);
+        padding: 15px 10px;
+        outline: none;
         border-radius: 5px;
-        padding: 30px;
-        border-radius: 5px;
-        box-shadow: 0 0 5px var(--box-shadow-color);
-        position: relative;
+        text-align: right;
 
-        &.dark{
-            background-color: var(--main-dark-color);
-            box-shadow: none;
-
-            .input{
-                label{
-                    color: #fff;
-                }
-
-                input{
-                    background-color: var(--input-dark-bg);
-                    border-color: #999;
-                }
-            }
-
-            .btn{
-                background-color: #fff;
-                color: var(--main-dark-color);
-            }
+        &:focus {
+          border-color: var(--primary-color);
         }
+      }
 
-        .input{
-            display: flex;
-            flex-direction: column;
-             align-items: end;
+      select {
+        direction: rtl;
 
-             input, select{
-                flex: 1;
-                width: 100%;
-                border: 2px solid var(--border-color);
-                padding: 15px 10px;
-                outline: none;
-                border-radius: 5px;
-                text-align: right;
-   
-                &:focus{
-                    border-color: var(--primary-color);
-                }
-
-             }
-
-             select{
-                direction: rtl;
-
-                option{
-                    padding: 10px;
-                    font-size: 17px;
-                    color: var(--primary-color);
-                  }
-            }
-
-             label{
-                color: var(--primary-color);
-                margin-bottom: 10px;
-                width: 100%;
-             }
+        option {
+          padding: 10px;
+          font-size: 17px;
+          color: var(--primary-color);
         }
+      }
 
-        .btn{
-            width: 200px;
-            background-color: var(--primary-color);
-            color: #fff;
-            cursor: pointer;
-            transition: 0.3s;
-            text-align: center;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 50px auto ;
-            margin-bottom: 0;
-        }
+      label {
+        color: var(--primary-color);
+        margin-bottom: 10px;
+        width: 100%;
+      }
     }
 
-    .teacher-card-created{
-        padding: 20px;
-        box-shadow: 0 0 5px var(--box-shadow-color);
-        background-color: #fff;
-        position: fixed;
-        left: 20px;
-        top: 20px;
-        z-index: 999999;
-        width: 400px;
-        transition: 0.3s;
-        left: -500px;
+    .btn {
+      width: 200px;
+      background-color: var(--primary-color);
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+      text-align: center;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 50px auto;
+      margin-bottom: 0;
+    }
+  }
 
-        &.show{
-            left: 20px;
-        }
-        
-        @include screen(sm){
-            width: 300px;
-        }
+  .teacher-card-created {
+    padding: 20px;
+    box-shadow: 0 0 5px var(--box-shadow-color);
+    background-color: #fff;
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    z-index: 999999;
+    width: 400px;
+    transition: 0.3s;
+    left: -500px;
 
-        .close{
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width:  25px;
-            height: 25px;
-            cursor: pointer;
-            background-color: var(--border-color);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-color);
-            font-size: 15px;
-        }
-
-        .teacher-info{
-            display: flex;
-            margin-top: 20px;
-            justify-content: space-between;
-            border-bottom: 2px solid var(--border-color);
-
-            .error{
-                color: var(--danger-color);
-                font-weight: bold;
-            }
-        }
+    &.show {
+      left: 20px;
     }
 
-    .filtered-teacher{
-        
-        p{
-            color: var(--danger-color);
-            cursor: pointer;
-            padding: 10px;
-            border-bottom: 2px solid var(--border-color);
-            transition: 0.3s;
-
-            &:hover{
-                color: var(--primary-color);
-            }
-        }
+    @include screen(sm) {
+      width: 300px;
     }
- }
 
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      background-color: var(--border-color);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-color);
+      font-size: 15px;
+    }
+
+    .teacher-info {
+      display: flex;
+      margin-top: 20px;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--border-color);
+
+      .error {
+        color: var(--danger-color);
+        font-weight: bold;
+      }
+    }
+  }
+
+  .filtered-teacher {
+    p {
+      color: var(--danger-color);
+      cursor: pointer;
+      padding: 10px;
+      border-bottom: 2px solid var(--border-color);
+      transition: 0.3s;
+
+      &:hover {
+        color: var(--primary-color);
+      }
+    }
+  }
+}

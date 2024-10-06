@@ -20,6 +20,7 @@ export type TeacherProps = {
     id: string;
     price: string;
     title: string;
+    description: string;
   }[];
 };
 
@@ -91,4 +92,14 @@ export interface QuestionAnswer {
 
 export interface ShuffledQuestion extends QuestionPropsInterface {
   shuffledOptions: Array<{ label: string; text: string }>;
+}
+
+export interface NoteInterface {
+  course_id: number;
+  file_id: number;
+  id: number;
+  level: string;
+  title: string;
+  image: string;
+  file_path: string;
 }
