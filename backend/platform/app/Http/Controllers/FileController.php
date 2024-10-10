@@ -147,37 +147,22 @@ public function show($id)
 }
 
 
-public function downloadFile($id)
+public function downloadFile($fileId)
 {
     try {
-        // Retrieve the file record
-        $file = File::findOrFail($id);
+        // Retrieve the file by ID
+        $file = File::findOrFail($fileId);
 
-        // Ensure file data exists
-        if (empty($file->file_data)) {
-            throw new \Exception('File data is missing.');
-        }
+        // Decode the file data from Base64 (if stored as Base64) or return the raw binary data
+        $fileData = base64_decode($file->file_data);
 
-        // Get the binary data, MIME type, and file name
-        $fileContents = $file->file_data;
-        $mimeType = $file->file_type;
-        $fileName = $file->file_name;
-
-        // Return the file as a download response
-        return response($fileContents)
-            ->header('Content-Type', $mimeType)
-            ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
-
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        // Log and return specific error for file not found
-        \Log::error('File not found for download:', ['id' => $id, 'message' => $e->getMessage()]);
-        return response()->json([
-            'error' => 'File not found.',
-            'message' => "File with ID $id does not exist."
-        ], 404);
+        // Return the file as a response, serving it as a downloadable PDF or another file type
+        return response()->make($fileData, 200, [
+            'Content-Type' => $file->file_type, // MIME type from the database, e.g., 'application/pdf'
+            'Content-Disposition' => 'inline; filename="' . $file->file_name . '"', // Display or download the file
+        ]);
 
     } catch (\Exception $e) {
-        // Log any general error
         \Log::error('Error downloading file:', ['message' => $e->getMessage()]);
         return response()->json([
             'error' => 'An error occurred while downloading the file.',
@@ -185,6 +170,7 @@ public function downloadFile($id)
         ], 500);
     }
 }
+
 
     public function destroy($id)
     {

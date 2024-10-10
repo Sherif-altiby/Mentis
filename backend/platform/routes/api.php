@@ -164,6 +164,8 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin|teacher|stude
     Route::get('/files/{id}', [FileController::class, 'show']);
 
     Route::get('/teacher/{id}/files', [TeacherController::class, 'getFilesTeacher']);
+    Route::get('/files/download/{fileId}', [FileController::class, 'downloadFile'])->name('files.download');
+
     Route::get('/assignment-submissions/{id}', [AssignmentSubmissionController::class, 'show']);
     Route::get('/assignments/{id}', [AssignmentController::class, 'show']);
     Route::get('/student-results/{studentId}/quiz/{quizId}', [QuizResponseController::class, 'getStudentResult']);

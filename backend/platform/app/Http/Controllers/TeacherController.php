@@ -256,12 +256,12 @@ public function storeFileAndContent(Request $request)
 }
 
 
+
+
+
 public function getFilesTeacher($teacherId)
 {
     try {
-        // // Log the request for debugging
-        // \Log::info('Fetching files for teacher:', ['teacher_id' => $teacherId]);
-
         // Validate the teacher ID
         $validatedData = \Validator::make(['teacher_id' => $teacherId], [
             'teacher_id' => 'required|exists:users,id',
@@ -270,17 +270,35 @@ public function getFilesTeacher($teacherId)
         // Retrieve all files uploaded by the teacher
         $files = File::where('user_id', $teacherId)->get();
 
-        // // Log the files retrieved
-        // \Log::info('Files retrieved:', $files->toArray());
+        // Ensure that file data is not included and that all strings are properly encoded
+        $fileMetadata = $files->map(function($file) {
+            return [
+                'id' => $file->id,
+                'file_name' => mb_convert_encoding($file->file_name, 'UTF-8', 'UTF-8'), // Ensure proper encoding
+                'file_type' => mb_convert_encoding($file->file_type, 'UTF-8', 'UTF-8'), // Ensure proper encoding
+                'created_at' => $file->created_at,
+                'download_url' => route('files.download', ['fileId' => $file->id]) // Download URL for the file
+            ];
+        });
 
         // Retrieve all course content associated with the files
         $courseContents = CourseContent::whereIn('file_id', $files->pluck('id'))->with('file')->get();
 
-        // // Log the course contents retrieved
-        // \Log::info('Course contents retrieved:', $courseContents->toArray());
+        // Attach the file metadata to each course content item
+        $courseContents->each(function ($courseContent) use ($fileMetadata) {
+            $courseContent->file_metadata = $fileMetadata->firstWhere('id', $courseContent->file_id);
+        });
+
+        // Convert all fields to ensure they are properly encoded
+        $courseContentsArray = $courseContents->toArray();
+        array_walk_recursive($courseContentsArray, function (&$item) {
+            if (is_string($item)) {
+                $item = mb_convert_encoding($item, 'UTF-8', 'UTF-8');
+            }
+        });
 
         // Return a success response with the course contents and their associated files
-        return response()->json($courseContents, 200);
+        return response()->json($courseContentsArray, 200);
 
     } catch (\Exception $e) {
         // Handle general errors
@@ -291,6 +309,8 @@ public function getFilesTeacher($teacherId)
         ], 500);
     }
 }
+
+
 
 
 
