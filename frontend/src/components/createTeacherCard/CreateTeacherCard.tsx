@@ -7,7 +7,9 @@ const CreateTeacherCard = ({ name, id, role, courses }: TeacherProps) => {
   return (
     <>
       <Link
-        to={`/teacher/${name}?query=${role}&id=${id}&subject=${courses[0].title}`}
+        to={`/teacher/${name}?query=${role}&id=${id}&subject=${
+          courses.length > 0 ? courses[0].title : ""
+        }`}
         className={`teacher-card `}
         data-aos="fade-right"
         data-aos-duration="1000"

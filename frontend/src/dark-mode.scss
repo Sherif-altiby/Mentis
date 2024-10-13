@@ -1,0 +1,59 @@
+@import "./App.scss";
+
+:root {
+  --main-dark-color: #000;
+  --bg-dark: #131313;
+  --input-dark-bg: #1b1b1b;
+  --input-dark-border: #353131;
+  --section-card-color: rgba(40, 39, 39, 0.7019607843);
+  --card-hover-bg: #252525;
+}
+
+.dark {
+  // Navbar
+  .nav {
+    background-color: var(--main-dark-color);
+    box-shadow: none;
+  }
+
+  .nav .nav-user .user-name-item,
+  nav .nav .nav-user .user-name-item.user-name {
+    background-color: transparent;
+    border-color: #fff;
+    color: var(--primary-color);
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  nav .nav .nav-user .user-name-item p {
+    color: #fff;
+  }
+
+  nav .nav .nav-user .user-name-item svg {
+    color: #fff;
+  }
+
+  //   Hero
+  .main-section,
+  .all-teachers {
+    background-color: var(--bg-dark);
+  }
+  .main-section .wave {
+    display: none;
+  }
+  .all-teachers h1 {
+    color: #fff;
+  }
+  .teacher-card {
+    background-color: #161b22;
+    &:hover {
+      background-color: var(--main-dark-color);
+    }
+  }
+
+  footer {
+    background-color: var(--main-dark-color);
+  }
+}

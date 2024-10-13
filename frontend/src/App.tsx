@@ -1,4 +1,5 @@
 import "./App.scss";
+import "./dark-mode.scss";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Material from "./pages/material/Material";
 import Signup from "./auth/Signup";
@@ -157,3 +158,5 @@ const App = () => {
 };
 
 export default App;
+
+// 578721@Mentis.com  IXyltVSq

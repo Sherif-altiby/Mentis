@@ -334,6 +334,10 @@
 }
 
 .all-teachers {
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   h1 {
     color: var(--primary-color);
     margin-right: 150px;

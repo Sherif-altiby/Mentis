@@ -263,7 +263,6 @@ export const getTeacherFiles = async (
       Authorization: `Bearer ${token}`,
     },
   });
-
   return response.data;
 };
 

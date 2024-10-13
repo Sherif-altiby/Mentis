@@ -89,19 +89,25 @@ const TeacherNotes = () => {
     if (allTeacherNotes.length === 0) {
       setFetchLoading(true);
     }
-    const res = await getTeacherFiles(token, userId);
-    allTeacherNotes = res;
-    dispatch(addNote(res));
-    setFirstLeveNote(
-      allTeacherNotes.filter((item: Note) => item.level === "first")
-    );
-    setSecondLeveNote(
-      allTeacherNotes.filter((item: Note) => item.level === "second")
-    );
-    setThirdLeveNote(
-      allTeacherNotes.filter((item: Note) => item.level === "third")
-    );
-    setFetchLoading(false);
+    try {
+      const res = await getTeacherFiles(token, userId);
+      allTeacherNotes = res;
+      dispatch(addNote(res));
+      setFirstLeveNote(
+        allTeacherNotes.filter((item: Note) => item.level === "first")
+      );
+      setSecondLeveNote(
+        allTeacherNotes.filter((item: Note) => item.level === "second")
+      );
+      setThirdLeveNote(
+        allTeacherNotes.filter((item: Note) => item.level === "third")
+      );
+      setFetchLoading(false);
+    } catch (e) {
+      setFetchLoading(false);
+    } finally {
+      setFetchLoading(false);
+    }
   };
 
   useEffect(() => {

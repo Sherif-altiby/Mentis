@@ -103,3 +103,9 @@ export interface NoteInterface {
   image: string;
   file_path: string;
 }
+
+export interface NavProps {
+  showIcon: boolean;
+  showMenu: boolean;
+  setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
+}
