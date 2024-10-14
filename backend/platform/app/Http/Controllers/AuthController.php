@@ -44,6 +44,7 @@ class AuthController extends Controller
             'role' => 'required|string|in:student,parent,teacher,admin',
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20|unique:users,phone_number',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
 
         // Add additional rules based on user role
@@ -108,6 +109,15 @@ class AuthController extends Controller
                     'message' => 'User with this ID or phone number already exists'
                 ], 409);
             }
+            $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imageFile = $request->file('image');
+            if ($imageFile->isValid()) {
+                // Generate a unique filename and save the image
+                $imagePath = 'images/user_photo/' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+                $imageFile->move(public_path('images/user_photo'), $imagePath); // Store the image in the public/images directory
+            }
+        }
 
             // Create a new user
             $user = User::create([
@@ -117,6 +127,7 @@ class AuthController extends Controller
                 'phone_number' => $request->phone,
                 'role' => $request->role,
                 'id' => $user_id,
+                'image'=>$imagePath
             ]);
 
             $response = [
