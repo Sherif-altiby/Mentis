@@ -295,6 +295,7 @@ class AuthController extends Controller
         'email' => $user->email,
         'phone_number' => $user->phone_number,
         'role' => $user->role,
+        'image'=>$user->image
     ];
 
     // Fetch additional details based on user role
