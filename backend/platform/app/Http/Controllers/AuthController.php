@@ -9,11 +9,13 @@ use App\Models\User;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Auth;  // Add this line
 use Illuminate\Support\Facades\DB;
+use Illuminate\Notifications\Notifiable;
 
 // registration ---login---logout----
 
 class AuthController extends Controller
 {
+    use Notifiable;
     public function register(Request $request)
     {
         // Get the current user's token from the request headers
@@ -205,7 +207,10 @@ class AuthController extends Controller
     }
         
 
-    public function login(Request $request)
+
+    
+
+     public function login(Request $request)
     {
         // Validate the request
         $validator = Validator::make($request->all(), [
@@ -222,16 +227,25 @@ class AuthController extends Controller
         if (!auth()->attempt($request->only('email', 'password'))) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
+
+        // Get the authenticated user
         $user = auth()->user();
+
+        // Check if the user is blocked using the isBlocked method in the User model
+        if ($user->isBlocked()) {
+            return response()->json(['message' => 'Your account is blocked.'], 403);
+        }
 
         // Revoke existing tokens
         $user->tokens()->delete();
 
         // Generate an API token for the authenticated user
         $token = auth()->user()->createToken('API Token')->plainTextToken;
-     
+
         return response()->json(['token' => $token], 200);
     }
+
+
     public function logout(Request $request)
     {
         // Ensure the user is authenticated

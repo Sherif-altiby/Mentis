@@ -38,5 +38,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(File::class);
     }
+    public function isBlocked()
+    {
+        // Fetch block record related to this user
+        $block = UserBlock::where('user_id', $this->id)->first();
+
+        // Check if user is blocked
+        return $block && $block->is_blocked;
+    }
 
 }
