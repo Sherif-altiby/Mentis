@@ -49,6 +49,14 @@ nav {
         position: relative;
         transition: 0.4s;
 
+        &.menu-icon {
+          display: none;
+
+          @include screen(lg) {
+            display: flex;
+          }
+        }
+
         &.user-name {
           background-color: var(--primary-color);
         }
@@ -82,7 +90,7 @@ nav {
         p {
           font-weight: 500;
           color: #fff;
-          font-size: 30px;
+          font-size: 25px;
         }
 
         .icon {

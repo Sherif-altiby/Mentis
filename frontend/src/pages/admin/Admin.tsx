@@ -1,6 +1,5 @@
-import { FaUserAlt } from "react-icons/fa";
 import "./Admin.scss";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { adminData } from "../../data/data";
@@ -11,12 +10,16 @@ const Admin = () => {
 
   return (
     <div className={`admin-page `}>
-      <Nav />
+      <Nav showIcon={true} setShowMenu={setShowMenu} />
+      <div
+        className={`overlay ${showMenu ? "show" : ""}`}
+        onClick={() => setShowMenu(false)}
+      ></div>
       <div className={`${showMenu ? "admin-menu show" : "admin-menu"}  `}>
         {adminData.map((item) => (
           <div
             className="manu-link"
-            key={item.id}
+            key={item.title}
             onClick={() => setShowMenu(false)}
           >
             <NavLink to={item.link}>

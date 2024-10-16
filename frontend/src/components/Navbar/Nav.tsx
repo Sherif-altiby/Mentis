@@ -16,7 +16,7 @@ import { setDarkTheme } from "../userDashboardComponents/setting/settingSlice";
 import { HiBars3 } from "react-icons/hi2";
 import { NavProps } from "../../types/index.types";
 
-const Nav: React.FC<NavProps> = ({ showIcon, showMenu, setShowMenu }) => {
+const Nav: React.FC<NavProps> = ({ showIcon, setShowMenu }) => {
   const navigate = useNavigate();
   const loading = useAppSelector((state) => state.loading.isLoading);
   const dispatch = useAppDispatch();
@@ -114,10 +114,12 @@ const Nav: React.FC<NavProps> = ({ showIcon, showMenu, setShowMenu }) => {
                   )}
                 </div>
                 {showIcon && (
-                  <div className="user-name-item">
+                  <div className="user-name-item menu-icon">
                     <div
                       className="icon"
-                      onClick={() => setShowMenu(!showMenu)}
+                      onClick={() => {
+                        setShowMenu((preve) => !preve);
+                      }}
                     >
                       <HiBars3 />
                     </div>

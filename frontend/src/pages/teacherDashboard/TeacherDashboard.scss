@@ -2,23 +2,6 @@
 
 .teacher-dashboard {
   position: relative;
-
-  .overlay {
-    position: absolute;
-    width: 100%;
-    height: 110%;
-    background: rgba(189, 183, 183, 0.4705882353);
-    top: -20px;
-    left: -100%;
-    right: 0;
-    bottom: 0;
-    transition: 0.3s;
-    z-index: 1;
-
-    &.show {
-      left: 0;
-    }
-  }
 }
 
 .teacher-dashboard-menu {

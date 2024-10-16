@@ -106,6 +106,5 @@ export interface NoteInterface {
 
 export interface NavProps {
   showIcon: boolean;
-  showMenu: boolean;
   setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }

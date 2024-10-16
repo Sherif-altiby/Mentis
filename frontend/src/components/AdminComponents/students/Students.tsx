@@ -1,4 +1,4 @@
-import "./AddTeacher.scss";
+import "../addteacher/AddTeacher.scss";
 
 import { useAppSelector } from "../../../redux/reduxHook";
 import { useEffect, useState } from "react";
@@ -6,17 +6,17 @@ import { TeacherProps } from "../../../types/index.types";
 
 import img from "../../../assets/phiscs.jpg";
 
-const DeleteTeacher = () => {
+const Students = () => {
   const allTeachers = useAppSelector((state) => state.teacher.teachers);
 
   const [filteredTeachers, setFilteredTeachers] = useState<TeacherProps[]>();
   const [teacherSearch, setTeacherSearch] = useState("");
   const [teacherId, setTeacherId] = useState(0);
 
-  const [selectedTeacherName, setSelectedTeacherName] = useState("");
-  const [selectedTeacherPhone, setSelectedTeacherPhone] = useState("");
-  const [selectedTeacherEmail, setSelectedTeacherEmail] = useState("");
-  const [selectedTeacherCourse, setSelectedTeacherCourse] = useState("");
+  const [selectedStudentName, setSelectedStudentName] = useState("");
+  const [selectedStudentPhone, setSelectedStudentPhone] = useState("");
+  const [selectedStudentEmail, setSelectedStudentEmail] = useState("");
+  const [selectedStudentCourse, setSelectedStudentCourse] = useState("");
 
   const [showModal, setShowModal] = useState(false);
 
@@ -32,11 +32,11 @@ const DeleteTeacher = () => {
   return (
     <div className="admin-add-teacher">
       <div className="card">
-        <h1> حذف مدرس </h1>
+        <h1> الطلاب </h1>
 
         <div className={`card-add `}>
           <div className="input">
-            <label htmlFor="name"> إسم المدرس </label>
+            <label htmlFor="name"> إسم الطالب </label>
             <input
               type="text"
               id="name"
@@ -52,10 +52,10 @@ const DeleteTeacher = () => {
                 onClick={() => {
                   setTeacherSearch(teacher.name);
                   setTeacherId(teacher.id);
-                  setSelectedTeacherName(teacher.name);
-                  setSelectedTeacherEmail(teacher.email);
-                  setSelectedTeacherCourse(teacher.courses[0].title);
-                  setSelectedTeacherPhone(teacher.phone_number);
+                  setSelectedStudentName(teacher.name);
+                  setSelectedStudentEmail(teacher.email);
+                  setSelectedStudentCourse(teacher.courses[0].title);
+                  setSelectedStudentPhone(teacher.phone_number);
                   setShowModal(true);
                 }}
               >
@@ -70,18 +70,18 @@ const DeleteTeacher = () => {
           <img src={img} alt="img" />
           <div className="item">
             <div className="info">
-              الاسم : <span> {selectedTeacherName} </span>
+              الاسم : <span> {selectedStudentName} </span>
             </div>
             <div className="info">
-              رقم التلفون : <span> {selectedTeacherPhone} </span>
+              رقم التلفون : <span> {selectedStudentPhone} </span>
             </div>
           </div>
           <div className="item">
             <div className="info">
-              المادة : <span> {selectedTeacherCourse} </span>
+              المادة : <span> {selectedStudentCourse} </span>
             </div>
             <div className="info">
-              البريد : <span> {selectedTeacherEmail} </span>
+              البريد : <span> {selectedStudentEmail} </span>
             </div>
           </div>
           <div className="btn"> حظر </div>
@@ -99,4 +99,4 @@ const DeleteTeacher = () => {
   );
 };
 
-export default DeleteTeacher;
+export default Students;

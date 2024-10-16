@@ -3,19 +3,6 @@
 .admin-page {
   position: relative;
 
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    bottom: -22px;
-    width: 100%;
-    background-color: rgba(189, 183, 183, 0.4705882353);
-    transition: 0.2s;
-
-    &.show {
-      left: 0;
-    }
-  }
   h1 {
     text-align: right;
     color: var(--primary-color);

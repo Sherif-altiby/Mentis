@@ -41,6 +41,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import ScrollToTop from "./components/scrollTop/ScrollToTop";
 import UpdateNotes from "./components/TeacherComponents/teachernotes/UpdateNotes";
+import Students from "./components/AdminComponents/students/Students";
 
 const App = () => {
   useEffect(() => {
@@ -103,6 +104,7 @@ const App = () => {
             <Route index element={<AddTeacher />} />
             <Route path="add-teacher" element={<AddTeacher />} />
             <Route path="delete-teacher" element={<DeleteTeacher />} />
+            <Route path="students" element={<Students />} />
             <Route path="settings" element={<Setting />} />
             <Route path="add-course" element={<AddCourse />} />
             <Route path="notifications" element={<Notifications />} />

@@ -4,8 +4,10 @@ import { MdQuiz } from "react-icons/md";
 import { MdLibraryBooks } from "react-icons/md";
 import { IoSettings } from "react-icons/io5";
 import { RiLogoutCircleLine } from "react-icons/ri";
-import { IoNotifications } from "react-icons/io5";
-
+import { PiStudentLight } from "react-icons/pi";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { AiOutlineDelete } from "react-icons/ai";
+import { IoIosNotificationsOutline } from "react-icons/io";
 
 export const menusData = [
   { title: "لوحة التحكم", icon: FaRegCompass, link: "dashboard" },
@@ -13,11 +15,13 @@ export const menusData = [
   { title: "الاختبارات", icon: MdQuiz, link: "quizes" },
   { title: "المذكرات", icon: MdLibraryBooks, link: "books" },
   { title: "الاعدادات", icon: IoSettings, link: "settings" },
-  { title: "الإشعارات", link: "notifications", icon: IoNotifications },
+  {
+    title: "الإشعارات",
+    link: "notifications",
+    icon: IoIosNotificationsOutline,
+  },
   { title: "تسجيل الخروج", icon: RiLogoutCircleLine, link: "/" },
 ];
-
-
 
 import { CiSettings } from "react-icons/ci";
 import { GrNotes } from "react-icons/gr";
@@ -32,22 +36,24 @@ export const TeacherDashboardData = [
   { title: "المذكرات", link: "notes", icon: GrNotes },
   { title: "الإختبارات", link: "quizes", icon: MdOutlineQuiz },
   { title: "الإعدادات", link: "settings", icon: CiSettings },
-  { title: "الإشعارات", link: "notifications", icon: IoNotifications },
+  {
+    title: "الإشعارات",
+    link: "notifications",
+    icon: IoIosNotificationsOutline,
+  },
   { title: "تسجيل الخروج", icon: RiLogoutCircleLine, link: "/" },
-
 ];
 
-
-
-import { IoAddCircle } from "react-icons/io5";
-import { MdDelete } from "react-icons/md";
-
 export const adminData = [
-  { id: 1, title: "إضافة مدرس", icon: IoAddCircle, link: 'add-teacher'},
-  { id: 2, title: "حذف مدرس", icon: MdDelete, link: 'delete-teacher'},
-  { id: 2, title: "إضافة كورس", icon: IoAddCircle, link: 'add-course'},
+  { title: "إضافة مدرس", icon: IoIosAddCircleOutline, link: "add-teacher" },
+  { title: "حذف مدرس", icon: AiOutlineDelete, link: "delete-teacher" },
+  { title: "إضافة كورس", icon: IoIosAddCircleOutline, link: "add-course" },
+  { title: "الطلاب", icon: PiStudentLight, link: "students" },
   { title: "الإعدادات", link: "settings", icon: CiSettings },
-  { title: "الإشعارات", link: "notifications", icon: IoNotifications },
+  {
+    title: "الإشعارات",
+    link: "notifications",
+    icon: IoIosNotificationsOutline,
+  },
   { title: "تسجيل الخروج", icon: RiLogoutCircleLine, link: "/" },
-
-]
+];
