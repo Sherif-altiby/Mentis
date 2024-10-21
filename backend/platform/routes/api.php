@@ -169,6 +169,7 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin|teacher|stude
     Route::get('/assignment-submissions/{id}', [AssignmentSubmissionController::class, 'show']);
     Route::get('/assignments/{id}', [AssignmentController::class, 'show']);
     Route::get('/student-results/{studentId}/quiz/{quizId}', [QuizResponseController::class, 'getStudentResult']);
+    Route::get('/students', [AuthController::class, 'getAllStudentsWithDetails']);
     Route::get('/quiz-responses', [QuizResponseController::class, 'index']);
     Route::get('/quiz-responses/{id}', [QuizResponseController::class, 'show']);
     Route::get('/quiz-questions', [QuizQuestionController::class, 'index']);
