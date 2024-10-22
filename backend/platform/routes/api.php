@@ -11,7 +11,7 @@ use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\QuizQuestionController;
 use App\Http\Controllers\QuizResponseController;
 use App\Http\Middleware\RoleMiddleware;
-
+use App\Http\Controllers\UserBlockController;
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes
@@ -189,6 +189,12 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin|teacher|stude
     // File Management
     Route::post('/files', [FileController::class, 'store']);
     Route::get('/files/{id}/storage', [FileController::class, 'calculateUserStorage']);
+    
+
+    Route::post('/block-user/{userId}', [UserBlockController::class, 'blockUser']);
+    Route::post('/unblock-user/{userId}', [UserBlockController::class, 'unblockUser']);
+    Route::get('/is-blocked/{userId}', [UserBlockController::class, 'isBlocked']);
+
 
 
     

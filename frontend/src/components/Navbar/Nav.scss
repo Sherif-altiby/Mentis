@@ -37,6 +37,10 @@ nav {
       font-size: 20px;
       transition: 0.3s;
 
+      @include screen(sm) {
+        gap: 10px;
+      }
+
       .user-name-item {
         width: 50px;
         height: 50px;
@@ -48,6 +52,12 @@ nav {
         cursor: pointer;
         position: relative;
         transition: 0.4s;
+
+        @include screen(sm) {
+          width: 40px;
+          height: 40px;
+          border-radius: 5px;
+        }
 
         &.menu-icon {
           display: none;
@@ -91,6 +101,10 @@ nav {
           font-weight: 500;
           color: #fff;
           font-size: 25px;
+
+          @include screen(sm) {
+            font-size: 20px;
+          }
         }
 
         .icon {

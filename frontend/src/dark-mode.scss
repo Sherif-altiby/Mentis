@@ -1,19 +1,21 @@
 @import "./App.scss";
 
 :root {
-  --main-dark-color: #000;
-  --bg-dark: #131313;
-  --input-dark-bg: #1b1b1b;
-  --input-dark-border: #353131;
-  --section-card-color: rgba(40, 39, 39, 0.7019607843);
-  --card-hover-bg: #252525;
+  --primary1: #000;
+  --primary2: #131313;
+  --primary3: #1b1b1b;
+  --primary4: #353131;
+  --primary5: #252525;
+  --primary6: #161b22;
 }
 
 .dark {
-  // Navbar
-  .nav {
-    background-color: var(--main-dark-color);
+  nav {
     box-shadow: none;
+  }
+
+  .nav {
+    background-color: var(--primary1);
   }
 
   .nav .nav-user .user-name-item,
@@ -35,10 +37,9 @@
     color: #fff;
   }
 
-  //   Hero
   .main-section,
   .all-teachers {
-    background-color: var(--bg-dark);
+    background-color: var(--primary2);
   }
   .main-section .wave {
     display: none;
@@ -47,13 +48,36 @@
     color: #fff;
   }
   .teacher-card {
-    background-color: #161b22;
+    background-color: var(--primary6);
     &:hover {
-      background-color: var(--main-dark-color);
+      background-color: var(--primary1);
     }
   }
 
   footer {
-    background-color: var(--main-dark-color);
+    background-color: var(--primary1);
+  }
+
+  .teacher-page {
+    background-color: var(--primary2);
+  }
+
+  .teaher__aboout {
+    background-color: var(--primary5);
+  }
+
+  .teacher-page .teacher-links a.link {
+    width: 220px;
+    box-shadow: none;
+    background-color: var(--primary1);
+    color: #fff;
+
+    &:hover {
+      background-color: var(--primary5);
+    }
+  }
+
+  .admin-page {
+    // background-color: var(--primary5);
   }
 }

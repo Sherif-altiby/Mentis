@@ -42,6 +42,7 @@ import "aos/dist/aos.css";
 import ScrollToTop from "./components/scrollTop/ScrollToTop";
 import UpdateNotes from "./components/TeacherComponents/teachernotes/UpdateNotes";
 import Students from "./components/AdminComponents/students/Students";
+import NotAllowed from "./pages/notfound/notAllowed";
 
 const App = () => {
   useEffect(() => {
@@ -153,6 +154,7 @@ const App = () => {
             path="/teacher/dashboard/controle/notes/update-notes"
             element={<UpdateNotes />}
           />
+          <Route path="/not-allowed" element={<NotAllowed />} />
         </Routes>
       </Router>
     </div>

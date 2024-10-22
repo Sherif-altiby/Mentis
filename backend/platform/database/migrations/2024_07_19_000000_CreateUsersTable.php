@@ -15,6 +15,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('phone_number');
             $table->enum('role', ['student', 'teacher', 'parent', 'admin']);
+            $table->boolean('is_active')->default(1); // Removed the `after` clause
+            $table->binary('image')->nullable(); // Store image as binary data
             $table->timestamps();
         });
     }

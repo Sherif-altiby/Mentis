@@ -5,10 +5,12 @@ import { useEffect, useState } from "react";
 import { TeacherProps } from "../../../types/index.types";
 
 import img from "../../../assets/phiscs.jpg";
+import { blockUser } from "../../../utils/api";
+import Message from "../../message/Message";
 
 const DeleteTeacher = () => {
   const allTeachers = useAppSelector((state) => state.teacher.teachers);
-
+  const token = useAppSelector((state) => state.token.token);
   const [filteredTeachers, setFilteredTeachers] = useState<TeacherProps[]>();
   const [teacherSearch, setTeacherSearch] = useState("");
   const [teacherId, setTeacherId] = useState(0);
@@ -19,6 +21,7 @@ const DeleteTeacher = () => {
   const [selectedTeacherCourse, setSelectedTeacherCourse] = useState("");
 
   const [showModal, setShowModal] = useState(false);
+  const [showMsg, setShowMsg] = useState(false);
 
   useEffect(() => {
     setFilteredTeachers(
@@ -26,14 +29,21 @@ const DeleteTeacher = () => {
         teacher.name.toLowerCase().includes(teacherSearch?.toLowerCase())
       )
     );
-    console.log("first");
   }, [teacherSearch]);
+
+  const adminBlockUser = async (id: number) => {
+    const res = await blockUser(token, id);
+    if (res.success) {
+      setShowModal(false);
+      setShowMsg(true);
+    }
+  };
 
   return (
     <div className="admin-add-teacher">
       <div className="card">
         <h1> حذف مدرس </h1>
-
+        <Message closeMsg={setShowMsg} show={showMsg} message="تم حظر المدرس" />
         <div className={`card-add `}>
           <div className="input">
             <label htmlFor="name"> إسم المدرس </label>
@@ -84,7 +94,9 @@ const DeleteTeacher = () => {
               البريد : <span> {selectedTeacherEmail} </span>
             </div>
           </div>
-          <div className="btn"> حظر </div>
+          <div className="btn" onClick={() => adminBlockUser(teacherId)}>
+            حظر
+          </div>
           <div
             className="close-modal"
             onClick={() => {

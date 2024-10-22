@@ -12,6 +12,7 @@ import axios from "axios";
 import { useEffect } from "react";
 
 import { setAllTeachers } from "./teacherSlice";
+import { api } from "../../utils/api";
 
 const Main = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +29,7 @@ const Main = () => {
   });
 
   const getAllTeacher = async () => {
-    const response = await axios.get("http://127.0.0.1:8000/api/teachers", {
+    const response = await axios.get(`${api}/teachers`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -46,8 +47,6 @@ const Main = () => {
   return (
     <div>
       <div className={`main-section`}>
-        {/* <Circles /> */}
-
         <div className="intro-section">
           <motion.div
             className="img"
@@ -122,6 +121,7 @@ const Main = () => {
               role={teacher.role}
               key={teacher.id}
               courses={teacher.courses}
+              image={teacher.image}
             />
           ))}
         </div>

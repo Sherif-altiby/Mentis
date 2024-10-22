@@ -1,26 +1,24 @@
 import axios from "axios";
 import "./AddTeacher.scss";
-import { useState } from "react";
-import { getUserInfo } from "../../../utils/api";
+import { ChangeEvent, useState } from "react";
+import { api, getUserInfo } from "../../../utils/api";
 
-import { useAppSelector, useAppDispatch } from "../../../redux/reduxHook";
+import { useAppSelector } from "../../../redux/reduxHook";
 import CustomLoading from "../../../pages/loading/CustomLoading";
-
-import { setLoading } from "../../../pages/loading/Loadingslice";
+import Message from "../../message/Message";
 
 const AddTeacher = () => {
   const [teacherName, setTeacherName] = useState("");
   const [teacherPhone, setTeacherPhone] = useState("");
-
+  const [teacherImg, setTeacherImg] = useState<File | null>(null);
   const [teacherpassword, setTeacherPassword] = useState("");
   const [teacherEmail, setTeacherEmail] = useState("");
 
-  const dispatch = useAppDispatch();
-
   const [showCard, setShowCard] = useState(false);
-
+  const [showErr, setShowErr] = useState(false);
+  const errMsg = "حدث خطا! حاول مرة اخري";
   const token = useAppSelector((state) => state.token.token);
-  const loading = useAppSelector((state) => state.loading.isLoading);
+  const [loading, setLoading] = useState(false);
 
   const createTeacherAcount = async ({
     teacherName,
@@ -28,22 +26,22 @@ const AddTeacher = () => {
   }: {
     teacherName: string;
     teacherPhone: string;
+    image: File | null;
   }) => {
+    const formData = new FormData();
+    formData.append("role", "teacher");
+    formData.append("name", teacherName);
+    formData.append("phone", teacherPhone);
+    if (teacherImg) {
+      formData.append("image", teacherImg);
+    }
     try {
-      dispatch(setLoading(true));
-      const respone = await axios.post(
-        "http://127.0.0.1:8000/api/register",
-        {
-          role: "teacher",
-          name: teacherName,
-          phone: teacherPhone,
+      setLoading(true);
+      const respone = await axios.post(`${api}/register`, formData, {
+        headers: {
+          Authorization: `Bearer  ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer  ${token}`,
-          },
-        }
-      );
+      });
 
       setTeacherPassword(respone.data.user_password);
 
@@ -53,17 +51,33 @@ const AddTeacher = () => {
 
       setTeacherEmail(teacherData.email);
 
-      dispatch(setLoading(false));
+      setLoading(false);
       setShowCard(true);
     } catch (error) {
+      setShowErr(true);
       console.log(error);
+    } finally {
+      setLoading(false);
+      setTeacherName("");
+      setTeacherPhone("");
     }
   };
 
   const handleClick = async () => {
     if (teacherName.length > 0 && teacherPhone.length > 0) {
       console.log("first");
-      await createTeacherAcount({ teacherName, teacherPhone });
+      await createTeacherAcount({
+        teacherName,
+        teacherPhone,
+        image: teacherImg,
+      });
+    }
+  };
+
+  const handleImageUpload = (event: ChangeEvent<HTMLInputElement>): void => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setTeacherImg(file);
     }
   };
 
@@ -71,17 +85,17 @@ const AddTeacher = () => {
     <div className="admin-add-teacher">
       <div className="card">
         <h1> إضافة مدرس </h1>
-
+        <Message show={showErr} message={errMsg} closeMsg={setShowErr} />
         <div className={`card-add`}>
-          {loading ? <CustomLoading /> : null}
-
           <div className="input-container">
+            {loading ? <CustomLoading /> : null}
             <div className="input">
               <label htmlFor="name"> إسم المدرس </label>
               <input
                 type="text"
                 id="name"
                 onChange={(e) => setTeacherName(e.target.value)}
+                value={teacherName}
               />
             </div>
             <div className="input">
@@ -90,9 +104,15 @@ const AddTeacher = () => {
                 type="number"
                 id="phone"
                 onChange={(e) => setTeacherPhone(e.target.value)}
+                value={teacherPhone}
               />
             </div>
+            <div className="input">
+              <label htmlFor="img"> صورة المدرس </label>
+              <input type="file" id="img" onChange={handleImageUpload} />
+            </div>
           </div>
+
           <div className="btn" onClick={handleClick}>
             إضافة
           </div>
@@ -105,8 +125,7 @@ const AddTeacher = () => {
         }
       >
         <div className="close" onClick={() => setShowCard(false)}>
-          {" "}
-          X{" "}
+          X
         </div>
 
         <div className="teacher-info">
@@ -123,3 +142,7 @@ const AddTeacher = () => {
 };
 
 export default AddTeacher;
+
+// 247870@Mentis.com
+
+// zMfHsdUT

@@ -8,6 +8,7 @@ import { PiStudentLight } from "react-icons/pi";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { AiOutlineDelete } from "react-icons/ai";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { GiTeacher } from "react-icons/gi";
 
 export const menusData = [
   { title: "لوحة التحكم", icon: FaRegCompass, link: "dashboard" },
@@ -46,7 +47,7 @@ export const TeacherDashboardData = [
 
 export const adminData = [
   { title: "إضافة مدرس", icon: IoIosAddCircleOutline, link: "add-teacher" },
-  { title: "حذف مدرس", icon: AiOutlineDelete, link: "delete-teacher" },
+  { title: "المدرسين", icon: GiTeacher, link: "delete-teacher" },
   { title: "إضافة كورس", icon: IoIosAddCircleOutline, link: "add-course" },
   { title: "الطلاب", icon: PiStudentLight, link: "students" },
   { title: "الإعدادات", link: "settings", icon: CiSettings },

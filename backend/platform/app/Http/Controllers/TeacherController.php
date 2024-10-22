@@ -8,6 +8,8 @@ use App\Models\CourseContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\File;
+use Illuminate\Support\Facades\Log;
+
 
 use Illuminate\Support\Facades\Http;
 
@@ -184,60 +186,53 @@ class TeacherController extends Controller
 public function storeFileAndContent(Request $request)
 {
     try {
-        // Log the request data for debugging
-        \Log::info('Request data:', $request->all());
-
         // Validate the request data
         $validatedData = $request->validate([
-            'user_id' => 'required|exists:users,id',
             'course_id' => 'required|exists:courses,id',
+            'content_type' => 'required|in:video,document,quiz',
+            'title' => 'required|string|max:255',
             'file_name' => 'required|string|max:255',
             'file_type' => 'required|string|max:255',
             'file_data' => 'required|file|mimes:pdf,docx,txt,jpg,png',
-            'content_type' => 'required|in:video,document,quiz',
-            'title' => 'required|string|max:255',
-            'level' => 'required|in:first,second,third',
-            'content' => 'nullable|string',
-            'order' => 'nullable|integer',
+            'user_id' => 'required|exists:users,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048' // Ensure the image is validated
         ]);
 
-        // Handle the uploaded file
-        $file = $request->file('file_data');
-        if (!$file->isValid()) {
-            throw new \Exception('The file upload failed. Please try again.');
+        // Call the store method from FileController
+        $fileController = new FileController();
+        $fileResponse = $fileController->store($request);
+
+        // Check if the file was stored successfully
+        if ($fileResponse->getStatusCode() != 201) {
+            throw new \Exception('File storage failed.');
         }
 
-        // Read the file's binary data
-        $fileContents = file_get_contents($file->getRealPath());
+        // Decode the JSON response to access the file data
+        $fileRecord = json_decode($fileResponse->getContent());
 
-        // Create a record in the files table, storing the file as binary data
-        $fileRecord = File::create([
-            'user_id' => $validatedData['user_id'],
-            'file_name' => $validatedData['file_name'],
-            'file_type' => $validatedData['file_type'],
-            'file_data' => $fileContents,  // Storing binary data
-        ]);
+        // Handle the uploaded image if provided
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imageFile = $request->file('image');
+            if ($imageFile->isValid()) {
+                // Generate a unique filename and save the image
+                $imagePath = 'images/' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+                $imageFile->move(public_path('images'), $imagePath); // Store the image in the public/images directory
+            }
+        }
 
-        // Determine the order if not provided
-        $maxOrder = CourseContent::where('course_id', $validatedData['course_id'])->max('order');
-        $order = $validatedData['order'] ?? ($maxOrder + 1);
-
-        // Store the course content, linking it to the file
+        // Continue with storing the course content
         $courseContent = CourseContent::create([
             'course_id' => $validatedData['course_id'],
-            'file_id' => $fileRecord->id,
+            'file_id' => $fileRecord->id, // Use the returned file ID
             'content_type' => $validatedData['content_type'],
             'title' => $validatedData['title'],
-            'content' => $validatedData['content'] ?? null,
-            'order' => $order,
-            'level' => $validatedData['level'],
+            'image' => $imagePath // Store the path to the image file
+            // Add additional course content fields here...
         ]);
-
-        // Exclude the binary `file_data` before returning the response
-        $fileRecord->makeHidden('file_data');
-
-        // Return a success response without the binary field
-         return response()->json($courseContent->toArray(), 201);
+        
+        // Return a success response
+        return response()->json($courseContent, 201);
 
     } catch (\Illuminate\Validation\ValidationException $e) {
         // Handle validation errors
@@ -247,13 +242,15 @@ public function storeFileAndContent(Request $request)
         ], 422);
     } catch (\Exception $e) {
         // Handle general errors
-        \Log::error('Error storing file and course content:', ['message' => $e->getMessage()]);
+        Log::error('Error storing file and course content:', ['message' => $e->getMessage()]);
         return response()->json([
             'error' => 'An error occurred while storing the file and course content.',
             'message' => $e->getMessage(),
         ], 500);
     }
 }
+
+
 
 
 
@@ -486,14 +483,29 @@ public function updateCourseContent(Request $request, $id)
 }
 
 
-    // Retrieve a specific course content
-    public function showCourseContent($id)
-    {
-        try {
-            $courseContent = CourseContent::findOrFail($id);
-            return response()->json($courseContent);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Course content not found', 'message' => $e->getMessage()], 404);
+public function showCourseContent($id)
+{
+    try {
+        $courseContent = CourseContent::findOrFail($id);
+
+        // Check if the course content has an image
+        if ($courseContent->image) {
+            // Encode binary image data to Base64 format
+            $imageData = base64_encode($courseContent->image);
+            // Determine the image MIME type
+            $mimeType = 'image/jpeg'; // Default to jpeg
+            if (strpos($courseContent->file_path, '.png') !== false) {
+                $mimeType = 'image/png';
+            }
+
+            // Add the Base64 image data to the response
+            $courseContent->image_base64 = 'data:' . $mimeType . ';base64,' . $imageData;
         }
+
+        return response()->json($courseContent);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Course content not found', 'message' => $e->getMessage()], 404);
     }
+}
+
 }

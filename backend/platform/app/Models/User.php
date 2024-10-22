@@ -14,7 +14,7 @@ class User extends Authenticatable
     protected $table = 'users';
 
     protected $fillable = [
-        'name', 'email', 'password', 'phone_number', 'role',
+        'name', 'email', 'password', 'phone_number', 'role','image'
     ];
 
     protected $hidden = [
@@ -37,6 +37,14 @@ class User extends Authenticatable
     public function files()
     {
         return $this->hasMany(File::class);
+    }
+    public function isBlocked()
+    {
+        // Fetch block record related to this user
+        $block = UserBlock::where('user_id', $this->id)->first();
+
+        // Check if user is blocked
+        return $block && $block->is_blocked;
     }
 
 }

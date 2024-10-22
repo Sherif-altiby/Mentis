@@ -9,11 +9,13 @@ use App\Models\User;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Auth;  // Add this line
 use Illuminate\Support\Facades\DB;
+use Illuminate\Notifications\Notifiable;
 
 // registration ---login---logout----
 
 class AuthController extends Controller
 {
+    use Notifiable;
     public function register(Request $request)
     {
         // Get the current user's token from the request headers
@@ -42,6 +44,7 @@ class AuthController extends Controller
             'role' => 'required|string|in:student,parent,teacher,admin',
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20|unique:users,phone_number',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
 
         // Add additional rules based on user role
@@ -106,6 +109,15 @@ class AuthController extends Controller
                     'message' => 'User with this ID or phone number already exists'
                 ], 409);
             }
+            $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imageFile = $request->file('image');
+            if ($imageFile->isValid()) {
+                // Generate a unique filename and save the image
+                $imagePath = 'images/user_photo/' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+                $imageFile->move(public_path('images/user_photo'), $imagePath); // Store the image in the public/images directory
+            }
+        }
 
             // Create a new user
             $user = User::create([
@@ -115,6 +127,7 @@ class AuthController extends Controller
                 'phone_number' => $request->phone,
                 'role' => $request->role,
                 'id' => $user_id,
+                'image'=>$imagePath
             ]);
 
             $response = [
@@ -205,7 +218,10 @@ class AuthController extends Controller
     }
         
 
-    public function login(Request $request)
+
+    
+
+     public function login(Request $request)
     {
         // Validate the request
         $validator = Validator::make($request->all(), [
@@ -222,16 +238,25 @@ class AuthController extends Controller
         if (!auth()->attempt($request->only('email', 'password'))) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
+
+        // Get the authenticated user
         $user = auth()->user();
+
+        // Check if the user is blocked using the isBlocked method in the User model
+        if ($user->isBlocked()) {
+            return response()->json(['message' => 'Your account is blocked.'], 403);
+        }
 
         // Revoke existing tokens
         $user->tokens()->delete();
 
         // Generate an API token for the authenticated user
         $token = auth()->user()->createToken('API Token')->plainTextToken;
-     
+
         return response()->json(['token' => $token], 200);
     }
+
+
     public function logout(Request $request)
     {
         // Ensure the user is authenticated
@@ -270,6 +295,7 @@ class AuthController extends Controller
         'email' => $user->email,
         'phone_number' => $user->phone_number,
         'role' => $user->role,
+        'image'=>$user->image
     ];
 
     // Fetch additional details based on user role

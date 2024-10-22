@@ -16,6 +16,7 @@ export type TeacherProps = {
   phone_number: string;
   role: string;
   name: string;
+  image: string;
   courses: {
     id: string;
     price: string;
