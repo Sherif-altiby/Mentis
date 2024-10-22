@@ -340,6 +340,32 @@ class AuthController extends Controller
 
     return response()->json($userDetails, 200);
 }
+public function getAllStudentsWithDetails()
+    {
+        // Fetch all users with the 'student' role and eager load their student details
+        $students = User::students()
+            ->with('studentDetails') // Eager load the relationship
+            ->get();
+
+        // Check if no students are found
+        if ($students->isEmpty()) {
+            return response()->json(['error' => 'No students found'], 404);
+        }
+
+        // Format the data
+        $studentDetails = $students->map(function ($student) {
+            return [
+                'user_id' => $student->id,
+                'name' => $student->name,
+                'email' => $student->email,
+                'phone_number' => $student->phone_number,
+                'image' => $student->image,
+                'grade_level' => optional($student->studentDetails)->grade_level, // Fetch grade level safely
+            ];
+        });
+
+        return response()->json($studentDetails, 200);
+    }
 
     public function resetPassword(Request $request)
     {
