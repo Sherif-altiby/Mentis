@@ -109,3 +109,12 @@ export interface NavProps {
   showIcon: boolean;
   setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export type StudentsProps = {
+  user_id: number;
+  name: string;
+  email: string;
+  grade_level: string;
+  image: string;
+  phone_number: string;
+};

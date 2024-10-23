@@ -168,7 +168,20 @@ export const blockUser = async (token: string | null, id: number) => {
     );
     return response.data;
   } catch (err) {
-    console.error(err);
+    return err;
+  }
+};
+
+export const getAllStudents = async (token: string | null) => {
+  try {
+    const response = await axios.get(`${api}/students`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (err) {
     return err;
   }
 };
