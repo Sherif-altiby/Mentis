@@ -2,7 +2,7 @@ import "../addteacher/AddTeacher.scss";
 
 import { useAppSelector } from "../../../redux/reduxHook";
 import { useEffect, useState } from "react";
-import { StudentsProps, TeacherProps } from "../../../types/index.types";
+import { StudentsProps } from "../../../types/index.types";
 
 import img from "../../../assets/phiscs.jpg";
 import { blockUser, getAllStudents } from "../../../utils/api";
@@ -52,8 +52,6 @@ const Students = () => {
       );
     } else {
       setFilteredStudents(students);
-      console.log(students);
-      console.log("first");
     }
   }, [teacherSearch, students]);
 

@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import "./auth.scss";
 import { useState } from "react";
-import Circles from "../components/animation/Circles";
 import { getUserInfo, register } from "../utils/api";
 import { useNavigate } from 'react-router-dom';
 import Loading from "../pages/loading/Loading";
@@ -83,7 +82,6 @@ const Signup: React.FC = () => {
 
   return (
     <div className="signup">
-      <Circles />
       {loading ? (
         <Loading />
       ) : (

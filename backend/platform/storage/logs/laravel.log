@@ -1030,3 +1030,15 @@
 [stacktrace]
 #0 {main}
 "} 
+[2024-10-23 18:17:24] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:414)
+[stacktrace]
+#0 {main}
+"} 
+[2024-10-23 19:10:09] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\composer\\ClassLoader.php:429)
+[stacktrace]
+#0 {main}
+"} 
+[2024-10-23 19:11:23] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\composer\\ClassLoader.php:429)
+[stacktrace]
+#0 {main}
+"} 

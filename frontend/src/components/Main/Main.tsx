@@ -13,6 +13,7 @@ import { useEffect } from "react";
 
 import { setAllTeachers } from "./teacherSlice";
 import { api } from "../../utils/api";
+import RadiaChart from "../charts/RadiaChart";
 
 const Main = () => {
   const dispatch = useAppDispatch();
@@ -126,6 +127,8 @@ const Main = () => {
           ))}
         </div>
       </div>
+
+     
     </div>
   );
 };

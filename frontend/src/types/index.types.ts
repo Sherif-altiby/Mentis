@@ -118,3 +118,19 @@ export type StudentsProps = {
   image: string;
   phone_number: string;
 };
+
+
+export interface BlockedUsersProps{
+  id: number;
+  is_blocked: number;
+  blocked_until: number;
+  reason: string;
+  user_id: number;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    phone_number: string;
+    role: string;
+  }
+}

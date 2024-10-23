@@ -43,6 +43,7 @@ import ScrollToTop from "./components/scrollTop/ScrollToTop";
 import UpdateNotes from "./components/TeacherComponents/teachernotes/UpdateNotes";
 import Students from "./components/AdminComponents/students/Students";
 import NotAllowed from "./pages/notfound/notAllowed";
+import BlockedUsers from "./components/AdminComponents/blockedusers/BlockedUsers";
 
 const App = () => {
   useEffect(() => {
@@ -107,15 +108,13 @@ const App = () => {
             <Route path="delete-teacher" element={<DeleteTeacher />} />
             <Route path="students" element={<Students />} />
             <Route path="settings" element={<Setting />} />
+            <Route path="blocked" element={<BlockedUsers />} />
             <Route path="add-course" element={<AddCourse />} />
             <Route path="notifications" element={<Notifications />} />
           </Route>
 
           {/* TEACHER ROUTES */}
-          <Route
-            path="/teacher/dashboard/controle"
-            element={<TeacherDashboard />}
-          >
+          <Route path="/teacher/dashboard/controle" element={<TeacherDashboard />} >
             <Route index element={<TeacherDashboardComponent />} />
             <Route path="dashboard" element={<TeacherDashboardComponent />} />
             <Route path="courses" element={<Courses />} />
@@ -127,33 +126,18 @@ const App = () => {
             <Route path="notifications" element={<Notifications />} />
           </Route>
 
-          <Route
-            path="/teacher/courses/teacher-courses"
-            element={<UpdateCourse />}
-          />
+          <Route path="/teacher/courses/teacher-courses" element={<UpdateCourse />} />
 
           {/* VIDEO PLAYER ROUTE */}
           <Route path="/user/user-subjects/videos" element={<AllVideos />} />
-          <Route
-            path="/user/user-subjects/video-play"
-            element={<VideoPlayer />}
-          />
+          <Route path="/user/user-subjects/video-play" element={<VideoPlayer />} />
 
           <Route path="/user/user-subjects/quizzes" element={<QuizzesView />} />
-          <Route
-            path="/user/user-subjects/quizzes/questions"
-            element={<QuizzesViewQuestions />}
-          />
-          <Route
-            path="/teacher/dashboard/controle/quizes/specific-garde-quizes"
-            element={<LevelQuizzes />}
-          />
+          <Route path="/user/user-subjects/quizzes/questions" element={<QuizzesViewQuestions />} />
+          <Route path="/teacher/dashboard/controle/quizes/specific-garde-quizes" element={<LevelQuizzes />} />
 
           <Route path="/user/user-subjects/notes" element={<NotesView />} />
-          <Route
-            path="/teacher/dashboard/controle/notes/update-notes"
-            element={<UpdateNotes />}
-          />
+          <Route path="/teacher/dashboard/controle/notes/update-notes" element={<UpdateNotes />} />
           <Route path="/not-allowed" element={<NotAllowed />} />
         </Routes>
       </Router>
