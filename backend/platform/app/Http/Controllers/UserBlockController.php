@@ -98,4 +98,17 @@ class UserBlockController extends Controller
 
         return response()->json(['blocked' => false], 200);
     }
+    // Get all users who are blocked
+    public function getAllBlockedUsers()
+    {
+        // Fetch users who are blocked
+        $blockedUsers = UserBlock::where('is_blocked', 1)
+            ->with('user') // Assuming there is a relationship defined in UserBlock model
+            ->get();
+
+        // Return a response with the list of blocked users
+        return response()->json([
+            'blocked_users' => $blockedUsers
+        ], 200);
+    }
 }

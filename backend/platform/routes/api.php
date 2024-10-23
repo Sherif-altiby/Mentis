@@ -195,6 +195,7 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin|teacher|stude
     Route::post('/block-user/{userId}', [UserBlockController::class, 'blockUser']);
     Route::post('/unblock-user/{userId}', [UserBlockController::class, 'unblockUser']);
     Route::get('/is-blocked/{userId}', [UserBlockController::class, 'isBlocked']);
+    Route::get('/getAllBlockedUsers', [UserBlockController::class, 'getAllBlockedUsers']);
 
 
 
