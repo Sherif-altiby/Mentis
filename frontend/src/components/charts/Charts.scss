@@ -1,0 +1,14 @@
+.chart-card{
+    width: 100%;
+    height: 500px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px var(--box-shadow-color);
+}
+
+.chart-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}

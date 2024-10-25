@@ -9,6 +9,22 @@
   overflow: hidden;
   position: relative;
 
+  &::before {
+    content: "";
+    background-image: url("/src/assets/bg.png");
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 0;
+    background-repeat: repeat;
+    background-size: contain;
+    display: block;
+    background-position: 0;
+    animation: bg 690s linear infinite;
+    height: 30000px;
+  }
+
   form {
     width: 800px;
     box-shadow: 0 0 5px #999;
@@ -36,8 +52,8 @@
         margin-bottom: 10px;
       }
     }
-    
-    h3{
+
+    h3 {
       font-size: 16px;
       color: var(--danger-color);
       text-align: center;
@@ -73,7 +89,7 @@
         color: var(--primary-color);
         margin-right: 10px;
 
-        span{
+        span {
           color: var(--danger-color);
         }
 
@@ -82,7 +98,8 @@
         }
       }
 
-      input, select {
+      input,
+      select {
         text-align: right;
         width: 100%;
         font-size: 14px;
@@ -93,7 +110,7 @@
         transition: 0.3;
         font-weight: normal;
 
-        &.error{
+        &.error {
           border-color: var(--danger-color);
         }
 

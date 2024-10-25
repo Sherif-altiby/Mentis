@@ -3,13 +3,13 @@ import "./Teacher.scss";
 import { useAppSelector } from "../../redux/reduxHook";
 import Loading from "../loading/Loading";
 import { Link } from "react-router-dom";
-import img from "../../assets/phiscs.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFileCircleQuestion,
   faNotesMedical,
   faVideoSlash,
 } from "@fortawesome/free-solid-svg-icons";
+import { serverUrl } from "../../utils/api";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -19,7 +19,8 @@ const Teacher = () => {
   const loading = useAppSelector((state) => state.loading.isLoading);
   const query = useQuery();
   const id = query.get("id");
-
+  const img = query.get("path");
+  const imgPath = `${serverUrl}/${img}`;
   const allTeachers = useAppSelector((state) => state.teacher.teachers);
   const teacher = allTeachers.filter((teacher) => teacher.id === Number(id));
 
@@ -32,7 +33,7 @@ const Teacher = () => {
           <div className="teaher__aboout">
             <div className="teacher__info">
               <div className="img">
-                <img src={img} alt="" />
+                <img src={imgPath} alt="teacher image" />
               </div>
               <h3> {teacher[0].name} </h3>
               <p> {teacher[0].courses[0].title} </p>

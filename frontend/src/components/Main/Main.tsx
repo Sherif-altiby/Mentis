@@ -12,6 +12,8 @@ import axios from "axios";
 import { useEffect } from "react";
 
 import { setAllTeachers } from "./teacherSlice";
+import { api } from "../../utils/api";
+import RadiaChart from "../charts/RadiaChart";
 
 const Main = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +30,7 @@ const Main = () => {
   });
 
   const getAllTeacher = async () => {
-    const response = await axios.get("http://127.0.0.1:8000/api/teachers", {
+    const response = await axios.get(`${api}/teachers`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -46,15 +48,12 @@ const Main = () => {
   return (
     <div>
       <div className={`main-section`}>
-        {/* <Circles /> */}
-
         <div className="intro-section">
           <motion.div
             className="img"
             animate={{ bottom: [-50, 80, -50] }}
             transition={{ duration: 5, repeat: Infinity }}
           >
-            {" "}
             <img
               src={
                 userInfo.role === "student"
@@ -64,47 +63,40 @@ const Main = () => {
                   : introImg
               }
               alt=""
-            />{" "}
+            />
           </motion.div>
 
           <div className="text">
             {token ? (
               <>
                 <h1>
-                  {" "}
-                  <span> {userInfo.name} </span> مرحبا{" "}
+                  <span> {userInfo.name} </span> مرحبا
                 </h1>
                 <p className="student-intro-p">
-                  {" "}
-                  نتمني لك تجربة مشوقة وممتعة في التعلم{" "}
+                  نتمني لك تجربة مشوقة وممتعة في التعلم
                 </p>
               </>
             ) : (
               <>
                 <h2>
-                  {" "}
                   <span>
-                    {" "}
-                    <Cursor />{" "}
-                  </span>{" "}
-                  <span> {text} </span>{" "}
+                    <Cursor />
+                  </span>
+                  <span> {text} </span>
                 </h2>
                 <p>
-                  {" "}
                   منصة تعليمية مبتكرة تهدف إلى توفير تجربة تعليمية متكاملة
                   وشاملة للمستخدمين من جميع الأعمار والخلفيات. تعتمد "منتس" على
                   أحدث التقنيات التعليمية لخلق بيئة تعلم تفاعلية وجذابة، حيث
                   يمكن للمتعلمين الوصول إلى مجموعة متنوعة من الموارد والدورات
-                  التدريبية المصممة بعناية لتلبية احتياجاتهم التعليمية.{" "}
+                  التدريبية المصممة بعناية لتلبية احتياجاتهم التعليمية.
                 </p>
                 <div className="btns">
                   <div className="btn">
-                    {" "}
-                    <a href="#all-mentis-teachers"> المدرسين </a>{" "}
+                    <a href="#all-mentis-teachers"> المدرسين </a>
                   </div>
                   <div className="btn">
-                    {" "}
-                    <Link to="/signup"> انضم الي منتس </Link>{" "}
+                    <Link to="/signup"> انضم الي منتس </Link>
                   </div>
                 </div>
               </>
@@ -130,10 +122,13 @@ const Main = () => {
               role={teacher.role}
               key={teacher.id}
               courses={teacher.courses}
+              image={teacher.image}
             />
           ))}
         </div>
       </div>
+
+     
     </div>
   );
 };

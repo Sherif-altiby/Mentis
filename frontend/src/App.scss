@@ -17,14 +17,6 @@
   --card-material: #f5f5f5;
   --card-material-hover: #dadada;
   --box-shadow-color: #9999994d;
-
-  // dark mode colors
-  --nav-bg-dark: #464646;
-  --main-dark-color: #000;
-  --input-dark-bg: #1b1b1b;
-  --input-dark-border: #353131;
-  --section-card-color: rgba(40, 39, 39, 0.7019607843);
-  --card-hover-bg: #252525;
 }
 
 select {
@@ -83,10 +75,6 @@ ul li {
 
 a {
   text-decoration: none;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -198,4 +186,19 @@ input[type="number"]::-webkit-inner-spin-button {
 .custom-note .icons .icon-container:first-child {
   background-color: var(--danger-color);
   border-color: var(--danger-color);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  bottom: -22px;
+  width: 100%;
+  background-color: rgba(189, 183, 183, 0.4705882353);
+  transition: 0.2s;
+  z-index: 1;
+
+  &.show {
+    left: 0;
+  }
 }

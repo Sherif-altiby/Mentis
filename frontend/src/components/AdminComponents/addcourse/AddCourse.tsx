@@ -4,13 +4,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/reduxHook";
 import { TeacherProps } from "../../../types/index.types";
-import { setLoading } from "../../../pages/loading/Loadingslice";
 import CustomLoading from "../../../pages/loading/CustomLoading";
 import Message from "../../message/Message";
+import { api } from "../../../utils/api";
 
 const AddCourse = () => {
   const token = useAppSelector((state) => state.token.token);
-  const loading = useAppSelector((state) => state.loading.isLoading);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -26,7 +26,7 @@ const AddCourse = () => {
 
   useEffect(() => {
     const getAllTeachers = async () => {
-      const response = await axios.get("http://127.0.0.1:8000/api/teachers", {
+      const response = await axios.get(`${api}/teachers`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -45,7 +45,7 @@ const AddCourse = () => {
       teacherId > 0 &&
       selectedImage
     ) {
-      dispatch(setLoading(true));
+      setLoading(true);
 
       const formData = new FormData();
       formData.append("title", courseName);
@@ -69,7 +69,7 @@ const AddCourse = () => {
         console.log(response.data);
 
         if (response.data.status === "success") {
-          dispatch(setLoading(false));
+          setLoading(false);
           setCourseName("");
           setCourseDeesc("");
           setCoursePrice("");
@@ -77,12 +77,14 @@ const AddCourse = () => {
           setSelectedImage(null);
           setShow(true);
         } else {
-          dispatch(setLoading(false));
+          setLoading(false);
           console.log(response.data.response);
         }
       } catch (error) {
-        dispatch(setLoading(false));
+        setLoading(false);
         console.error("Error uploading the course:", error);
+      } finally {
+        setLoading(false);
       }
     } else {
       console.log("Please fill in all fields and select an image.");

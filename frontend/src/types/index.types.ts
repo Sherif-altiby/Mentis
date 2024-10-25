@@ -16,6 +16,7 @@ export type TeacherProps = {
   phone_number: string;
   role: string;
   name: string;
+  image: string;
   courses: {
     id: string;
     price: string;
@@ -102,4 +103,34 @@ export interface NoteInterface {
   title: string;
   image: string;
   file_path: string;
+}
+
+export interface NavProps {
+  showIcon: boolean;
+  setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export type StudentsProps = {
+  user_id: number;
+  name: string;
+  email: string;
+  grade_level: string;
+  image: string;
+  phone_number: string;
+};
+
+
+export interface BlockedUsersProps{
+  id: number;
+  is_blocked: number;
+  blocked_until: number;
+  reason: string;
+  user_id: number;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    phone_number: string;
+    role: string;
+  }
 }

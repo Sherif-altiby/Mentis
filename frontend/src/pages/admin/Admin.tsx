@@ -1,42 +1,25 @@
-import { FaUserAlt } from "react-icons/fa";
 import "./Admin.scss";
-import { Link, Outlet } from "react-router-dom";
-import logo from "../../assets/logo-2.png";
+import { Outlet } from "react-router-dom";
 import { useState } from "react";
-import { FaBars } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 import { adminData } from "../../data/data";
-import { useAppSelector } from "../../redux/reduxHook";
+import Nav from "../../components/Navbar/Nav";
 
 const Admin = () => {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
     <div className={`admin-page `}>
+      <Nav showIcon={true} setShowMenu={setShowMenu} />
       <div
-        className={showMenu ? "overlay show" : "overlay"}
-        onClick={() => {
-          setShowMenu(false);
-        }}
+        className={`overlay ${showMenu ? "show" : ""}`}
+        onClick={() => setShowMenu(false)}
       ></div>
-      <div className={`student-dashboard-nav `}>
-        <div className="avatar">
-          <Link to="settings" className="img">
-            <FaUserAlt />
-          </Link>
-          <div className="icon" onClick={() => setShowMenu(!showMenu)}>
-            <FaBars />
-          </div>
-        </div>
-        <Link to="/" className="logo">
-          <img src={logo} alt="" />
-        </Link>
-      </div>
       <div className={`${showMenu ? "admin-menu show" : "admin-menu"}  `}>
         {adminData.map((item) => (
           <div
             className="manu-link"
-            key={item.id}
+            key={item.title}
             onClick={() => setShowMenu(false)}
           >
             <NavLink to={item.link}>

@@ -36,6 +36,7 @@
     "react-router-dom": "^6.24.1",
     "react-simple-typewriter": "^5.0.1",
     "react-youtube": "^10.1.0",
+    "recharts": "^2.13.0",
     "sass": "^1.77.8",
     "swiper": "^11.1.4",
     "video.js": "^8.17.3",

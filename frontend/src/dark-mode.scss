@@ -1,0 +1,83 @@
+@import "./App.scss";
+
+:root {
+  --primary1: #000;
+  --primary2: #131313;
+  --primary3: #1b1b1b;
+  --primary4: #353131;
+  --primary5: #252525;
+  --primary6: #161b22;
+}
+
+.dark {
+  nav {
+    box-shadow: none;
+  }
+
+  .nav {
+    background-color: var(--primary1);
+  }
+
+  .nav .nav-user .user-name-item,
+  nav .nav .nav-user .user-name-item.user-name {
+    background-color: transparent;
+    border-color: #fff;
+    color: var(--primary-color);
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  nav .nav .nav-user .user-name-item p {
+    color: #fff;
+  }
+
+  nav .nav .nav-user .user-name-item svg {
+    color: #fff;
+  }
+
+  .main-section,
+  .all-teachers {
+    background-color: var(--primary2);
+  }
+  .main-section .wave {
+    display: none;
+  }
+  .all-teachers h1 {
+    color: #fff;
+  }
+  .teacher-card {
+    background-color: var(--primary6);
+    &:hover {
+      background-color: var(--primary1);
+    }
+  }
+
+  footer {
+    background-color: var(--primary1);
+  }
+
+  .teacher-page {
+    background-color: var(--primary2);
+  }
+
+  .teaher__aboout {
+    background-color: var(--primary5);
+  }
+
+  .teacher-page .teacher-links a.link {
+    width: 220px;
+    box-shadow: none;
+    background-color: var(--primary1);
+    color: #fff;
+
+    &:hover {
+      background-color: var(--primary5);
+    }
+  }
+
+  .admin-page {
+    // background-color: var(--primary5);
+  }
+}
