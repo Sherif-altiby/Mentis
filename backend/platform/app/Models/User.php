@@ -35,4 +35,20 @@ class User extends Authenticatable
     {
         return $query->where('role', 'student');
     }
+
+
+
+
+     // Add relationship with UserBlock model
+     public function block()
+     {
+         return $this->hasOne(UserBlock::class);
+     }
+ 
+     // Method to check if the user is blocked
+     public function isBlocked()
+     {
+         $block = $this->block;
+         return $block && $block->is_blocked;
+     }
 }
