@@ -87,7 +87,7 @@ const Students = () => {
           </div>
 
           <div className="filtered-teacher">
-            {filteredStudents?.map((user) => (
+            {filteredStudents ? filteredStudents.map((user) => (
               <p
                 key={user.user_id}
                 onClick={() => {
@@ -102,7 +102,7 @@ const Students = () => {
               >
                 {user.name}
               </p>
-            ))}
+            )) : ( <span > لا يوجد </span> ) }
           </div>
         </div>
       </div>

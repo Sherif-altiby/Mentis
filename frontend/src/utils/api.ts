@@ -48,20 +48,25 @@ export const login = async ({
 }) => {
   const apiUrl = `${api}/login`;
 
-  const response = await axios.post(apiUrl, {
-    email,
-    password,
-  });
-
-  const data = await response.data;
-
-  return data;
+  try{
+    const response = await axios.post(apiUrl, {
+      email,
+      password,
+    });
+  
+  
+    const data = await response.data;
+  
+    return data;
+  }catch(err){
+    console.log(err)
+  }
 };
 
 export const logout = async (token: string | null) => {
   const apiUrl = `${api}/logout`;
 
-  const response = await axios.post(apiUrl, {
+  const response = await axios.post(apiUrl, {}, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -186,6 +191,20 @@ export const unBlockUser = async (token: string | null, userId: number) => {
  
    return response.data;
   } catch(err) {
+    return err
+  }
+}
+
+export const isUserBlocked = async (token: string | null, userId: number) => {
+  try{
+    const response = await axios.get(`${api}/is-blocked/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    return response.data
+  }catch(err){
     return err
   }
 }

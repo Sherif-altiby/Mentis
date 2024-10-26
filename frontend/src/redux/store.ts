@@ -7,6 +7,7 @@ import themeReducer from "../components/userDashboardComponents/setting/settingS
 import videoReducer from "../pages/videoplayer/videoSlice";
 import courseLengthReducer from "../components/TeacherComponents/courses/coursesSlice";
 import teacherNoteReducer from "../components/TeacherComponents/teachernotes/NoteSlice";
+import isBlockedReducer from "../components/AdminComponents/blockedusers/isUserBlockedSlice"
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     videoId: videoReducer,
     coursesLevelsTeacher: courseLengthReducer,
     notes: teacherNoteReducer,
+    isBlocked: isBlockedReducer
   },
 });
 

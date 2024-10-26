@@ -93,7 +93,7 @@ const BlockedUsers = () => {
         </div>
 
         <div className="filtered-teacher">
-          {filteredStudents?.map((user) => (
+          {filteredStudents.length > 0 ? filteredStudents.map((user) => (
             <p
               key={user.user_id}
               onClick={() => {
@@ -107,7 +107,7 @@ const BlockedUsers = () => {
             >
               {user.user.name}
             </p>
-          ))}
+          )) : ( <span > لا يوجد </span> ) }
         </div>
       </div>
     </div>

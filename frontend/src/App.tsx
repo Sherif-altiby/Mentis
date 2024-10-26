@@ -1,6 +1,6 @@
 import "./App.scss";
 import "./dark-mode.scss";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Material from "./pages/material/Material";
 import Signup from "./auth/Signup";
 import Login from "./auth/Login";
@@ -36,7 +36,7 @@ import UpdateCourse from "./components/TeacherComponents/courses/UpdateCourse";
 import QuizzesView from "./pages/quizzes-view/QuizzesView";
 import LevelQuizzes from "./components/TeacherComponents/teacherquizes/LevelQuizzes";
 import { useEffect } from "react";
-import { useAppSelector } from "./redux/reduxHook";
+import { useAppDispatch, useAppSelector } from "./redux/reduxHook";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import ScrollToTop from "./components/scrollTop/ScrollToTop";
@@ -44,30 +44,46 @@ import UpdateNotes from "./components/TeacherComponents/teachernotes/UpdateNotes
 import Students from "./components/AdminComponents/students/Students";
 import NotAllowed from "./pages/notfound/notAllowed";
 import BlockedUsers from "./components/AdminComponents/blockedusers/BlockedUsers";
+import { isUserBlocked } from "./utils/api";
+import { setIsBlocked } from "./components/AdminComponents/blockedusers/isUserBlockedSlice";
 
 const App = () => {
-  useEffect(() => {
-    AOS.init({ once: true });
-  }, []);
-  const appMode = useAppSelector(
-    (state) => state.mentisusertheme.mentisUserTheme
-  );
+
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch()
+
+  useEffect(() => { AOS.init({ once: true }); }, []);
+
+  const appMode = useAppSelector( (state) => state.mentisusertheme.mentisUserTheme );
+
+  const token = useAppSelector((state) => state.token.token);
+
+  const userId = useAppSelector((state) => state.userInfo.userInfo.user_id);
+
+  const isBlocked = useAppSelector((state) => state.isBlocked.isBlocked)
+
+  const getIsUserBlocked = async () => {
+    const res = await isUserBlocked(token, userId)
+
+
+   dispatch(setIsBlocked(res.blocked))
+
+  }
+
+  useEffect(() => { if(isBlocked) { navigate('/not-allowed') }}, [isBlocked])
+
+  useEffect(() => {getIsUserBlocked()}, [])
 
   return (
     <div className={`main-app ${appMode}`}>
-      <Router>
         <ScrollToTop />
         <Routes>
+
           <Route path="/" element={<Home />}>
             <Route index element={<Main />} />
-            <Route
-              path="material/:materialId"
-              element={<ProtectedRoute element={Material} />}
-            />
-            <Route
-              path="teacher/:teacherId"
-              element={<ProtectedRoute element={Teacher} />}
-            />
+            <Route path="material/:materialId" element={<ProtectedRoute element={Material} />} />
+            <Route path="teacher/:teacherId" element={<ProtectedRoute element={Teacher} />} />
           </Route>
 
           <Route path="/signup" element={<Signup />} />
@@ -76,28 +92,13 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
 
           {/* STUDENT DASHBOARD ROUTES*/}
-          <Route
-            path="/user/user-profile"
-            element={<ProtectedRoute element={StudentProfile} />}
-          >
+           <Route path="/user/user-profile" element={<ProtectedRoute element={StudentProfile} />} >
             <Route index element={<ProtectedRoute element={Dashboard} />} />
-            <Route
-              path="dashboard"
-              element={<ProtectedRoute element={Dashboard} />}
-            />
-            <Route
-              path="lectures"
-              element={<ProtectedRoute element={Lecture} />}
-            />
-            <Route
-              path="quizes"
-              element={<ProtectedRoute element={Quizes} />}
-            />
+            <Route path="dashboard" element={<ProtectedRoute element={Dashboard} />} />
+            <Route path="lectures" element={<ProtectedRoute element={Lecture} />} />
+            <Route path="quizes" element={<ProtectedRoute element={Quizes} />} />
             <Route path="books" element={<ProtectedRoute element={Books} />} />
-            <Route
-              path="settings"
-              element={<ProtectedRoute element={Setting} />}
-            />
+            <Route path="settings" element={<ProtectedRoute element={Setting} />} />
             <Route path="notifications" element={<Notifications />} />
           </Route>
 
@@ -140,11 +141,10 @@ const App = () => {
           <Route path="/teacher/dashboard/controle/notes/update-notes" element={<UpdateNotes />} />
           <Route path="/not-allowed" element={<NotAllowed />} />
         </Routes>
-      </Router>
     </div>
   );
 };
 
 export default App;
 
-// 578721@Mentis.com  IXyltVSq
+// 813515@Mentis.com  YMdOwFSh

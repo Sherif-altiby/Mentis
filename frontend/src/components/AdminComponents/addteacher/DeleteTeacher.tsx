@@ -56,7 +56,7 @@ const DeleteTeacher = () => {
           </div>
 
           <div className="filtered-teacher">
-            {filteredTeachers?.map((teacher) => (
+            {filteredTeachers ?  filteredTeachers.map((teacher) => (
               <p
                 key={teacher.id}
                 onClick={() => {
@@ -71,7 +71,7 @@ const DeleteTeacher = () => {
               >
                 {teacher.name}
               </p>
-            ))}
+            )) : ( <span > لا يوجد </span> ) }
           </div>
         </div>
       </div>
