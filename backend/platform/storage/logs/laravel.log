@@ -275,3 +275,7 @@
 "} 
 =======
 >>>>>>> 913c576e9434974a198745b8e9d370a03d21f9d0
+[2024-10-27 07:09:11] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at D:\\ments\\backend\\platform\\vendor\\symfony\\translation\\Translator.php:29)
+[stacktrace]
+#0 {main}
+"} 
