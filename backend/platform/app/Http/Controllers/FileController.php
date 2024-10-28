@@ -12,54 +12,40 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use PDF;
 
 class FileController extends Controller
 {
     public function store(Request $request)
     {
         try {
-            // Log the request data for debugging
-            Log::info('Request data:', $request->all());
-
-            // Validate the request data
+            // Validate request data
             $validatedData = $request->validate([
                 'user_id' => 'required|exists:users,id',
-                'file_name' => 'required|string|max:255',
-                'file_type' => 'required|string|max:255',
                 'file_data' => 'required|file|mimes:pdf,docx,txt,jpg,png',
             ]);
 
-            // Handle the uploaded file
             $file = $request->file('file_data');
-            if (!$file->isValid()) {
-                throw new \Exception('The file upload failed. Please try again.');
-            }
 
-            // Generate a hashed file name with the original extension
+            // Generate a hashed name for the file
             $hashedName = Str::random(40) . '.' . $file->getClientOriginalExtension();
 
-            // Store the file in the "public/files" directory with the hashed name
-            $filePath = $file->storeAs('files', $hashedName, 'public');
+            // Define the path to save the file
+            $path = 'public/files/' . $hashedName;
 
-            // Create a record in the database with the path
+            // Store the file in the public storage
+            Storage::put($path, file_get_contents($file->getRealPath()));
+
+            // Store the hashed name and file type in the database
             $fileRecord = File::create([
                 'user_id' => $validatedData['user_id'],
-                'file_name' => $validatedData['file_name'],
-                'file_type' => $validatedData['file_type'],
-                'file_data' => $filePath,  // Store file path instead of binary data
+                'file_name' => $hashedName,  // Save the hashed name here
+                'file_type' => $file->getClientMimeType(),
+                'file_data' => null, // Set to null since we're saving the file on disk
             ]);
 
-            // Hide binary data from the response
-            $fileRecord->makeHidden('file_data');
+            // Return the response excluding binary data
+            return response()->json($fileRecord->only(['id', 'file_name', 'file_type', 'user_id']), 201);
 
-            return response()->json($fileRecord->only(['id', 'file_name', 'file_type', 'user_id', 'file_data']), 201);
-
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
-                'error' => 'Validation failed.',
-                'messages' => $e->errors(),
-            ], 422);
         } catch (\Exception $e) {
             Log::error('Error storing file:', ['message' => $e->getMessage()]);
             return response()->json([
@@ -72,13 +58,18 @@ class FileController extends Controller
     public function show($id)
     {
         try {
+            // Retrieve the file record by ID
             $file = File::findOrFail($id);
-            $filePath = storage_path('app/public/' . $file->file_data);
 
+            // Generate the full path to the file
+            $filePath = storage_path('app/public/files/' . $file->file_name);
+
+            // Check if the file exists in the specified path
             if (!file_exists($filePath)) {
-                throw new \Exception('File data is missing.');
+                throw new \Exception('File not found'.$filePath.'');
             }
 
+            // Stream the file content
             return response()->file($filePath, [
                 'Content-Type' => $file->file_type,
                 'Content-Disposition' => 'inline; filename="' . $file->file_name . '"',
@@ -103,10 +94,10 @@ class FileController extends Controller
     {
         try {
             $file = File::findOrFail($fileId);
-            $filePath = storage_path('app/public/' . $file->file_data);
+            $filePath = storage_path('app/public/files/' . $file->file_name);
 
             if (!file_exists($filePath)) {
-                throw new \Exception('File data is missing.');
+                throw new \Exception('File not found.');
             }
 
             return response()->download($filePath, $file->file_name, [
@@ -121,47 +112,46 @@ class FileController extends Controller
             ], 500);
         }
     }
+
     public function calculateUserStorage($userId)
-{
-    try {
-        // Check if the user exists using Eloquent
-        $user = User::findOrFail($userId);
+    {
+        try {
+            // Check if the user exists using Eloquent
+            $user = User::findOrFail($userId);
 
-        // Calculate the total file size in bytes using Eloquent's sum method on the relationship
-        $totalStorage = $user->files()->sum(DB::raw('LENGTH(file_data)'));
+            // Calculate the total file size in bytes using Eloquent's sum method on the relationship
+            $totalStorage = $user->files()->sum(DB::raw('LENGTH(file_data)'));
 
-        // Handle the case where no files exist for the user
-        if ($totalStorage === 0) {
+            // Handle the case where no files exist for the user
+            if ($totalStorage === 0) {
+                return response()->json([
+                    'message' => 'User has no uploaded files',
+                    'user_id' => $userId,
+                    'total_storage_bytes' => 0 // Return 0 bytes if no files
+                ], 200);
+            }
+
             return response()->json([
-                'message' => 'User has no uploaded files',
+                'message' => 'Storage calculation successful',
                 'user_id' => $userId,
-                'total_storage_bytes' => 0 // Return 0 bytes if no files
+                'total_storage_bytes' => $totalStorage // Return the total storage in bytes
             ], 200);
+
+        } catch (ModelNotFoundException $e) {
+            // If the user is not found, return a 404 error with a message
+            return response()->json([
+                'error' => 'User not found',
+                'user_id' => $userId
+            ], 404);
+            
+        } catch (\Exception $e) {
+            // General error handling for unexpected issues
+            return response()->json([
+                'error' => 'An unexpected error occurred',
+                'details' => $e->getMessage()
+            ], 500);
         }
-
-        return response()->json([
-            'message' => 'Storage calculation successful',
-            'user_id' => $userId,
-            'total_storage_bytes' => $totalStorage // Return the total storage in bytes
-        ], 200);
-
-    } catch (ModelNotFoundException $e) {
-        // If the user is not found, return a 404 error with a message
-        return response()->json([
-            'error' => 'User not found',
-            'user_id' => $userId
-        ], 404);
-        
-    } catch (\Exception $e) {
-        // General error handling for unexpected issues
-        return response()->json([
-            'error' => 'An unexpected error occurred',
-            'details' => $e->getMessage()
-        ], 500);
     }
-}
-
-
 
     public function destroy($id)
     {
@@ -169,7 +159,7 @@ class FileController extends Controller
             $file = File::findOrFail($id);
 
             // Delete the file from storage
-            Storage::disk('public')->delete($file->file_data);
+            Storage::disk('public')->delete('files/' . $file->file_name);
 
             // Delete the record from the database
             $file->delete();

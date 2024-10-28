@@ -10,9 +10,9 @@ class File extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'file_name', 'file_type'];
+    protected $fillable = ['user_id', 'file_name', 'file_type','file_data'];
       // Hide file_data from being returned in JSON responses
-      protected $hidden = ['file_data'];
+    //  protected $hidden = ['file_data'];
     
 
     public function user()
