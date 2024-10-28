@@ -8,120 +8,120 @@ use App\Models\File;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB; // Import the DB facade
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
-use PDF; // Import the PDF facade
+use Illuminate\Support\Str;
+use PDF;
 
 class FileController extends Controller
 {
-//     public function store(Request $request)
-// {
-//     try {
-//         // Log the request data for debugging
-//         \Log::info('Request data:', $request->all());
+    public function store(Request $request)
+    {
+        try {
+            // Log the request data for debugging
+            Log::info('Request data:', $request->all());
 
-//         // Validate the request data
-//         $validatedData = $request->validate([
-//             'user_id' => 'required|exists:users,id',
-//             'file_name' => 'required|string|max:255',
-//             'file_type' => 'required|string|max:255',
-//             'file_data' => 'required|file|mimes:pdf,docx,txt,jpg,png',
-//         ]);
+            // Validate the request data
+            $validatedData = $request->validate([
+                'user_id' => 'required|exists:users,id',
+                'file_name' => 'required|string|max:255',
+                'file_type' => 'required|string|max:255',
+                'file_data' => 'required|file|mimes:pdf,docx,txt,jpg,png',
+            ]);
 
-//         // Handle the uploaded file
-//         $file = $request->file('file_data');
-//         if (!$file->isValid()) {
-//             throw new \Exception('The file upload failed. Please try again.');
-//         }
+            // Handle the uploaded file
+            $file = $request->file('file_data');
+            if (!$file->isValid()) {
+                throw new \Exception('The file upload failed. Please try again.');
+            }
 
-//         // Read the file's binary data
-//         $fileContents = file_get_contents($file->getRealPath());
+            // Generate a hashed file name with the original extension
+            $hashedName = Str::random(40) . '.' . $file->getClientOriginalExtension();
 
-//         // Create a record in the database
-//         $fileRecord = File::create([
-//             'user_id' => $validatedData['user_id'],
-//             'file_name' => $validatedData['file_name'],
-//             'file_type' => $validatedData['file_type'],
-//             'file_data' => $fileContents,  // Store binary data
-//         ]);
+            // Store the file in the "public/files" directory with the hashed name
+            $filePath = $file->storeAs('files', $hashedName, 'public');
 
-//         // Return a success response
-//         return response()->json($fileRecord, 201);
-//     } catch (\Illuminate\Validation\ValidationException $e) {
-//         // Handle validation errors
-//         return response()->json([
-//             'error' => 'Validation failed.',
-//             'messages' => $e->errors(),
-//         ], 422);
-//     } catch (\Exception $e) {
-//         // Handle general errors
-//         \Log::error('Error storing file:', ['message' => $e->getMessage()]);
-//         return response()->json([
-//             'error' => 'An error occurred while storing the file.',
-//             'message' => $e->getMessage(),
-//         ], 500);
-//     }
-// }
-public function store(Request $request)
-{
-    try {
-        // Log the request data for debugging
-        Log::info('Request data:', $request->all());
+            // Create a record in the database with the path
+            $fileRecord = File::create([
+                'user_id' => $validatedData['user_id'],
+                'file_name' => $validatedData['file_name'],
+                'file_type' => $validatedData['file_type'],
+                'file_data' => $filePath,  // Store file path instead of binary data
+            ]);
 
-        // Validate the request data
-        $validatedData = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'file_name' => 'required|string|max:255',
-            'file_type' => 'required|string|max:255',
-            'file_data' => 'required|file|mimes:pdf,docx,txt,jpg,png',
-        ]);
+            // Hide binary data from the response
+            $fileRecord->makeHidden('file_data');
 
-        // Handle the uploaded file
-        $file = $request->file('file_data');
-        if (!$file->isValid()) {
-            throw new \Exception('The file upload failed. Please try again.');
+            return response()->json($fileRecord->only(['id', 'file_name', 'file_type', 'user_id', 'file_data']), 201);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'error' => 'Validation failed.',
+                'messages' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            Log::error('Error storing file:', ['message' => $e->getMessage()]);
+            return response()->json([
+                'error' => 'An error occurred while storing the file.',
+                'message' => $e->getMessage(),
+            ], 500);
         }
-
-        // Read the file's binary data
-        $fileContents = file_get_contents($file->getRealPath());
-
-        // Create a record in the database
-        $fileRecord = File::create([
-            'user_id' => $validatedData['user_id'],
-            'file_name' => $validatedData['file_name'],
-            'file_type' => $validatedData['file_type'],
-            'file_data' => $fileContents,  // Store binary data
-        ]);
-
-        // Hide binary data from the response
-        $fileRecord->makeHidden('file_data');
-
-        // Return a success response without the binary field
-        return response()->json($fileRecord->only(['id', 'file_name', 'file_type', 'user_id']), 201);
-
-    } catch (\Illuminate\Validation\ValidationException $e) {
-        // Handle validation errors
-        return response()->json([
-            'error' => 'Validation failed.',
-            'messages' => $e->errors(),
-        ], 422);
-    } catch (\Exception $e) {
-        // Handle general errors
-        Log::error('Error storing file:', ['message' => $e->getMessage()]);
-        return response()->json([
-            'error' => 'An error occurred while storing the file.',
-            'message' => $e->getMessage(),
-        ], 500);
     }
-}
 
+    public function show($id)
+    {
+        try {
+            $file = File::findOrFail($id);
+            $filePath = storage_path('app/public/' . $file->file_data);
 
+            if (!file_exists($filePath)) {
+                throw new \Exception('File data is missing.');
+            }
 
-public function calculateUserStorage($userId)
+            return response()->file($filePath, [
+                'Content-Type' => $file->file_type,
+                'Content-Disposition' => 'inline; filename="' . $file->file_name . '"',
+            ]);
+
+        } catch (ModelNotFoundException $e) {
+            Log::error('File not found:', ['id' => $id, 'message' => $e->getMessage()]);
+            return response()->json([
+                'error' => 'File not found.',
+                'message' => "File with ID $id does not exist."
+            ], 404);
+        } catch (\Exception $e) {
+            Log::error('Error retrieving file:', ['message' => $e->getMessage()]);
+            return response()->json([
+                'error' => 'An error occurred while retrieving the file.',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function downloadFile($fileId)
+    {
+        try {
+            $file = File::findOrFail($fileId);
+            $filePath = storage_path('app/public/' . $file->file_data);
+
+            if (!file_exists($filePath)) {
+                throw new \Exception('File data is missing.');
+            }
+
+            return response()->download($filePath, $file->file_name, [
+                'Content-Type' => $file->file_type,
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error downloading file:', ['message' => $e->getMessage()]);
+            return response()->json([
+                'error' => 'An error occurred while downloading the file.',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+    public function calculateUserStorage($userId)
 {
     try {
         // Check if the user exists using Eloquent
@@ -163,76 +163,22 @@ public function calculateUserStorage($userId)
 
 
 
-
-public function show($id)
-{
-    try {
-        // Retrieve the file record
-        $file = File::findOrFail($id);
-
-        // Ensure file data exists
-        if (empty($file->file_data)) {
-            throw new \Exception('File data is missing.');
-        }
-
-        // Get the file's binary data and file name
-        $fileData = $file->file_data;
-        $fileName = $file->file_name;
-
-        // Load the PDF data directly from the binary content
-        // Make sure to set the correct MIME type
-        return response($fileData)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
-
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        \Log::error('File not found:', ['id' => $id, 'message' => $e->getMessage()]);
-        return response()->json([
-            'error' => 'File not found.',
-            'message' => "File with ID $id does not exist."
-        ], 404);
-
-    } catch (\Exception $e) {
-        \Log::error('Error retrieving file:', ['message' => $e->getMessage()]);
-        return response()->json([
-            'error' => 'An error occurred while retrieving the file.',
-            'message' => $e->getMessage(),
-        ], 500);
-    }
-}
-
-
-public function downloadFile($fileId)
-{
-    try {
-        // Retrieve the file by ID
-        $file = File::findOrFail($fileId);
-
-        // Decode the file data from Base64 (if stored as Base64) or return the raw binary data
-        $fileData = base64_decode($file->file_data);
-
-        // Return the file as a response, serving it as a downloadable PDF or another file type
-        return response()->make($fileData, 200, [
-            'Content-Type' => $file->file_type, // MIME type from the database, e.g., 'application/pdf'
-            'Content-Disposition' => 'inline; filename="' . $file->file_name . '"', // Display or download the file
-        ]);
-
-    } catch (\Exception $e) {
-        \Log::error('Error downloading file:', ['message' => $e->getMessage()]);
-        return response()->json([
-            'error' => 'An error occurred while downloading the file.',
-            'message' => $e->getMessage(),
-        ], 500);
-    }
-}
-
-
     public function destroy($id)
     {
-        $file = File::findOrFail($id);
-        Storage::disk('public')->delete($file->file_data);
-        $file->delete();
+        try {
+            $file = File::findOrFail($id);
 
-        return response()->json("success", 204);
+            // Delete the file from storage
+            Storage::disk('public')->delete($file->file_data);
+
+            // Delete the record from the database
+            $file->delete();
+
+            return response()->json("success", 204);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'File not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while deleting the file'], 500);
+        }
     }
 }
