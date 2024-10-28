@@ -78,8 +78,7 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':teacher'])->group(f
     Route::put('/teachers/courses/contents/{id}', [TeacherController::class, 'updateCourseContent']);
     Route::delete('/teachers/courses/contents/{id}', [TeacherController::class, 'deleteCourseContent']);
 
-    // Course Content Files Management
-    Route::post('/course-content/store', [TeacherController::class, 'storeFileAndContent']);
+    
     
 
     
@@ -197,6 +196,11 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin|teacher|stude
     Route::get('/is-blocked/{userId}', [UserBlockController::class, 'isBlocked']);
     Route::get('/getAllBlockedUsers', [UserBlockController::class, 'getAllBlockedUsers']);
 
+
+
+
+    // Course Content Files Management
+    Route::post('/course-content/store', [TeacherController::class, 'storeFileAndContent']);
 
 
     

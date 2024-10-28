@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 [2024-10-26 15:07:49] local.ERROR: Call to undefined method App\Models\User::isBlocked() {"userId":1,"exception":"[object] (BadMethodCallException(code: 0): Call to undefined method App\\Models\\User::isBlocked() at C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Traits\\ForwardsCalls.php:67)
 [stacktrace]
 #0 C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Traits\\ForwardsCalls.php(36): Illuminate\\Database\\Eloquent\\Model::throwBadMethodCallException('isBlocked')
@@ -282,3 +283,18 @@
 "} 
 =======
 >>>>>>> fd00e45c5f950bc5b53f03b4f52a4122406c4a79
+=======
+[2024-10-28 11:43:10] local.ERROR: Error retrieving file: {"message":"The file \"C:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\storage\\app/public/\" does not exist"} 
+[2024-10-28 11:45:44] local.ERROR: Error retrieving file: {"message":"File data is missing."} 
+[2024-10-28 11:45:54] local.ERROR: Error retrieving file: {"message":"File data is missing."} 
+[2024-10-28 11:52:13] local.ERROR: File not found: {"id":"34","message":"No query results for model [App\\Models\\File] 34"} 
+[2024-10-28 11:52:30] local.ERROR: Error retrieving file: {"message":"File data is missing."} 
+[2024-10-28 11:56:37] local.ERROR: File not found: {"id":"35","message":"No query results for model [App\\Models\\File] 35"} 
+[2024-10-28 11:56:41] local.ERROR: Error retrieving file: {"message":"File data is missing."} 
+[2024-10-28 11:59:27] local.ERROR: Error retrieving file: {"message":"File data is missing or file not found."} 
+[2024-10-28 12:04:13] local.ERROR: Error retrieving file: {"message":"File data is missing or file not found."} 
+[2024-10-28 12:07:47] local.ERROR: Error retrieving file: {"message":"File not found."} 
+[2024-10-28 12:09:06] local.ERROR: Error retrieving file: {"message":"File not found."} 
+[2024-10-28 12:10:26] local.ERROR: Error retrieving file: {"message":"File not found."} 
+[2024-10-28 12:12:01] local.ERROR: Error retrieving file: {"message":"File not foundC:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\storage\\public/files/LBWRLrfcxvR8QPtHTyUMfmMPKwDaVncr9FKmknIS.png"} 
+>>>>>>> 56557519959eedaecc814e2f42214736a51c6bdf
