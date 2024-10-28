@@ -24,9 +24,7 @@ const TeacherNotes = () => {
   const userId = useAppSelector((state) => state.userInfo.userInfo.user_id);
   const [loading, setLoading] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(false);
-  const teacher = useAppSelector((state) =>
-    state.teacher.teachers.find((item) => item.id === userId)
-  );
+  const teacher = useAppSelector((state) => state.teacher.teachers.find((item) => item.id === userId));
   const courseId = teacher?.courses[0]?.id;
 
   const [fileName, setFileName] = useState("");
@@ -55,19 +53,13 @@ const TeacherNotes = () => {
       return;
     }
 
+    console.log(selectedFile)
+    console.log(fileName)
+
     try {
       setLoading(true);
-      await uploadNote(
-        token,
-        userId,
-        courseId,
-        fileName,
-        "pdf",
-        selectedFile,
-        "document",
-        fileName,
-        level
-      );
+      const res  =  await uploadNote( token, userId, courseId, fileName, "document", selectedFile, "document", fileName, level);
+      console.log(res)
       setSelectedFile(null);
       setFileName("");
       setLevel("first");
