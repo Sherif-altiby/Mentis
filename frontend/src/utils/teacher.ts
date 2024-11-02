@@ -199,23 +199,27 @@ export const uploadNote = async (
   level: string
 ) => {
   const formData = new FormData();
-  formData.append("user_id", id.toString());
   formData.append("course_id", courseId?.toString() || "");
+  formData.append("content_type", contentType);
+  formData.append("title", title);
   formData.append("file_name", fileName);
   formData.append("file_type", fileType);
   formData.append("file_data", fileData);
-  formData.append("content_type", contentType);
-  formData.append("title", title);
+  formData.append("user_id", id.toString());
   formData.append("level", level);
 
-  const response = await axios.post(`${api}/course-content/store`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
-  return response.data;
+    const response = await axios.post(`${api}/course-content/store`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+  
+    return response.data;
+  
+ 
 };
 
 export const getAllTeacherQuizzes = async (token: string | null) => {

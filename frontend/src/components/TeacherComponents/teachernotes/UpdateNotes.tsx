@@ -30,6 +30,8 @@ const UpdateNotes = () => {
     setLevelNotes(allNotes.filter((note) => note.level === level));
   }, []);
 
+  console.log(allNotes)
+
   const handleDeleteNote = async (id: number) => {
     setLoading(true);
     try {
@@ -51,7 +53,7 @@ const UpdateNotes = () => {
 
   return (
     <>
-      <Nav />
+      <Nav showIcon={false} setShowMenu={setShowMsg} />
       <Message show={showMsg} closeMsg={setShowMsg} message={msgText} />
       <div className="update-notes main-container">
         {loading && <CustomLoading />}
@@ -72,12 +74,12 @@ const UpdateNotes = () => {
                       <FontAwesomeIcon icon={faTrash} />
                     </div>
                   </div>
-                  <div className="icon-container">
+                  {/* <div className="icon-container">
                     <p> تعديل </p>
                     <div className="iconc">
                       <FontAwesomeIcon icon={faFilePen} />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ))

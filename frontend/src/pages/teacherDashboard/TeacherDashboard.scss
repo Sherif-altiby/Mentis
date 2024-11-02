@@ -76,6 +76,7 @@
   border-radius: 5px;
   min-height: calc(100vh - 130px);
   direction: rtl;
+  position: relative;
 
   @include screen(lg) {
     width: calc(100% - 40px);

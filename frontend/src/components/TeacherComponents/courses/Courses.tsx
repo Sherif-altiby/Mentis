@@ -6,17 +6,8 @@ import { useAppDispatch, useAppSelector } from "../../../redux/reduxHook";
 import { useEffect, useState } from "react";
 import CustomLoading from "../../../pages/loading/CustomLoading";
 import Message from "../../message/Message";
-import {
-  createTeacherCourse,
-  getCourseId,
-  getTeacherAllCourses,
-} from "../../../utils/teacher";
-import Loading from "../../../pages/loading/Loading";
-import {
-  setFirstLevelCourses,
-  setSecondLevelCourses,
-  setThirdLevelCourses,
-} from "./coursesSlice";
+import { createTeacherCourse, getCourseId, getTeacherAllCourses, } from "../../../utils/teacher";
+import { setFirstLevelCourses, setSecondLevelCourses, setThirdLevelCourses, } from "./coursesSlice";
 
 const Courses = () => {
   const [courseName, setCourseName] = useState("");
@@ -55,13 +46,7 @@ const Courses = () => {
   const createCourse = async () => {
     setLoading(true);
 
-    const course = await createTeacherCourse(
-      token,
-      courseName,
-      courseLevel,
-      courseId,
-      courseLink
-    );
+    const course = await createTeacherCourse( token, courseName, courseLevel, courseId, courseLink );
 
     console.log(course);
 
@@ -135,16 +120,10 @@ const Courses = () => {
 
   return (
     <div>
-      {fetchLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <Message
-            show={msg}
-            message="تم إضافة الدرس بنجاح"
-            closeMsg={setMsg}
-          />
+       
+          <Message show={msg} message="تم إضافة الدرس بنجاح" closeMsg={setMsg} />
           <div className={`teacher-dashboard-courses`}>
+            {fetchLoading && <CustomLoading />}
             <h1> الدروس </h1>
             <div className="courses-amount">
               <h3> عدد الدروس التي قمت بإضافتها </h3>
@@ -258,8 +237,6 @@ const Courses = () => {
               </div>
             </div>
           </div>
-        </>
-      )}
     </div>
   );
 };

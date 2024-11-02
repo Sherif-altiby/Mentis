@@ -7,7 +7,6 @@ import { getTeacherFiles, uploadNote } from "../../../utils/teacher";
 import CustomLoading from "../../../pages/loading/CustomLoading";
 import Message from "../../message/Message";
 import { addNote, NoteInterface } from "./NoteSlice";
-import Loading from "../../../pages/loading/Loading";
 
 interface Note {
   course_id: number;
@@ -26,6 +25,7 @@ const TeacherNotes = () => {
   const [fetchLoading, setFetchLoading] = useState(false);
   const teacher = useAppSelector((state) => state.teacher.teachers.find((item) => item.id === userId));
   const courseId = teacher?.courses[0]?.id;
+
 
   const [fileName, setFileName] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -53,8 +53,17 @@ const TeacherNotes = () => {
       return;
     }
 
-    console.log(selectedFile)
-    console.log(fileName)
+
+    // token: string | null,
+    // id: string | number,
+    // courseId: string | number | undefined,
+    // fileName: string,
+    // fileType: string,
+    // fileData: File | Blob,
+    // contentType: string,
+    // title: string,
+    // level: string
+
 
     try {
       setLoading(true);
@@ -66,7 +75,7 @@ const TeacherNotes = () => {
       getFiles();
       setLoading(false);
       SetShowMsg(true);
-      setMsgText("تم إضافة المذكرو بنجاح");
+      setMsgText("تم إضافة المذكرة بنجاح");
     } catch (error) {
       setLoading(false);
       SetShowMsg(true);
@@ -109,7 +118,7 @@ const TeacherNotes = () => {
   return (
     <div>
       <Message show={showMsg} message={msgText} closeMsg={SetShowMsg} />
-      {fetchLoading && <Loading />}
+      {fetchLoading && <CustomLoading />}
       <h1> المذكرات </h1>
       <div className={`teacher-notes `}>
         <div className="all-teacher-notes">
