@@ -11,3 +11,6 @@
 [2024-10-28 12:09:06] local.ERROR: Error retrieving file: {"message":"File not found."} 
 [2024-10-28 12:10:26] local.ERROR: Error retrieving file: {"message":"File not found."} 
 [2024-10-28 12:12:01] local.ERROR: Error retrieving file: {"message":"File not foundC:\\xampp\\htdocs\\projects\\platform\\githup\\Mentis\\backend\\platform\\storage\\public/files/LBWRLrfcxvR8QPtHTyUMfmMPKwDaVncr9FKmknIS.png"} 
+[2024-10-29 14:40:53] local.ERROR: Error downloading file: {"message":"File not found."} 
+[2024-10-29 14:40:58] local.ERROR: Error downloading file: {"message":"File not found."} 
+[2024-10-29 14:41:03] local.ERROR: Error downloading file: {"message":"No query results for model [App\\Models\\File] 8"} 
