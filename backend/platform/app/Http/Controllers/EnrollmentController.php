@@ -48,9 +48,11 @@ class EnrollmentController extends Controller
 
         $course = Course::find($request->course_id);
 
-        if (!$course || !$course->price) {
-            return response()->json(['error' => 'Course or enrollment price not found'], 404);
+        if (!$course) {
+            return response()->json(['error' => 'Course not found'], 404);
         }
+
+        $status = $course->price == 0 ? 'active' : 'pending_payment';
 
         $enrollment = Enrollment::firstOrCreate(
             [
@@ -58,10 +60,14 @@ class EnrollmentController extends Controller
                 'course_id' => $request->course_id,
             ],
             [
-                'status' => 'pending_payment',
+                'status' => $status,
                 'enrollment_date' => now(),
             ]
         );
+
+        if ($course->price == 0) {
+            return response()->json(['message' => 'Enrollment activated automatically as the course is free.', 'enrollment' => $enrollment], 201);
+        }
 
         return response()->json(['message' => 'Enrollment created. Awaiting payment.', 'enrollment' => $enrollment], 201);
     }
@@ -71,9 +77,12 @@ class EnrollmentController extends Controller
     {
         $enrollment = Enrollment::find($id);
 
-
         if (!$enrollment) {
             return response()->json(['error' => 'Enrollment not found'], 404);
+        }
+
+        if ($enrollment->status == 'active') {
+            return response()->json(['message' => 'Enrollment is already active and does not require payment.'], 200);
         }
 
         $validator = Validator::make($request->all(), [
@@ -105,31 +114,30 @@ class EnrollmentController extends Controller
         return response()->json(['message' => 'Payment created. Awaiting admin approval.', 'payment' => $payment]);
     }
 
+    // Admin: Approve payment and activate enrollment
     public function approvePayment($payment_id)
-{
-    // $this->authorize('admin'); // Uncomment when using authorization
+    {
+        // $this->authorize('admin'); // Uncomment when using authorization
 
-    $payment = Payment::find($payment_id);
+        $payment = Payment::find($payment_id);
 
-    if (!$payment) {
-        return response()->json(['error' => 'Payment not found'], 404);
+        if (!$payment) {
+            return response()->json(['error' => 'Payment not found'], 404);
+        }
+
+        if ($payment->status !== 'pending_admin_approval') {
+            return response()->json(['error' => 'Payment cannot be approved'], 400);
+        }
+
+        try {
+            $payment->update(['status' => 'completed']);
+            $payment->enrollment->update(['status' => 'active']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to approve payment: ' . $e->getMessage()], 500);
+        }
+
+        return response()->json(['message' => 'Payment approved and enrollment activated']);
     }
-
-    if ($payment->status !== 'pending_admin_approval') {
-        return response()->json(['error' => 'Payment cannot be approved'], 400);
-    }
-
-    // Approve payment and activate enrollment
-    try {
-        $payment->update(['status' => 'completed']);
-        $payment->enrollment->update(['status' => 'active']);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Failed to approve payment: ' . $e->getMessage()], 500);
-    }
-
-    return response()->json(['message' => 'Payment approved and enrollment activated']);
-}
-
 
     // Admin: CRUD operations for enrollments
     public function index()
