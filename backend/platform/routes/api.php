@@ -12,6 +12,7 @@ use App\Http\Controllers\QuizQuestionController;
 use App\Http\Controllers\QuizResponseController;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\UserBlockController;
+use App\Http\Controllers\EnrollmentController;
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes
@@ -201,6 +202,18 @@ Route::middleware(['auth:sanctum', RoleMiddleware::class . ':admin|teacher|stude
 
     // Course Content Files Management
     Route::post('/course-content/store', [TeacherController::class, 'storeFileAndContent']);
+
+
+
+        
+
+    Route::post('/courses/{course_id}/set-price', [EnrollmentController::class, 'setCoursePrice']);
+    Route::post('/enroll', [EnrollmentController::class, 'enroll']);
+    Route::post('/enrollments/{id}/pay', [EnrollmentController::class, 'makePayment']);
+    Route::put('/payments/{payment_id}/approve', [EnrollmentController::class, 'approvePayment']);
+    Route::get('/enrollments', [EnrollmentController::class, 'index']);
+    Route::delete('/enrollments/{id}', [EnrollmentController::class, 'destroy']);
+
 
 
     
