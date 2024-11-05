@@ -10,13 +10,17 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
-            $table->decimal('amount', 8, 2);
+            $table->foreignId('enrollment_id')->constrained()->onDelete('cascade');
+            $table->decimal('amount', 10, 2);
+            $table->string('currency', 3)->default('USD'); // 3-letter ISO code for currency
             $table->string('payment_method');
-            $table->timestamp('payment_date');
+            $table->string('transaction_id')->nullable()->unique(); // for external payment references
+            $table->enum('status', ['completed', 'pending', 'failed', 'pending_admin_approval'])->default('pending');
+            $table->timestamp('payment_date')->nullable();
             $table->timestamps();
         });
+        
+        
     }
 
     public function down()

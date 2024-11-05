@@ -42,6 +42,28 @@ class TeacherController extends Controller
         }
     }
 
+
+    public function countStudentsByTeacher($teacherId)
+    {
+        $teacher = User::with(['coursesTaught.enrollments'])
+            ->where('id', $teacherId)
+            ->where('role', 'teacher')
+            ->first();
+    
+        if (!$teacher) {
+            return response()->json(['error' => 'Teacher not found'], 404);
+        }
+    
+        // Count distinct students across all courses taught by this teacher
+        $studentCount = $teacher->coursesTaught->flatMap(function ($course) {
+            return $course->enrollments->pluck('student_id');
+        })->unique()->count();
+    
+        return response()->json(['student_count' => $studentCount]);
+    }
+
+
+
     // Create a new course
     public function storeCourse(Request $request)
     {

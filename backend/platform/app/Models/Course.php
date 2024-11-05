@@ -15,6 +15,7 @@ class Course extends Model
         'description',
         'price',
         'image',
+        
     ];
 
     public function teacher()
@@ -26,4 +27,10 @@ class Course extends Model
     {
         return $this->hasMany(CourseContent::class, 'course_id');
     }
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+   
+
 }
