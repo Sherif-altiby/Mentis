@@ -1,0 +1,31 @@
+@import '../../App.scss';
+
+.aboutus-page{
+    min-height: 100vh;
+
+    h1{
+        text-align: center;
+        color: var(--primary-color);
+        margin-top: 50px;
+        margin-bottom: 50px;
+
+        @include screen(md){
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    }
+
+    p{
+        text-align: right;
+        font-size: 23px;
+        margin-bottom: 30px;
+
+        @include screen(md){
+            font-size: 16px;
+        }
+
+        @include screen(xsm){
+            text-align: center;
+        }
+    }
+}

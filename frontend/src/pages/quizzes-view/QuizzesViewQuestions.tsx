@@ -11,7 +11,6 @@ import { setLoading } from '../loading/Loadingslice';
 import Loading from '../loading/Loading';
 import { getQuizQuestions } from '../../utils/teacher';
 import { QuestionAnswer, QuestionPropsInterface, ShuffledQuestion } from '../../types/index.types';
-import CircularProgress from '../../components/CircularProgress/CircularProgress ';
 
 
 
@@ -35,7 +34,7 @@ const QuizzesViewQuestions = () => {
   const [selectedAnswers, setSelectedAnswers] = useState<QuestionAnswer[]>([]); 
   const [errors, setErrors] = useState<number[]>([]);
 
-  const [startQuize, setStartQuize] = useState(false)
+  const [showMenu, setShowMenu] = useState(false)
 
   const detectSize = () => {
     setDimension({ width: window.innerWidth, height: window.innerHeight });
@@ -154,7 +153,7 @@ const QuizzesViewQuestions = () => {
 
   return (
     <div className="student-questions">
-      <Nav />
+      <Nav  showIcon={showMenu} setShowMenu={setShowMenu} />
       {showFireworks && (
         <ReactConfetti
           width={windowDimension.width}
@@ -165,12 +164,9 @@ const QuizzesViewQuestions = () => {
       )}
       <audio ref={audioRef} src={sound} />
 
-      {
-        startQuize ? (
           <div className="quiz-questions-container">
 
           <h2>{quizTitle}</h2>
-          <CircularProgress initialTime={900} />
           {loading ? (
             <Loading />
           ) : questions.length > 0 ? (
@@ -201,15 +197,7 @@ const QuizzesViewQuestions = () => {
           )}
           <div className="btn-send" onClick={handleSend}>إرسال</div>
         </div>
-        ) : (
-            <div className="quize__info">
-                 <div className="quize__name"> {quizTitle} </div>
-                 <div className="quize__time"> زمن الاختبار: 50 دقيقة </div>
-                 <div className="quize__length"> عدد الاسالة: 100 سؤال </div>
-                 <div className="start__quize" onClick={() => setStartQuize(true)} > ابدا الاختبار </div>
-            </div>
-        )
-      }       
+           
 
       <Footer />
     </div>

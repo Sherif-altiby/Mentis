@@ -46,6 +46,7 @@ import NotAllowed from "./pages/notfound/notAllowed";
 import BlockedUsers from "./components/AdminComponents/blockedusers/BlockedUsers";
 import { isUserBlocked } from "./utils/api";
 import { setIsBlocked } from "./components/AdminComponents/blockedusers/isUserBlockedSlice";
+import Aboutus from "./pages/about-us/Aboutus";
 
 const App = () => {
 
@@ -84,6 +85,7 @@ const App = () => {
             <Route index element={<Main />} />
             <Route path="material/:materialId" element={<ProtectedRoute element={Material} />} />
             <Route path="teacher/:teacherId" element={<ProtectedRoute element={Teacher} />} />
+            <Route path="/aboutus" element={<Aboutus />} />
           </Route>
 
           <Route path="/signup" element={<Signup />} />

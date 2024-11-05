@@ -77,7 +77,34 @@
     }
   }
 
-  .admin-page {
-    // background-color: var(--primary5);
+  .all-quizzes-section {
+    background-color: var(--primary3);
+  }
+
+  h3.title {
+    background-color: var(--primary3);
+    color: #fff;
+  }
+
+  .all-quizzes-section .quize p,
+  .all-quizzes-section .quize .num {
+    color: #fff;
+  }
+
+  .all-quizzes-section .quize{
+    box-shadow: 0 0 1px #fff;
+
+    &:hover{
+      background-color: #fff;
+
+      p, .num{
+        color: var(--primary-color);
+      }
+
+      .icon{
+        background-color: var(--primary2);
+        color: #fff;
+      }
+    }
   }
 }

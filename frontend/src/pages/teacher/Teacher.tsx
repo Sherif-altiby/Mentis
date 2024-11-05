@@ -1,4 +1,4 @@
-import { Outlet, useLocation, useParams } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import "./Teacher.scss";
 import { useAppSelector } from "../../redux/reduxHook";
 import Loading from "../loading/Loading";
@@ -51,7 +51,7 @@ const Teacher = () => {
               <div className="icon">
                 <FontAwesomeIcon icon={faVideoSlash} />
               </div>
-              <p> الفديوهات </p>
+              <p> الدروس </p>
             </Link>
             <Link
               className="link"

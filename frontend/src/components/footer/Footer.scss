@@ -3,8 +3,8 @@
 footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 50px 100px;
+  justify-content: center;
+  padding: 20px 100px;
   color: #fff;
   background-color: var(--primary-color);
   width: 100%;
@@ -31,10 +31,27 @@ footer {
 
     a {
       color: #fff;
+      transition: 0.3s;
+
+      &:hover{
+        color: var(--primary-color-alt);
+      }
 
       @include screen(sm) {
         font-size: 14px;
       }
     }
+  }
+}
+
+
+.copy-wright a{
+  color: #fff;
+  font-size: 20px;
+  font-family: cursive;
+  transition: 0.3s;
+
+  &:hover{
+    color: var(--green-color);
   }
 }

@@ -5,14 +5,12 @@ const Footer = () => {
   return (
     <div>
       <footer className={``}>
-        <div className="links">
-          <Link to="/"> شروط الالستخدام </Link>
-          <Link to="/"> سياية الخصوصية </Link>
-          <Link to="/"> من نحن </Link>
-          <Link to="/"> مساعدة </Link>
-        </div>
+         
         <div className="copy-wright">
-          . © 2024 جميع الحقوق محفوظة .تنفيذ و تطوير
+          <p>
+          <Link to="/" > CraftyCode </Link>
+          . جميع الحقوق محفوظة  © 2024.تنفيذ و تطوير
+          </p>
         </div>
       </footer>
     </div>

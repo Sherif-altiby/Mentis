@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/reduxHook";
-import { setLoading } from "../loading/Loadingslice";
 import Nav from "../../components/Navbar/Nav";
 import Footer from "../../components/footer/Footer";
 import Loading from "../loading/Loading";
@@ -10,6 +9,7 @@ import { getAllTeacherQuizzes } from "../../utils/teacher";
 import { useSearchParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboardQuestion } from "@fortawesome/free-solid-svg-icons";
+import { setAllQuizzes } from "./quizeSlice";
 
 const QuizzesView = () => {
   const dispatch = useAppDispatch();
@@ -17,48 +17,45 @@ const QuizzesView = () => {
 
   const teacherId = searchParams.get("id");
 
-  const loading = useAppSelector((state) => state.loading.isLoading);
   const token = useAppSelector((state) => state.token.token);
+  const quizzes = useAppSelector(s => s.quizzes.quizzes)
 
-  const [filteredQuizzes, setFilteredQuizzes] = useState<quizeProps[]>([]);
+  const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const getQuizzes = async (token: string | null) => {
-    dispatch(setLoading(true));
+
+    if(quizzes.length === 0) {
+      setLoading(true)
+    }
 
     try {
       const response = await getAllTeacherQuizzes(token);
+
       if (response && response.length > 0) {
-        const filtered = response.filter(
-          (quize: quizeProps) => quize.teacher_id === Number(teacherId)
-        );
-        setFilteredQuizzes(filtered);
+
+         const filtered = response.filter( (quize: quizeProps) => quize.teacher_id === Number(teacherId) )   ;
+         dispatch(setAllQuizzes(filtered));
       }
-    } catch (err) {
-      console.log("errorr");
-      dispatch(setLoading(false));
-    }
-    dispatch(setLoading(false));
+    } catch (err) { setLoading(false); }
+    setLoading(false);
   };
 
   useEffect(() => {
-    if (token) {
-      getQuizzes(token);
-    }
+    if (token) { getQuizzes(token) }
 
-    console.log(filteredQuizzes);
+    console.log(quizzes);
   }, [token, teacherId]);
 
   return (
     <div>
-      <Nav />
-      {loading ? (
-        <Loading />
-      ) : (
+      <Nav setShowMenu={setShow} showIcon={show} />
+      {loading ? ( <Loading /> ) : (
         <>
           <h3 className="title"> الاختبارات </h3>
           <div className={`all-quizzes-section `}>
-            {filteredQuizzes.length > 0 ? (
-              filteredQuizzes.map((quize, index) => (
+            {quizzes.length > 0 ? (
+              quizzes.map((quize, index) => (
                 <Link
                   to={`/user/user-subjects/quizzes/questions?query=questions&id=${quize.id}&name=${quize.title}`}
                   className="quize"
@@ -67,13 +64,12 @@ const QuizzesView = () => {
                   <div className="num"> ( {index + 1} )</div>
                   <p> {quize.title} </p>
                   <div className="icon">
-                    {" "}
-                    <FontAwesomeIcon icon={faClipboardQuestion} />{" "}
+                    <FontAwesomeIcon icon={faClipboardQuestion} />
                   </div>
                 </Link>
               ))
             ) : (
-              <h3>No quizzes available</h3>
+              <h3>   لا يوجد اختبارات  </h3>
             )}
           </div>
         </>

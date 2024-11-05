@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
-import introImg from "../../assets/intro-img-2.png";
 import studentintroimg from "../../assets/student-intro-img-2.png";
-import teacherintroimg from "../../assets/teacher-intro.png";
 import { motion } from "framer-motion";
 
 import CreateTeacherCard from "../createTeacherCard/CreateTeacherCard";
@@ -13,9 +11,9 @@ import { useEffect } from "react";
 
 import { setAllTeachers } from "./teacherSlice";
 import { api } from "../../utils/api";
-import RadiaChart from "../charts/RadiaChart";
 
 const Main = () => {
+  
   const dispatch = useAppDispatch();
 
   const token = useAppSelector((state) => state.token.token);
@@ -51,19 +49,10 @@ const Main = () => {
         <div className="intro-section">
           <motion.div
             className="img"
-            animate={{ bottom: [-50, 80, -50] }}
-            transition={{ duration: 5, repeat: Infinity }}
+            animate={{ bottom: [-20, 130, -20] }}
+            transition={{ duration: 10, repeat: Infinity }}
           >
-            <img
-              src={
-                userInfo.role === "student"
-                  ? studentintroimg
-                  : userInfo.role === "teacher"
-                  ? teacherintroimg
-                  : introImg
-              }
-              alt=""
-            />
+            <img src={ studentintroimg } alt="" />
           </motion.div>
 
           <div className="text">

@@ -208,3 +208,19 @@ export const isUserBlocked = async (token: string | null, userId: number) => {
     return err
   }
 }
+
+export const showFileNote = async (token: string | null, id: number) => {
+  try {
+    const response = await axios.get(`${api}/files/download/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/pdf'
+      },
+      responseType: 'blob'  
+    });
+
+    return response.data;  
+  } catch (err) {
+    console.error("Error in showFileNote:", err);
+  }
+};
